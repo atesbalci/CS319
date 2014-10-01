@@ -1,3 +1,4 @@
+package com.thegame.element;
 import java.awt.*;
 import java.awt.geom.*;
 

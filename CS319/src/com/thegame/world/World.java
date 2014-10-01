@@ -1,20 +1,26 @@
+package com.thegame.world;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-public class World {
-	final int WIDTH = 800;
-	final int HEIGHT = 600;
-	public static final int DELAY = 16;
+import com.thegame.element.Bullet;
+import com.thegame.element.GameElement;
+import com.thegame.element.Guy;
+import com.thegame.element.Hook;
+import com.thegame.element.Obstacle;
+import com.thegame.ui.WorldPanel;
 
-	WorldPanel panel;
-	ArrayList<GameElement> elements;
-	Guy guy;
-	double gravity, friction;
-	boolean running, paused;
-	float interpolation;
-	int fps, frameCount;
-	long lastFpsTime = 0;
+public class World {
+	public final int HEIGHT = 600;
+	private static final int DELAY = 16;
+
+	private WorldPanel panel;
+	private ArrayList<GameElement> elements;
+	private Guy guy;
+	private double gravity, friction;
+	private boolean running;
+	private int fps;
+	private long lastFpsTime = 0;
 
 	public World(WorldPanel panel) {
 		this.panel = panel;
@@ -23,9 +29,7 @@ public class World {
 		gravity = 2;
 		friction = 0.5;
 		fps = 60;
-		frameCount = 0;
 		running = true;
-		paused = false;
 	}
 
 	public void start() {
@@ -46,10 +50,9 @@ public class World {
 	}
 
 	public void paint(Graphics g) {
-		for (int i = 0; i < elements.size(); i++) {
-			elements.get(i).draw(g);
+		for (GameElement e : elements) {
+			e.draw(g);
 		}
-		frameCount++;
 	}
 
 	public void setGuy(Guy g) {
@@ -114,84 +117,84 @@ public class World {
 			e = elements.get(i);
 			e.action(d);
 
-			if (!e.flying && e.yvel < 20)
-				e.yvel += gravity * d;
+			if (!e.isFlying() && e.getYvel() < 20)
+				e.setYvel(e.getYvel() + gravity * d);
 
-			if (e.yvel > 0) {
-				for (int k = 0; k < e.yvel * d; k++) {
+			if (e.getYvel() > 0) {
+				for (int k = 0; k < e.getYvel() * d; k++) {
 					e.moveY(1);
-					e.ground = false;
+					e.setGround(false);
 					o = obstructed(elements.get(i));
 					if (o != null) {
 						e.obstruction("Bottom", o);
-						if (e.smooth && o.smooth) {
+						if (e.isSmooth() && o.isSmooth()) {
 							e.moveY(-1);
-							e.yvel = 0;
-							e.ground = true;
+							e.setYvel(0);
+							e.setGround(true);
 							break;
 						}
 					}
 				}
 			}
-			if (e.yvel < 0) {
-				for (int k = 0; k > e.yvel * d; k--) {
+			if (e.getYvel() < 0) {
+				for (int k = 0; k > e.getYvel() * d; k--) {
 					e.moveY(-1);
 					o = obstructed(elements.get(i));
 					if (o != null) {
 						e.obstruction("Top", o);
-						if (e.smooth && o.smooth) {
+						if (e.isSmooth() && o.isSmooth()) {
 							e.moveY(1);
-							e.yvel = 0;
-							e.jumping = false;
+							e.setYvel(0);
+							e.setJumping(false);
 							break;
 						}
 					}
 				}
 			}
 
-			if (e.xvel >= 1) {
-				for (int k = 0; k < e.xvel * d; k++) {
+			if (e.getXvel() >= 1) {
+				for (int k = 0; k < e.getXvel() * d; k++) {
 					e.moveX(1);
 					o = obstructed(elements.get(i));
 					if (o != null) {
 						e.obstruction("Left", o);
-						if (e.smooth && o.smooth) {
+						if (e.isSmooth() && o.isSmooth()) {
 							e.moveX(-1);
-							e.xvel = 0;
+							e.setXvel(0);
 							break;
 						}
 					}
 				}
-				if (e.fricted)
-					e.xvel -= friction * d;
+				if (e.isFricted())
+					e.setXvel(e.getXvel() - friction * d);
 			}
-			if (e.xvel <= -1) {
-				for (int k = 0; k > e.xvel * d; k--) {
+			if (e.getXvel() <= -1) {
+				for (int k = 0; k > e.getXvel() * d; k--) {
 					e.moveX(-1);
 					o = obstructed(elements.get(i));
 					if (o != null) {
 						e.obstruction("Right", o);
-						if (e.smooth && o.smooth) {
+						if (e.isSmooth() && o.isSmooth()) {
 							e.moveX(1);
-							e.xvel = 0;
+							e.setXvel(0);
 							break;
 						}
 					}
 				}
-				if (e.fricted)
-					e.xvel += friction * d;
+				if (e.isFricted())
+					e.setXvel(e.getXvel() + friction * d);
 			}
 
-			if (!e.active) {
+			if (!e.isActive()) {
 				elements.remove(i);
 				i--;
 			}
 		}
 
 		if (guy.firing()) {
-			if (guy.weapon.isMelee()) {
-				Rectangle2D.Double impact = (Rectangle2D.Double) guy.weapon
-						.getImpact();
+			if (guy.getWeapon().isMelee()) {
+				Rectangle2D.Double impact = (Rectangle2D.Double) guy
+						.getWeapon().getImpact();
 				for (int k = 0; k < elements.size(); k++) {
 					if (elements
 							.get(k)
@@ -200,28 +203,29 @@ public class World {
 									impact.height)
 							&& elements.get(k) != guy)
 						elements.get(k).damage(
-								guy.weapon.damage * ((double) DELAY)
+								guy.getWeapon().getDamage() * ((double) DELAY)
 										/ ((double) 1000));
 				}
 			}
-			if (!guy.weapon.isMelee()) {
-				addElement(guy.weapon.getBullet());
+			if (!guy.getWeapon().isMelee()) {
+				addElement(guy.getWeapon().getBullet());
 			}
 		}
 	}
 
 	protected GameElement obstructed(GameElement e) {
-		Rectangle2D.Double r = e.getRectangle();
+		Rectangle2D r = e.getRectangle();
 
 		for (int i = 0; i < elements.size(); i++) {
 			GameElement o = elements.get(i);
 
 			if (o != e) {
-				Rectangle2D.Double or = o.getRectangle();
+				Rectangle2D or = o.getRectangle();
 
 				if (o instanceof Bullet) {
 				} else if (e instanceof Bullet && o == guy) {
-				} else if (r.intersects(or.x, or.y, or.width, or.height)) {
+				} else if (r.intersects(or.getX(), or.getY(), or.getWidth(),
+						or.getHeight())) {
 					return o;
 				}
 			}
@@ -232,18 +236,26 @@ public class World {
 	public void right(boolean b) {
 		guy.right(b);
 	}
+
 	public void left(boolean b) {
 		guy.left(b);
 	}
+
 	public void jump(boolean b) {
 		guy.jump(b);
 	}
+
 	public void fire() {
 		guy.fire();
 	}
+
 	public void hook(int x, int y) {
 		Hook h = guy.throwHook(x, y);
 		if (h != null)
 			elements.add(h);
+	}
+
+	public Guy getPlayer() {
+		return guy;
 	}
 }

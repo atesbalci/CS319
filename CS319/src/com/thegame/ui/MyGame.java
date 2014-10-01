@@ -1,4 +1,10 @@
-import javax.swing.*;
+package com.thegame.ui;
+import javax.swing.JFrame;
+
+import com.thegame.element.Enemy;
+import com.thegame.element.Guy;
+import com.thegame.element.Obstacle;
+import com.thegame.world.World;
 
 /**
  * @(#)MyGame.java
@@ -19,7 +25,7 @@ public class MyGame {
 		w.addElement(new Obstacle(300, w.HEIGHT - 45, 200, 40));
 		w.addElement(new Obstacle(70, w.HEIGHT - 90, 200, 40));
 		w.setGuy(new Guy(400, 300));
-		w.guy.takeRope();
+		w.getPlayer().takeRope();
 		w.addElement(new Enemy(310, 100));
 		w.start();
 		f.add(wp);

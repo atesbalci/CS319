@@ -1,3 +1,4 @@
+package com.thegame.ui;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -8,7 +9,9 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
-class WorldPanel extends JPanel {
+import com.thegame.world.World;
+
+public class WorldPanel extends JPanel {
 	private static final long serialVersionUID = -7233967302635631295L;
 	final int WIDTH = 800;
 	final int HEIGHT = 600;

@@ -1,13 +1,14 @@
+package com.thegame.element;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
 public abstract class GameElement {
 
-	int x, y, verticalSpeed, jumpHeight;
-	double health, maxHealth, xvel, yvel, verticalacc, horizontalacc;
-	boolean ground, flying, smooth, active, jumping, fricted;
-	boolean left, right, jump;
+	protected int x, y, verticalSpeed, jumpHeight;
+	protected double health, maxHealth, xvel, yvel, verticalacc, horizontalacc;
+	protected boolean ground, flying, smooth, active, jumping, fricted;
+	protected boolean left, right, jump;
 
 	public GameElement(int x, int y) {
 		this.x = x;
@@ -114,7 +115,115 @@ public abstract class GameElement {
 
 	abstract public void draw(Graphics g);
 
-	abstract public Rectangle2D.Double getRectangle();
+	abstract public Rectangle2D getRectangle();
 
 	abstract public void obstruction(String direction, GameElement e);
+
+	public int getVerticalSpeed() {
+		return verticalSpeed;
+	}
+
+	public void setVerticalSpeed(int verticalSpeed) {
+		this.verticalSpeed = verticalSpeed;
+	}
+
+	public int getJumpHeight() {
+		return jumpHeight;
+	}
+
+	public void setJumpHeight(int jumpHeight) {
+		this.jumpHeight = jumpHeight;
+	}
+
+	public double getHealth() {
+		return health;
+	}
+
+	public void setHealth(double health) {
+		this.health = health;
+	}
+
+	public double getXvel() {
+		return xvel;
+	}
+
+	public void setXvel(double xvel) {
+		this.xvel = xvel;
+	}
+
+	public double getYvel() {
+		return yvel;
+	}
+
+	public void setYvel(double yvel) {
+		this.yvel = yvel;
+	}
+
+	public double getVerticalacc() {
+		return verticalacc;
+	}
+
+	public void setVerticalacc(double verticalacc) {
+		this.verticalacc = verticalacc;
+	}
+
+	public double getHorizontalacc() {
+		return horizontalacc;
+	}
+
+	public void setHorizontalacc(double horizontalacc) {
+		this.horizontalacc = horizontalacc;
+	}
+
+	public boolean isGround() {
+		return ground;
+	}
+
+	public void setGround(boolean ground) {
+		this.ground = ground;
+	}
+
+	public boolean isFlying() {
+		return flying;
+	}
+
+	public void setFlying(boolean flying) {
+		this.flying = flying;
+	}
+
+	public boolean isSmooth() {
+		return smooth;
+	}
+
+	public void setSmooth(boolean smooth) {
+		this.smooth = smooth;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public boolean isJumping() {
+		return jumping;
+	}
+
+	public void setJumping(boolean jumping) {
+		this.jumping = jumping;
+	}
+
+	public boolean isFricted() {
+		return fricted;
+	}
+
+	public void setFricted(boolean fricted) {
+		this.fricted = fricted;
+	}
+
+	public double getMaxHealth() {
+		return maxHealth;
+	}
 }

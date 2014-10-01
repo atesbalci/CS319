@@ -1,12 +1,16 @@
+package com.thegame.tool;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
+
 import javax.swing.Timer;
 
+import com.thegame.element.Bullet;
+
 public class Gun extends Weapon {
-	int rate;
-	boolean overheat;
-	Timer timer;
+	private int rate;
+	private boolean overheat;
+	private Timer timer;
 	
 	public Gun() {
 		super(false);
@@ -14,7 +18,7 @@ public class Gun extends Weapon {
 		overheat = false;
 		timer = new Timer(rate, new Overheat());
 		timer.setRepeats(false);
-		damage = 10;
+		setDamage(10);
 	}
 
 	public Rectangle2D.Double getImpact() {
@@ -22,10 +26,10 @@ public class Gun extends Weapon {
 	}
 	
 	public Bullet getBullet() {
-		firing = false;
+		setFiring(false);
 		overheat = true;
 		timer.start();
-		return new Bullet(x, y, direction, damage);
+		return new Bullet(getX(), getY(), getDirection(), getDamage());
 	}
 	
 	public void draw(Graphics g) {
@@ -37,12 +41,36 @@ public class Gun extends Weapon {
 
 	public void fire() {
 		if(!overheat)
-			firing = true;
+			setFiring(true);
 	}
 	
 	public class Overheat implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			overheat = false;
 		}
+	}
+
+	public int getRate() {
+		return rate;
+	}
+
+	public void setRate(int rate) {
+		this.rate = rate;
+	}
+
+	public boolean isOverheat() {
+		return overheat;
+	}
+
+	public void setOverheat(boolean overheat) {
+		this.overheat = overheat;
+	}
+
+	public Timer getTimer() {
+		return timer;
+	}
+
+	public void setTimer(Timer timer) {
+		this.timer = timer;
 	}
 }

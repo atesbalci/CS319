@@ -1,10 +1,11 @@
+package com.thegame.element;
 import java.awt.Graphics;
 import java.awt.geom.*;
 
 public abstract class StaticElement extends GameElement {
 	public StaticElement() {
 		super(0, 0);
-		flying = true;
+		setFlying(true);
 		setMaxHealth(0);
 	}
 	

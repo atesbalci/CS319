@@ -1,5 +1,12 @@
-import java.awt.*;
-import java.awt.geom.*;
+package com.thegame.element;
+import java.awt.BasicStroke;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Stroke;
+import java.awt.geom.Rectangle2D;
+
+import com.thegame.tool.Rope;
 
 public class Hook extends GameElement {
 	final int WIDTH = 5;
@@ -11,10 +18,10 @@ public class Hook extends GameElement {
 	
 	public Hook(int x, int y, double angle, double speed, Rope s) {
 		super(x, y);
-		flying = true;
-		smooth = false;
+		setFlying(true);
+		setSmooth(false);
 		grappled = false;
-		fricted = false;
+		setFricted(false);
 		yvel = Math.sin(angle) * speed;
 		xvel = Math.cos(angle) * speed;
 		this.angle = angle;
@@ -23,19 +30,19 @@ public class Hook extends GameElement {
 	
 	public Hook() {
 		this(0, 0, 0, 0, null);
-		active = false;
+		setActive(false);
 	}
 	
 	public void moveX(int xChange) {
 		super.moveX(xChange);
-		if(Math.hypot(getCenter().x - source.x, getCenter().y - source.y) >= source.reach && active) {
-			active = false;
+		if(Math.hypot(getCenter().x - source.getX(), getCenter().y - source.getY()) >= source.getReach() && isActive()) {
+			setActive(false);
 		}
 	}
 	public void moveY(int yChange) {
 		super.moveY(yChange);
-		if(Math.hypot(getCenter().x - source.x, getCenter().y - source.y) >= source.reach && active) {
-			active = false;
+		if(Math.hypot(getCenter().x - source.getX(), getCenter().y - source.getY()) >= source.getReach() && isActive()) {
+			setActive(false);
 		}
 	}
 	
@@ -60,7 +67,7 @@ public class Hook extends GameElement {
 			Graphics2D g2 = (Graphics2D)g;		
 			Stroke s = g2.getStroke();
 			g2.setStroke(new BasicStroke(3));
-			g2.drawLine((int)x + WIDTH/2, (int)y + HEIGHT/2, (int)source.x, (int)source.y);
+			g2.drawLine((int)x + WIDTH/2, (int)y + HEIGHT/2, (int)source.getX(), (int)source.getY());
 			g2.setStroke(s);
 		}
 		

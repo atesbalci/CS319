@@ -1,31 +1,36 @@
+package com.thegame.tool;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
+
 import javax.swing.Timer;
-import java.awt.event.*;
-import java.awt.geom.*;
+
+import com.thegame.element.Bullet;
 
 public class Sword extends Weapon {
-	Timer duration;
+	private Timer duration;
 	
 	public Sword() {
 		super(true);
 		duration = new Timer(1000, new FireAction());
 		duration.setRepeats(false);
-		damage = 20;
+		setDamage(20);
 	}
 	
 	public void draw(Graphics g) {
-		if(firing) {
-			if(direction)
-				g.fillRect(x, y, 20, 5);
+		if(isFiring()) {
+			if(getDirection())
+				g.fillRect(getX(), getY(), 20, 5);
 			else
-				g.fillRect(x - 20, y, 20, 5);
+				g.fillRect(getX() - 20, getY(), 20, 5);
 		}
 	}
 	
 	public Rectangle2D.Double getImpact() {
-		if(direction)
-			return new Rectangle2D.Double(x, y, 20, 5);
-		return new Rectangle2D.Double(x - 20, y, 20, 5);
+		if(getDirection())
+			return new Rectangle2D.Double(getX(), getY(), 20, 5);
+		return new Rectangle2D.Double(getX() - 20, getY(), 20, 5);
 	}
 	
 	public Bullet getBullet() {
@@ -33,13 +38,13 @@ public class Sword extends Weapon {
 	}
 
 	public void fire() {
-		firing = true;
+		setFiring(true);
 		duration.start();
 	}
 	
 	private class FireAction implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			firing = false;
+			setFiring(false);
 		}
 	}
 }

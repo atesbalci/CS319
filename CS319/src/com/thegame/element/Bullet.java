@@ -1,3 +1,4 @@
+package com.thegame.element;
 import java.awt.geom.*;
 import java.awt.*;
 
@@ -8,9 +9,9 @@ public class Bullet extends GameElement {
 	public Bullet(int x, int y, boolean direction, double damage) {
 		super(x, y);
 		damage = 3;
-		flying = true;
-		smooth = false;
-		fricted = false;;
+		setFlying(true);
+		setSmooth(false);
+		setFricted(false);;
 		verticalSpeed = 5;
 		if(direction)
 			right = true;
@@ -30,7 +31,7 @@ public class Bullet extends GameElement {
 	}
 	
 	public void obstruction(String direction, GameElement e) {
-		active = false;
+		setActive(false);
 		if(e instanceof Enemy) {
 			e.damage(damage);
 		}
