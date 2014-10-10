@@ -78,7 +78,7 @@ public class World {
 			if (accumulator >= OPTIMAL_TIME) {
 				update(1);
 				accumulator -= OPTIMAL_TIME;
-				panel.repaint();
+				panel.updateUI();
 				fps++;
 			} else if (accumulator < OPTIMAL_TIME * 0.7) {
 				try {
