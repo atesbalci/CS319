@@ -1,4 +1,5 @@
 package com.thegame.world;
+
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -62,50 +63,40 @@ public class World {
 	}
 
 	public void gameLoop() {
-		long lastLoopTime = System.nanoTime();
 		final int TARGET_FPS = 60;
 		final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
+		long previous = System.nanoTime();
+		long now;
+		long elapsed;
+		long accumulator = 0;
 
 		// keep looping round til the game ends
 		while (running) {
-			// work out how long its been since the last update, this
-			// will be used to calculate how far the entities should
-			// move this loop
-			long now = System.nanoTime();
-			long updateLength = now - lastLoopTime;
-			lastLoopTime = now;
-			double delta = updateLength / ((double) OPTIMAL_TIME);
+			now = System.nanoTime();
+			elapsed = (now - previous);
+			previous = now;
+			accumulator += elapsed;
 
-			// update the frame counter
-			lastFpsTime += updateLength;
+			if (accumulator >= OPTIMAL_TIME) {
+				update(1);
+				accumulator -= OPTIMAL_TIME;
+				panel.repaint();
+			} else if (accumulator < OPTIMAL_TIME * 0.7) {
+				// try {
+				// Thread.sleep(1);
+				// } catch (InterruptedException e) {
+				// e.printStackTrace();
+				// }
+			}
+
+			lastFpsTime += elapsed;
 			fps++;
 
-			// update our FPS counter if a second has passed since
-			// we last recorded
 			if (lastFpsTime >= 1000000000) {
 				System.out.println("(FPS: " + fps + ")");
 				lastFpsTime = 0;
 				fps = 0;
 			}
-
-			if (delta <= OPTIMAL_TIME) {
-				// update the game logic
-				update(delta);
-				// draw everyting
-				panel.repaint();
-			}
-
-			// we want each frame to take 10 milliseconds, to do this
-			// we've recorded when we started the frame. We add 10 milliseconds
-			// to this and then factor in the current time to give
-			// us our final value to wait for
-			// remember this is in ms, whereas our lastLoopTime etc. vars are in
-			// ns.
-			try {
-				Thread.sleep((long) ((lastLoopTime - System.nanoTime() + OPTIMAL_TIME) / 1000000));
-			} catch (Exception e) {
-			}
-			;
 		}
 	}
 
