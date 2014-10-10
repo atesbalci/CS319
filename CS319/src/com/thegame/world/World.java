@@ -20,8 +20,6 @@ public class World {
 	private Guy guy;
 	private double gravity, friction;
 	private boolean running;
-	private int fps;
-	private long lastFpsTime = 0;
 
 	public World(WorldPanel panel) {
 		this.panel = panel;
@@ -29,7 +27,6 @@ public class World {
 		addElement(new Obstacle(-5000, HEIGHT, 10000, 1));
 		gravity = 2;
 		friction = 0.5;
-		fps = 60;
 		running = true;
 	}
 
@@ -63,16 +60,17 @@ public class World {
 	}
 
 	public void gameLoop() {
-		final int TARGET_FPS = 60;
-		final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
-		long previous = System.nanoTime();
+		final double TARGET_FPS = 60.0;
+		final double OPTIMAL_TIME = 1000 / TARGET_FPS;
+		long previous = System.currentTimeMillis();
 		long now;
 		long elapsed;
-		long accumulator = 0;
+		double accumulator = 0.0;
+		long lastFpsTime = 0;
+		long fps = 0;
 
-		// keep looping round til the game ends
 		while (running) {
-			now = System.nanoTime();
+			now = System.currentTimeMillis();
 			elapsed = (now - previous);
 			previous = now;
 			accumulator += elapsed;
@@ -81,20 +79,18 @@ public class World {
 				update(1);
 				accumulator -= OPTIMAL_TIME;
 				panel.repaint();
+				fps++;
 			} else if (accumulator < OPTIMAL_TIME * 0.7) {
-				// try {
-				// Thread.sleep(1);
-				// } catch (InterruptedException e) {
-				// e.printStackTrace();
-				// }
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 
-			lastFpsTime += elapsed;
-			fps++;
-
-			if (lastFpsTime >= 1000000000) {
+			if (now - lastFpsTime >= 1000) {
 				System.out.println("(FPS: " + fps + ")");
-				lastFpsTime = 0;
+				lastFpsTime = now;
 				fps = 0;
 			}
 		}
