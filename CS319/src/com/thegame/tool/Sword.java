@@ -21,9 +21,9 @@ public class Sword extends Weapon {
 	public void draw(Graphics g) {
 		if(isFiring()) {
 			if(getDirection())
-				g.fillRect(getX(), getY(), 20, 5);
+				g.fillRect((int)getX(), (int)getY(), 20, 5);
 			else
-				g.fillRect(getX() - 20, getY(), 20, 5);
+				g.fillRect((int)getX() - 20, (int)getY(), 20, 5);
 		}
 	}
 	

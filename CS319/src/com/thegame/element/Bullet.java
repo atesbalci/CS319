@@ -6,7 +6,7 @@ public class Bullet extends GameElement {
 	int height, width;
 	double damage;
 	
-	public Bullet(int x, int y, boolean direction, double damage) {
+	public Bullet(double x, double y, boolean direction, double damage) {
 		super(x, y);
 		damage = 3;
 		setFlying(true);

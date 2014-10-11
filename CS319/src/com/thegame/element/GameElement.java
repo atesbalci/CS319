@@ -1,16 +1,18 @@
 package com.thegame.element;
-import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
 public abstract class GameElement {
 
-	protected int x, y, verticalSpeed, jumpHeight;
-	protected double health, maxHealth, xvel, yvel, verticalacc, horizontalacc;
-	protected boolean ground, flying, smooth, active, jumping, fricted;
-	protected boolean left, right, jump;
+	protected int width, height;
+	protected double health, maxHealth, verticalacc, horizontalacc,
+			x, y, verticalSpeed, horizontalSpeed, jumpHeight, weight,
+			elasticity;
+	protected boolean ground, flying, smooth, active, jumping, fricted, left,
+			right, jump, fixed;
 
-	public GameElement(int x, int y) {
+	public GameElement(double x, double y) {
 		this.x = x;
 		this.y = y;
 		ground = false;
@@ -27,16 +29,41 @@ public abstract class GameElement {
 		jump = false;
 		verticalacc = 0;
 		horizontalacc = 0;
+		width = 20;
+		height = 40;
+		weight = 10;
+		fixed = false;
+		elasticity = 0.5;
+	}
+
+	public Rectangle2D getRectangle() {
+		return new Rectangle2D.Double(x, y, width, height);
+	}
+
+	public boolean intersects(GameElement e) {
+		if(!e.isSmooth())
+			return false;
+		if (getRectangle().intersects(e.getRectangle())) {
+			return true;
+		}
+		return false;
+	}
+
+	public void contact(String direction, GameElement e) {
+		if (direction.equals("bottom")) {
+			if (horizontalSpeed < 0.1 && horizontalSpeed > -0.1)
+				ground = true;
+		}
 	}
 
 	public void action(double d) {
 		if (right) {
-			if (xvel < verticalSpeed)
-				xvel += verticalacc * d;
+			if (horizontalSpeed < horizontalacc * 10)
+				horizontalSpeed += horizontalacc * d;
 		}
 		if (left) {
-			if (xvel > -verticalSpeed)
-				xvel -= verticalacc * d;
+			if (horizontalSpeed > horizontalacc * -10)
+				horizontalSpeed -= horizontalacc * d;
 		}
 		if (jump) {
 			if (ground) {
@@ -45,8 +72,8 @@ public abstract class GameElement {
 			}
 
 			if (jumping) {
-				if (yvel > -jumpHeight)
-					yvel -= horizontalacc * d;
+				if (verticalSpeed > -jumpHeight)
+					verticalSpeed -= verticalacc * d;
 				else {
 					jumping = false;
 				}
@@ -76,33 +103,33 @@ public abstract class GameElement {
 		health = h;
 	}
 
-	public int getX() {
+	public double getX() {
 		return (int) x;
 	}
 
-	public int getY() {
+	public double getY() {
 		return (int) y;
 	}
 
-	public void moveX(int xChange) {
+	public void moveX(double xChange) {
 		x += xChange;
 	}
 
-	public void moveY(int yChange) {
+	public void moveY(double yChange) {
 		y += yChange;
 	}
 
 	public void drawHealth(Graphics g, int x, int y) {
-		Color c = g.getColor();
-		g.setColor(Color.red);
-		g.fillRect(x - (int) (maxHealth / 2), y - 20, (int) maxHealth, 15);
-		g.setColor(Color.green);
-		g.fillRect(x - (int) (maxHealth / 2), y - 20, (int) health, 15);
-		g.setColor(Color.black);
-		g.drawRect(x - (int) (maxHealth / 2), y - 20, (int) maxHealth, 15);
-		g.drawString((int) health + "/" + (int) maxHealth, x
-				- (int) (maxHealth / 2), y - 7);
-		g.setColor(c);
+		// Color c = g.getColor();
+		// g.setColor(Color.red);
+		// g.fillRect(x - (int) (maxHealth / 2), y - 20, (int) maxHealth, 15);
+		// g.setColor(Color.green);
+		// g.fillRect(x - (int) (maxHealth / 2), y - 20, (int) health, 15);
+		// g.setColor(Color.black);
+		// g.drawRect(x - (int) (maxHealth / 2), y - 20, (int) maxHealth, 15);
+		// g.drawString((int) health + "/" + (int) maxHealth, x
+		// - (int) (maxHealth / 2), y - 7);
+		// g.setColor(c);
 	}
 
 	public void damage(double damage) {
@@ -115,11 +142,7 @@ public abstract class GameElement {
 
 	abstract public void draw(Graphics g);
 
-	abstract public Rectangle2D getRectangle();
-
-	abstract public void obstruction(String direction, GameElement e);
-
-	public int getVerticalSpeed() {
+	public double getVerticalSpeed() {
 		return verticalSpeed;
 	}
 
@@ -127,7 +150,7 @@ public abstract class GameElement {
 		this.verticalSpeed = verticalSpeed;
 	}
 
-	public int getJumpHeight() {
+	public double getJumpHeight() {
 		return jumpHeight;
 	}
 
@@ -141,22 +164,6 @@ public abstract class GameElement {
 
 	public void setHealth(double health) {
 		this.health = health;
-	}
-
-	public double getXvel() {
-		return xvel;
-	}
-
-	public void setXvel(double xvel) {
-		this.xvel = xvel;
-	}
-
-	public double getYvel() {
-		return yvel;
-	}
-
-	public void setYvel(double yvel) {
-		this.yvel = yvel;
 	}
 
 	public double getVerticalacc() {
@@ -225,5 +232,67 @@ public abstract class GameElement {
 
 	public double getMaxHealth() {
 		return maxHealth;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public double getHorizontalSpeed() {
+		return horizontalSpeed;
+	}
+
+	public void setHorizontalSpeed(double horizontalSpeed) {
+		this.horizontalSpeed = horizontalSpeed;
+	}
+
+	public void setVerticalSpeed(double verticalSpeed) {
+		this.verticalSpeed = verticalSpeed;
+		if (verticalSpeed > -0.1 && verticalSpeed < 0.1)
+			ground = false;
+	}
+
+	public double getWeight() {
+		return weight;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+	public boolean isFixed() {
+		return fixed;
+	}
+
+	public void setFixed(boolean fixed) {
+		this.fixed = fixed;
+	}
+
+	public double getElasticity() {
+		return elasticity;
+	}
+
+	public void setElasticity(double elasticity) {
+		this.elasticity = elasticity;
 	}
 }

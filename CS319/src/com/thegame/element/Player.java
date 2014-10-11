@@ -13,9 +13,7 @@ import com.thegame.common.ImageMethods;
 import com.thegame.tool.Rope;
 import com.thegame.tool.Weapon;
 
-public class Guy extends GameElement {
-	final int WIDTH = 20;
-	final int HEIGHT = 40;
+public class Player extends GameElement {
 	final int ANIMATION = 4;
 
 	private boolean direction;
@@ -25,16 +23,17 @@ public class Guy extends GameElement {
 	private BufferedImage[] images, imagesInverted;
 	private int stage;
 
-	public Guy(int x, int y) {
+	public Player(double x, double y) {
 		super(x, y);
 		direction = true;
-		verticalSpeed = 5;
 		jumpHeight = 10;
 		images = new BufferedImage[6];
 		for (int i = 0; i < images.length; i++) {
 			try {
-				images[i] = ImageIO.read(new File("guy/" + (i + 1) + ".png"));
+				images[i] = ImageIO
+						.read(new File("player/" + (i + 1) + ".png"));
 			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 		imagesInverted = new BufferedImage[images.length];
@@ -43,7 +42,7 @@ public class Guy extends GameElement {
 		}
 		stage = 0;
 		verticalacc = 4;
-		horizontalacc = 3.6;
+		horizontalacc = 2;
 	}
 
 	public void action(double d) {
@@ -56,12 +55,13 @@ public class Guy extends GameElement {
 		if (rope != null) {
 			if (rope.getHook().grappled) {
 				if (rope.getHook().active) {
-					double angle = Math.atan((double) (rope.getHook().y - rope.getY())
+					double angle = Math.atan((double) (rope.getHook().y - rope
+							.getY())
 							/ (double) (rope.getHook().x - rope.getX()));
 					if (rope.getHook().x - rope.getX() <= 0)
 						angle = Math.PI + angle;
-					xvel = Math.cos(angle) * rope.getPull();
-					yvel = Math.sin(angle) * rope.getPull();
+					horizontalSpeed = Math.cos(angle) * rope.getPullSpeed();
+					verticalSpeed = Math.sin(angle) * rope.getPullSpeed();
 					// Rectangle2D.Double r = rope.hook.getRectangle();
 					// if(getRectangle().intersects(r.x, r.y, r.width,
 					// r.height)) {
@@ -87,13 +87,13 @@ public class Guy extends GameElement {
 
 	public void arm(Weapon w) {
 		weapon = w;
-		w.setX(WIDTH / 2 + (int) x);
-		w.setY(HEIGHT / 2 + (int) y);
+		w.setX(width / 2 + (int) x);
+		w.setY(height / 2 + (int) y);
 		w.setDirection(direction);
 	}
 
 	public void takeRope() {
-		rope = new Rope((int) x + WIDTH / 2, (int) y + HEIGHT / 2, this);
+		rope = new Rope((int) x + width / 2, (int) y + height / 2, this);
 	}
 
 	public void disarm() {
@@ -112,7 +112,7 @@ public class Guy extends GameElement {
 			setDirection(true);
 	}
 
-	public void moveX(int xChange) {
+	public void moveX(double xChange) {
 		x += xChange;
 		if (weapon != null) {
 			weapon.setX(weapon.getX() + xChange);
@@ -122,7 +122,7 @@ public class Guy extends GameElement {
 		}
 	}
 
-	public void moveY(int yChange) {
+	public void moveY(double yChange) {
 		y += yChange;
 		if (weapon != null) {
 			weapon.setY(weapon.getY() + yChange);
@@ -138,16 +138,12 @@ public class Guy extends GameElement {
 			weapon.setDirection(dir);
 	}
 
-	public Rectangle2D.Double getRectangle() {
-		return new Rectangle2D.Double(x, y, WIDTH, HEIGHT);
-	}
-
 	public void draw(Graphics g) {
-		drawHealth(g, (int) x + WIDTH / 2, (int) y);
+		drawHealth(g, (int) x + width / 2, (int) y);
 		if (direction) {
 			if (!ground)
 				g.drawImage(images[5], (int) x - 10, (int) y, null);
-			else if (xvel >= 1)
+			else if (horizontalSpeed >= 1)
 				g.drawImage(images[stage / ANIMATION], (int) x - 10, (int) y,
 						null);
 			else
@@ -155,7 +151,7 @@ public class Guy extends GameElement {
 		} else {
 			if (!ground)
 				g.drawImage(imagesInverted[5], (int) x - 10, (int) y, null);
-			else if (xvel <= -1)
+			else if (horizontalSpeed <= -1)
 				g.drawImage(imagesInverted[stage / ANIMATION], (int) x - 10,
 						(int) y, null);
 			else
@@ -165,11 +161,8 @@ public class Guy extends GameElement {
 			weapon.draw(g);
 	}
 
-	public void obstruction(String direcction, GameElement e) {
-	}
-
 	public Point getCenter() {
-		return new Point((int) x + WIDTH / 2, (int) y + HEIGHT / 2);
+		return new Point((int) x + width / 2, (int) y + height / 2);
 	}
 
 	public void animate() {

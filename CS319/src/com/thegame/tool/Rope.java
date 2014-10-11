@@ -1,16 +1,14 @@
 package com.thegame.tool;
+
 import com.thegame.element.GameElement;
 import com.thegame.element.Hook;
 
-
 public class Rope {
-	private final double PULL_SPEED = 20;
-	
 	private GameElement source;
-	private int x, y, reach;
-	private double speed;
+	private double x, y, reach;
+	private double speed, pullSpeed;
 	private Hook hook;
-	
+
 	public Rope(int x, int y, GameElement source) {
 		this.source = source;
 		this.x = x;
@@ -18,12 +16,14 @@ public class Rope {
 		speed = 20;
 		reach = 300;
 		hook = new Hook();
+		pullSpeed = 20;
 	}
-	
+
 	public Hook fire(int xdest, int ydest) {
-		if(!hook.isActive()) {
-			double angle = Math.atan((double)(y-ydest) / (double)(x-xdest));
-			if(x-xdest < 0)
+		if (!hook.isActive()) {
+			double angle = Math.atan((double) (y - ydest)
+					/ (double) (x - xdest));
+			if (x - xdest < 0)
 				hook = new Hook(x, y, angle, speed, this);
 			else {
 				angle = Math.PI + angle;
@@ -31,8 +31,7 @@ public class Rope {
 			}
 			System.out.println(angle);
 			return hook;
-		}
-		else {
+		} else {
 			hook.setActive(false);
 		}
 		return null;
@@ -46,27 +45,27 @@ public class Rope {
 		this.source = source;
 	}
 
-	public int getX() {
+	public double getX() {
 		return x;
 	}
 
-	public void setX(int x) {
+	public void setX(double x) {
 		this.x = x;
 	}
 
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 
-	public void setY(int y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 
-	public int getReach() {
+	public double getReach() {
 		return reach;
 	}
 
-	public void setReach(int reach) {
+	public void setReach(double reach) {
 		this.reach = reach;
 	}
 
@@ -85,8 +84,12 @@ public class Rope {
 	public void setHook(Hook hook) {
 		this.hook = hook;
 	}
-	
-	public double getPull() {
-		return PULL_SPEED;
+
+	public double getPullSpeed() {
+		return pullSpeed;
+	}
+
+	public void setPullSpeed(double pullSpeed) {
+		this.pullSpeed = pullSpeed;
 	}
 }

@@ -5,7 +5,7 @@ import java.awt.geom.*;
 import com.thegame.element.Bullet;
 
 public abstract class Weapon {
-	private int x, y;
+	private double x, y;
 	private boolean direction;
 	private boolean melee;
 	private boolean firing;
@@ -33,19 +33,19 @@ public abstract class Weapon {
 	abstract public void draw(Graphics g);
 	abstract public void fire();
 	
-	public int getX() {
+	public double getX() {
 		return x;
 	}
 
-	public void setX(int x) {
+	public void setX(double x) {
 		this.x = x;
 	}
 
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 
-	public void setY(int y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 

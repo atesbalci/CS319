@@ -4,11 +4,10 @@ import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import com.thegame.element.Bullet;
 import com.thegame.element.GameElement;
-import com.thegame.element.Guy;
 import com.thegame.element.Hook;
 import com.thegame.element.Obstacle;
+import com.thegame.element.Player;
 import com.thegame.ui.WorldPanel;
 
 public class World {
@@ -17,9 +16,10 @@ public class World {
 
 	private WorldPanel panel;
 	private ArrayList<GameElement> elements;
-	private Guy guy;
-	private double gravity, friction;
+	private Player player;
+	protected double gravity, friction;
 	private boolean running;
+	private long fps;
 
 	public World(WorldPanel panel) {
 		this.panel = panel;
@@ -48,15 +48,16 @@ public class World {
 	}
 
 	public void paint(Graphics g) {
+		g.drawString("FPS: " + fps, 50, 50);
 		for (GameElement e : elements) {
 			e.draw(g);
 		}
 	}
 
-	public void setGuy(Guy g) {
-		elements.remove(guy);
-		elements.add(g);
-		guy = g;
+	public void setPlayer(Player p) {
+		elements.remove(player);
+		elements.add(p);
+		player = p;
 	}
 
 	public void gameLoop() {
@@ -67,7 +68,7 @@ public class World {
 		long elapsed;
 		double accumulator = 0.0;
 		long lastFpsTime = 0;
-		long fps = 0;
+		long fps = (long) TARGET_FPS;
 
 		while (running) {
 			now = System.currentTimeMillis();
@@ -89,7 +90,7 @@ public class World {
 			}
 
 			if (now - lastFpsTime >= 1000) {
-				System.out.println("(FPS: " + fps + ")");
+				this.fps = fps;
 				lastFpsTime = now;
 				fps = 0;
 			}
@@ -97,90 +98,112 @@ public class World {
 	}
 
 	public void update(double d) {
-		GameElement e, o;
 		d = d / 2;
 
 		for (int i = 0; i < elements.size(); i++) {
-			e = elements.get(i);
+			GameElement e = elements.get(i);
 			e.action(d);
 
-			if (!e.isFlying() && e.getYvel() < 20)
-				e.setYvel(e.getYvel() + gravity * d);
+			if (!e.isFixed()) {
+				if (!e.isFlying() && e.getVerticalSpeed() < 20)
+					e.setVerticalSpeed(e.getVerticalSpeed() + gravity * d);
 
-			if (e.getYvel() > 0) {
-				for (int k = 0; k < e.getYvel() * d; k++) {
-					e.moveY(1);
-					e.setGround(false);
-					o = obstructed(elements.get(i));
-					if (o != null) {
-						e.obstruction("Bottom", o);
-						if (e.isSmooth() && o.isSmooth()) {
-							e.moveY(-1);
-							e.setYvel(0);
-							e.setGround(true);
-							break;
+				e.moveX(e.getHorizontalSpeed() * d);
+				e.moveY(e.getVerticalSpeed() * d);
+				for (int n = 0; n < elements.size(); n++) {
+					GameElement o = elements.get(n);
+					if (!(o == e)) {
+						if (e.intersects(o)) {
+							e.moveY(-e.getVerticalSpeed() * d);
+							if (!e.intersects(o)) {
+								if (e.getVerticalSpeed() > 0) {
+									e.contact("bottom", o);
+									o.contact("top", e);
+								} else {
+									e.contact("top", o);
+									o.contact("bottom", e);
+								}
+								if (o.isFixed()) {
+									e.setVerticalSpeed(-e.getVerticalSpeed()
+											* e.getElasticity());
+								} else {
+									double elasticity = Math.min(
+											o.getElasticity(),
+											e.getElasticity());
+									double ratio = e.getWeight()
+											/ o.getWeight();
+									double tmp = e.getVerticalSpeed();
+									e.setVerticalSpeed((o.getVerticalSpeed() - e
+											.getVerticalSpeed())
+											* ratio
+											* elasticity);
+									o.setVerticalSpeed((tmp - o
+											.getVerticalSpeed())
+											* (1 / ratio)
+											* elasticity);
+								}
+							} else {
+								e.moveY(e.getVerticalSpeed() * d);
+							}
+						}
+						if (e.intersects(o)) {
+							e.moveX(-e.getHorizontalSpeed() * d);
+							if (!e.intersects(o)) {
+								if (e.getHorizontalSpeed() > 0) {
+									e.contact("right", o);
+									o.contact("left", e);
+								} else {
+									e.contact("left", o);
+									o.contact("right", e);
+								}
+								if (o.isFixed()) {
+									e.setHorizontalSpeed(-e
+											.getHorizontalSpeed()
+											* e.getElasticity());
+								} else {
+									double elasticity = Math.min(
+											o.getElasticity(),
+											e.getElasticity());
+									double ratio = e.getWeight()
+											/ o.getWeight();
+									double tmp = e.getHorizontalSpeed();
+									e.setHorizontalSpeed((o
+											.getHorizontalSpeed() - e
+											.getHorizontalSpeed())
+											* ratio * elasticity);
+									o.setHorizontalSpeed((tmp - o
+											.getHorizontalSpeed())
+											* (1 / ratio) * elasticity);
+								}
+							} else {
+								e.moveX(e.getHorizontalSpeed() * d);
+							}
 						}
 					}
 				}
-			}
-			if (e.getYvel() < 0) {
-				for (int k = 0; k > e.getYvel() * d; k--) {
-					e.moveY(-1);
-					o = obstructed(elements.get(i));
-					if (o != null) {
-						e.obstruction("Top", o);
-						if (e.isSmooth() && o.isSmooth()) {
-							e.moveY(1);
-							e.setYvel(0);
-							e.setJumping(false);
-							break;
-						}
-					}
-				}
-			}
-
-			if (e.getXvel() >= 1) {
-				for (int k = 0; k < e.getXvel() * d; k++) {
-					e.moveX(1);
-					o = obstructed(elements.get(i));
-					if (o != null) {
-						e.obstruction("Left", o);
-						if (e.isSmooth() && o.isSmooth()) {
-							e.moveX(-1);
-							e.setXvel(0);
-							break;
-						}
-					}
-				}
-				if (e.isFricted())
-					e.setXvel(e.getXvel() - friction * d);
-			}
-			if (e.getXvel() <= -1) {
-				for (int k = 0; k > e.getXvel() * d; k--) {
-					e.moveX(-1);
-					o = obstructed(elements.get(i));
-					if (o != null) {
-						e.obstruction("Right", o);
-						if (e.isSmooth() && o.isSmooth()) {
-							e.moveX(1);
-							e.setXvel(0);
-							break;
-						}
-					}
-				}
-				if (e.isFricted())
-					e.setXvel(e.getXvel() + friction * d);
+				if (e.getHorizontalSpeed() > friction)
+					e.setHorizontalSpeed(e.getHorizontalSpeed() - friction * d);
+				else if (e.getHorizontalSpeed() < -1 * friction)
+					e.setHorizontalSpeed(e.getHorizontalSpeed() + friction * d);
+				else
+					e.setHorizontalSpeed(0);
+				if (e.getVerticalSpeed() > friction)
+					e.setVerticalSpeed(e.getVerticalSpeed() - friction * d);
+				else if (e.getVerticalSpeed() < -1 * friction)
+					e.setVerticalSpeed(e.getVerticalSpeed() + friction * d);
+				else
+					e.setVerticalSpeed(0);
 			}
 
 			if (!e.isActive()) {
-				elements.remove(i);
+				elements.remove(e);
 				i--;
 			}
 		}
 
-		if (guy.firing()) {
-			if (guy.getWeapon().isMelee()) {
-				Rectangle2D.Double impact = (Rectangle2D.Double) guy
+		if (player.firing()) {
+			if (player.getWeapon().isMelee()) {
+				Rectangle2D.Double impact = (Rectangle2D.Double) player
 						.getWeapon().getImpact();
 				for (int k = 0; k < elements.size(); k++) {
 					if (elements
@@ -188,61 +211,41 @@ public class World {
 							.getRectangle()
 							.intersects(impact.x, impact.y, impact.width,
 									impact.height)
-							&& elements.get(k) != guy)
+							&& elements.get(k) != player)
 						elements.get(k).damage(
-								guy.getWeapon().getDamage() * ((double) DELAY)
-										/ ((double) 1000));
+								player.getWeapon().getDamage()
+										* ((double) DELAY) / ((double) 1000));
 				}
 			}
-			if (!guy.getWeapon().isMelee()) {
-				addElement(guy.getWeapon().getBullet());
+			if (!player.getWeapon().isMelee()) {
+				addElement(player.getWeapon().getBullet());
 			}
 		}
-	}
-
-	protected GameElement obstructed(GameElement e) {
-		Rectangle2D r = e.getRectangle();
-
-		for (int i = 0; i < elements.size(); i++) {
-			GameElement o = elements.get(i);
-
-			if (o != e) {
-				Rectangle2D or = o.getRectangle();
-
-				if (o instanceof Bullet) {
-				} else if (e instanceof Bullet && o == guy) {
-				} else if (r.intersects(or.getX(), or.getY(), or.getWidth(),
-						or.getHeight())) {
-					return o;
-				}
-			}
-		}
-		return null;
 	}
 
 	public void right(boolean b) {
-		guy.right(b);
+		player.right(b);
 	}
 
 	public void left(boolean b) {
-		guy.left(b);
+		player.left(b);
 	}
 
 	public void jump(boolean b) {
-		guy.jump(b);
+		player.jump(b);
 	}
 
 	public void fire() {
-		guy.fire();
+		player.fire();
 	}
 
 	public void hook(int x, int y) {
-		Hook h = guy.throwHook(x, y);
+		Hook h = player.throwHook(x, y);
 		if (h != null)
 			elements.add(h);
 	}
 
-	public Guy getPlayer() {
-		return guy;
+	public Player getPlayer() {
+		return player;
 	}
 }
