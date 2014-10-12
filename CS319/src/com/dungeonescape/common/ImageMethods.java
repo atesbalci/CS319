@@ -1,4 +1,4 @@
-package com.thegame.common;
+package com.dungeonescape.common;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;

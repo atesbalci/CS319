@@ -1,4 +1,4 @@
-package com.thegame.element;
+package com.dungeonescape.element;
 import java.awt.Graphics;
 
 public class Enemy extends GameElement {

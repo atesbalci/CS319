@@ -1,4 +1,4 @@
-package com.thegame.element;
+package com.dungeonescape.element;
 
 import java.awt.Graphics;
 import java.awt.Point;
@@ -9,9 +9,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import com.thegame.common.ImageMethods;
-import com.thegame.tool.Rope;
-import com.thegame.tool.Weapon;
+import com.dungeonescape.common.ImageMethods;
+import com.dungeonescape.tool.Rope;
+import com.dungeonescape.tool.Weapon;
 
 public class Player extends GameElement {
 	final int ANIMATION = 4;

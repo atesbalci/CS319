@@ -1,4 +1,4 @@
-package com.thegame.element;
+package com.dungeonescape.element;
 import java.awt.geom.*;
 import java.awt.*;
 

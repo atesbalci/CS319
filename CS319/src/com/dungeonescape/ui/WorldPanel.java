@@ -1,4 +1,4 @@
-package com.thegame.ui;
+package com.dungeonescape.ui;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
-import com.thegame.world.World;
+import com.dungeonescape.world.World;
 
 public class WorldPanel extends JPanel {
 	private static final long serialVersionUID = -7233967302635631295L;

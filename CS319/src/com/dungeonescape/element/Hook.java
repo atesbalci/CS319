@@ -1,4 +1,4 @@
-package com.thegame.element;
+package com.dungeonescape.element;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics;
@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Stroke;
 
-import com.thegame.tool.Rope;
+import com.dungeonescape.tool.Rope;
 
 public class Hook extends GameElement {
 	boolean grappled;

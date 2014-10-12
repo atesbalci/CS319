@@ -1,14 +1,14 @@
-package com.thegame.world;
+package com.dungeonescape.world;
 
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import com.thegame.element.GameElement;
-import com.thegame.element.Hook;
-import com.thegame.element.Obstacle;
-import com.thegame.element.Player;
-import com.thegame.ui.WorldPanel;
+import com.dungeonescape.element.GameElement;
+import com.dungeonescape.element.Hook;
+import com.dungeonescape.element.Obstacle;
+import com.dungeonescape.element.Player;
+import com.dungeonescape.ui.WorldPanel;
 
 public class World {
 	public final int HEIGHT = 600;
@@ -81,7 +81,7 @@ public class World {
 				accumulator -= OPTIMAL_TIME;
 				panel.updateUI();
 				fps++;
-			} else if (accumulator < OPTIMAL_TIME * 0.7) {
+			} else if (accumulator < OPTIMAL_TIME * 0.5) {
 				try {
 					Thread.sleep(1);
 				} catch (InterruptedException e) {

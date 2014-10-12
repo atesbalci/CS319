@@ -1,4 +1,4 @@
-package com.thegame.tool;
+package com.dungeonescape.tool;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.Timer;
 
-import com.thegame.element.Bullet;
+import com.dungeonescape.element.Bullet;
 
 public class Sword extends Weapon {
 	private Timer duration;

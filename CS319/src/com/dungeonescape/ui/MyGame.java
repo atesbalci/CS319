@@ -1,11 +1,11 @@
-package com.thegame.ui;
+package com.dungeonescape.ui;
 
 import javax.swing.JFrame;
 
-import com.thegame.element.Enemy;
-import com.thegame.element.Player;
-import com.thegame.element.Obstacle;
-import com.thegame.world.World;
+import com.dungeonescape.element.Enemy;
+import com.dungeonescape.element.Obstacle;
+import com.dungeonescape.element.Player;
+import com.dungeonescape.world.World;
 
 /**
  * @(#)MyGame.java

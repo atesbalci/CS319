@@ -1,11 +1,11 @@
-package com.thegame.tool;
+package com.dungeonescape.tool;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
 
 import javax.swing.Timer;
 
-import com.thegame.element.Bullet;
+import com.dungeonescape.element.Bullet;
 
 public class Gun extends Weapon {
 	private int rate;

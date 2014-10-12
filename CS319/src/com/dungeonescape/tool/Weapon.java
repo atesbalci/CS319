@@ -1,8 +1,8 @@
-package com.thegame.tool;
+package com.dungeonescape.tool;
 import java.awt.Graphics;
 import java.awt.geom.*;
 
-import com.thegame.element.Bullet;
+import com.dungeonescape.element.Bullet;
 
 public abstract class Weapon {
 	private double x, y;

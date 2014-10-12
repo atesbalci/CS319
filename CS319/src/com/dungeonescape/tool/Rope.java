@@ -1,7 +1,7 @@
-package com.thegame.tool;
+package com.dungeonescape.tool;
 
-import com.thegame.element.GameElement;
-import com.thegame.element.Hook;
+import com.dungeonescape.element.GameElement;
+import com.dungeonescape.element.Hook;
 
 public class Rope {
 	private GameElement source;
