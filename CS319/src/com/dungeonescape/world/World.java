@@ -127,20 +127,17 @@ public class World {
 									e.setVerticalSpeed(-e.getVerticalSpeed()
 											* e.getElasticity());
 								} else {
-									double elasticity = Math.min(
-											o.getElasticity(),
-											e.getElasticity());
 									double ratio = e.getWeight()
 											/ o.getWeight();
 									double tmp = e.getVerticalSpeed();
 									e.setVerticalSpeed((o.getVerticalSpeed() - e
 											.getVerticalSpeed())
 											* ratio
-											* elasticity);
+											* e.getElasticity());
 									o.setVerticalSpeed((tmp - o
 											.getVerticalSpeed())
 											* (1 / ratio)
-											* elasticity);
+											* o.getElasticity());
 								}
 							} else {
 								e.moveY(e.getVerticalSpeed() * d);
@@ -161,19 +158,16 @@ public class World {
 											.getHorizontalSpeed()
 											* e.getElasticity());
 								} else {
-									double elasticity = Math.min(
-											o.getElasticity(),
-											e.getElasticity());
 									double ratio = e.getWeight()
 											/ o.getWeight();
 									double tmp = e.getHorizontalSpeed();
 									e.setHorizontalSpeed((o
 											.getHorizontalSpeed() - e
 											.getHorizontalSpeed())
-											* ratio * elasticity);
+											* ratio * e.getElasticity());
 									o.setHorizontalSpeed((tmp - o
 											.getHorizontalSpeed())
-											* (1 / ratio) * elasticity);
+											* (1 / ratio) * o.getElasticity());
 								}
 							} else {
 								e.moveX(e.getHorizontalSpeed() * d);

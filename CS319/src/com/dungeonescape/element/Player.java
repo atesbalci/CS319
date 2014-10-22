@@ -43,6 +43,7 @@ public class Player extends GameElement {
 		stage = 0;
 		verticalacc = 4;
 		horizontalacc = 2;
+		elasticity = 0.1;
 	}
 
 	public void action(double d) {
