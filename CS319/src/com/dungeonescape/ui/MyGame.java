@@ -1,5 +1,7 @@
 package com.dungeonescape.ui;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 
 import com.dungeonescape.element.Enemy;
@@ -20,6 +22,7 @@ public class MyGame {
 
 	public static void main(String[] args) {
 		JFrame f = new JFrame("My Game");
+		f.setLayout(null);
 		WorldPanel wp = new WorldPanel();
 		World w = new World(wp);
 		wp.setWorld(w);
@@ -33,6 +36,7 @@ public class MyGame {
 		f.add(wp);
 		f.pack();
 		f.setVisible(true);
+		f.setSize(new Dimension(800, 600));
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

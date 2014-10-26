@@ -1,6 +1,7 @@
 package com.dungeonescape.world;
 
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -58,6 +59,10 @@ public class World {
 		elements.remove(player);
 		elements.add(p);
 		player = p;
+	}
+	
+	public Point getPlayerPosition() {
+		return player.getCenter();
 	}
 
 	public void gameLoop() {

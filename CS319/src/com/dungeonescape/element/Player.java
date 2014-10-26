@@ -45,7 +45,7 @@ public class Player extends GameElement {
 		horizontalacc = 2;
 		elasticity = 0.1;
 	}
-
+	
 	public void action(double d) {
 		super.action(d);
 
