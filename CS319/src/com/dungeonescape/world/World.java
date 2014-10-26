@@ -48,10 +48,10 @@ public class World {
 		gravity = g;
 	}
 
-	public void paint(Graphics g) {
+	public void paint(Graphics g, Point camera) {
 		g.drawString("FPS: " + fps, 50, 50);
 		for (GameElement e : elements) {
-			e.draw(g);
+			e.draw(g, camera);
 		}
 	}
 

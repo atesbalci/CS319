@@ -1,6 +1,5 @@
 package com.dungeonescape.ui;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyAdapter;
@@ -14,37 +13,41 @@ import com.dungeonescape.world.World;
 
 public class WorldPanel extends JPanel {
 	private static final long serialVersionUID = -7233967302635631295L;
-	private final int WIDTH = 800;
-	private final int HEIGHT = 600;
 
 	private World world;
+	private Point mousePosition;
 	private Point cameraPosition;
 
 	public WorldPanel() {
+		WorldMouse mouse = new WorldMouse();
 		setLayout(null);
 		setFocusable(true);
 		addKeyListener(new WorldKey());
-		addMouseListener(new WorldMouse());
-		cameraPosition = new Point(WIDTH / 2, HEIGHT / 2);
-		setSize(new Dimension(1000, 1000));
+		addMouseListener(mouse);
+		addMouseMotionListener(mouse);
+		mousePosition = new Point(this.getSize().width / 2,
+				this.getSize().height / 2);
+		cameraPosition = new Point(0, 0);
 	}
 
 	public void setWorld(World w) {
 		world = w;
 	}
 
-	public Point getCenter() {
-		return new Point(WIDTH / 2, HEIGHT / 2);
-	}
-
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		world.paint(g);
+		refreshCameraPosition();
+		world.paint(g, cameraPosition);
 	}
 
-	public Point getCameraPosition() {
-		return cameraPosition;
+	public void refreshCameraPosition() {
+		int width = getSize().width;
+		int height = getSize().height;
+		cameraPosition.x = ((mousePosition.x + cameraPosition.x + (world
+				.getPlayerPosition().x)) / 2) - (width / 2);
+		cameraPosition.y = ((mousePosition.y + cameraPosition.y + (world
+				.getPlayerPosition().y)) / 2) - (height / 2);
 	}
 
 	public class WorldKey extends KeyAdapter {
@@ -81,14 +84,12 @@ public class WorldPanel extends JPanel {
 
 	public class WorldMouse extends MouseAdapter {
 		public void mousePressed(MouseEvent e) {
-			world.hook(e.getX(), e.getY());
+			world.hook(e.getX() + cameraPosition.x, e.getY() + cameraPosition.y);
 		}
 
 		public void mouseMoved(MouseEvent e) {
-			cameraPosition.x = (world.getPlayerPosition().x + cameraPosition.x + e
-					.getX()) / 2;
-			cameraPosition.y = (world.getPlayerPosition().y + cameraPosition.y + e
-					.getY()) / 2;
+			mousePosition.x = (e.getX());
+			mousePosition.y = (e.getY());
 		}
 	}
 }

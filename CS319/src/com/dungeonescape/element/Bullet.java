@@ -26,13 +26,13 @@ public class Bullet extends GameElement {
 		return new Rectangle2D.Double(x, y, width, height);
 	}
 	
-	public void draw(Graphics g) {
-		g.fillRect((int)x, (int)y, width, height);
+	public void draw(Graphics g, Point camera) {
+		g.fillRect((int)x - camera.x, (int)y - camera.y, width, height);
 	}
 	
 	public void obstruction(String direction, GameElement e) {
 		setActive(false);
-		if(e instanceof Enemy) {
+		if(e instanceof MoveableObject) {
 			e.damage(damage);
 		}
 	}

@@ -1,5 +1,6 @@
 package com.dungeonescape.element;
 import java.awt.Graphics;
+import java.awt.Point;
 
 public class Obstacle extends StaticElement {
 	public Obstacle(int x, int y, int w, int h) {
@@ -10,7 +11,7 @@ public class Obstacle extends StaticElement {
 		height = h;
 	}
 	
-	public void draw(Graphics g) {
-		g.fillRect((int)x, (int)y, width, height);
+	public void draw(Graphics g, Point camera) {
+		g.fillRect((int)x - camera.x, (int)y - camera.y, width, height);
 	}
 }

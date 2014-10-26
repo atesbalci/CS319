@@ -75,16 +75,16 @@ public class Hook extends GameElement {
 		}
 	}
 
-	public void draw(Graphics g) {
+	public void draw(Graphics g, Point camera) {
 		if (source != null) {
 			Graphics2D g2 = (Graphics2D) g;
 			Stroke s = g2.getStroke();
 			g2.setStroke(new BasicStroke(3));
-			g2.drawLine((int) x + width / 2, (int) y + height / 2,
-					(int) source.getX(), (int) source.getY());
+			g2.drawLine((int) x + width / 2  - camera.x, (int) y + height / 2 - camera.y,
+					(int) source.getX() - camera.x, (int) source.getY() - camera.y);
 			g2.setStroke(s);
 		}
 
-		g.fillRect((int) x, (int) y, width, height);
+		g.fillRect((int) x - camera.x, (int) y - camera.y, width, height);
 	}
 }

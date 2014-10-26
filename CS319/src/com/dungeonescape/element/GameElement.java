@@ -1,6 +1,7 @@
 package com.dungeonescape.element;
 
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
 public abstract class GameElement {
@@ -140,7 +141,7 @@ public abstract class GameElement {
 		}
 	}
 
-	abstract public void draw(Graphics g);
+	abstract public void draw(Graphics g, Point camera);
 
 	public double getVerticalSpeed() {
 		return verticalSpeed;

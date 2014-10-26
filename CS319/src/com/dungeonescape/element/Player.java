@@ -45,7 +45,7 @@ public class Player extends GameElement {
 		horizontalacc = 2;
 		elasticity = 0.1;
 	}
-	
+
 	public void action(double d) {
 		super.action(d);
 
@@ -139,24 +139,28 @@ public class Player extends GameElement {
 			weapon.setDirection(dir);
 	}
 
-	public void draw(Graphics g) {
+	public void draw(Graphics g, Point camera) {
 		drawHealth(g, (int) x + width / 2, (int) y);
 		if (direction) {
 			if (!ground)
-				g.drawImage(images[5], (int) x - 10, (int) y, null);
+				g.drawImage(images[5], (int) x - 10 - camera.x, (int) y
+						- camera.y, null);
 			else if (horizontalSpeed >= 1)
-				g.drawImage(images[stage / ANIMATION], (int) x - 10, (int) y,
-						null);
+				g.drawImage(images[stage / ANIMATION], (int) x - 10 - camera.x,
+						(int) y - camera.y, null);
 			else
-				g.drawImage(images[2], (int) x - 10, (int) y, null);
+				g.drawImage(images[2], (int) x - 10 - camera.x, (int) y
+						- camera.y, null);
 		} else {
 			if (!ground)
-				g.drawImage(imagesInverted[5], (int) x - 10, (int) y, null);
+				g.drawImage(imagesInverted[5], (int) x - 10 - camera.x, (int) y
+						- camera.y, null);
 			else if (horizontalSpeed <= -1)
-				g.drawImage(imagesInverted[stage / ANIMATION], (int) x - 10,
-						(int) y, null);
+				g.drawImage(imagesInverted[stage / ANIMATION], (int) x - 10
+						- camera.x, (int) y - camera.y, null);
 			else
-				g.drawImage(imagesInverted[2], (int) x - 10, (int) y, null);
+				g.drawImage(imagesInverted[2], (int) x - 10 - camera.x, (int) y
+						- camera.y, null);
 		}
 		if (weapon != null)
 			weapon.draw(g);
