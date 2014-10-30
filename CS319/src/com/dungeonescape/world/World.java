@@ -49,7 +49,7 @@ public class World {
 	}
 
 	public void paint(Graphics g, Point camera) {
-		g.drawString("FPS: " + fps, 50, 50);
+		g.drawString("UPS: " + fps, 50, 50);
 		for (GameElement e : elements) {
 			e.draw(g, camera);
 		}

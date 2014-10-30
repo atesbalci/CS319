@@ -18,6 +18,12 @@ public class WorldPanel extends JPanel {
 	private Point mousePosition;
 	private Point cameraPosition;
 
+	// variables for fps calculation: deprecated
+	// private long prevTime;
+	// private long accumulator;
+	// private int fps;
+	// private int currentFps;
+
 	public WorldPanel() {
 		WorldMouse mouse = new WorldMouse();
 		setLayout(null);
@@ -28,6 +34,10 @@ public class WorldPanel extends JPanel {
 		mousePosition = new Point(this.getSize().width / 2,
 				this.getSize().height / 2);
 		cameraPosition = new Point(0, 0);
+		// prevTime = System.currentTimeMillis();
+		// accumulator = 0;
+		// fps = 0;
+		// currentFps = 0;
 	}
 
 	public void setWorld(World w) {
@@ -39,6 +49,16 @@ public class WorldPanel extends JPanel {
 		super.paintComponent(g);
 		refreshCameraPosition();
 		world.paint(g, cameraPosition);
+		// long now = System.currentTimeMillis();
+		// accumulator += (now - prevTime);
+		// prevTime = now;
+		// if (accumulator >= 1000) {
+		// accumulator -= 1000;
+		// currentFps = fps;
+		// fps = 0;
+		// }
+		// fps++;
+		// g.drawString("FPS: " + currentFps, 50, 70);
 	}
 
 	public void refreshCameraPosition() {
