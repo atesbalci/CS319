@@ -64,10 +64,10 @@ public class WorldPanel extends JPanel {
 	public void refreshCameraPosition() {
 		int width = getSize().width;
 		int height = getSize().height;
-		cameraPosition.x = ((mousePosition.x + cameraPosition.x + (world
-				.getPlayerPosition().x)) / 2) - (width / 2);
-		cameraPosition.y = ((mousePosition.y + cameraPosition.y + (world
-				.getPlayerPosition().y)) / 2) - (height / 2);
+		cameraPosition.x = ((mousePosition.x + cameraPosition.x + 2 * (world
+				.getPlayerPosition().x)) / 3) - (width / 2);
+		cameraPosition.y = ((mousePosition.y + cameraPosition.y + 2 * (world
+				.getPlayerPosition().y)) / 3) - (height / 2);
 	}
 
 	public class WorldKey extends KeyAdapter {
