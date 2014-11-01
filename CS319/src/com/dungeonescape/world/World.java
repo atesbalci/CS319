@@ -60,14 +60,14 @@ public class World {
 		elements.add(p);
 		player = p;
 	}
-	
+
 	public Point getPlayerPosition() {
 		return player.getCenter();
 	}
 
 	public void gameLoop() {
 		final double TARGET_FPS = 60.0;
-		final double OPTIMAL_TIME = 1000 / TARGET_FPS;
+		final double OPTIMAL_TIME = 1000.0 / TARGET_FPS;
 		long previous = System.currentTimeMillis();
 		long now;
 		long elapsed;
@@ -79,7 +79,7 @@ public class World {
 			now = System.currentTimeMillis();
 			elapsed = (now - previous);
 			previous = now;
-			accumulator += elapsed;
+			accumulator += (double) elapsed;
 
 			if (accumulator >= OPTIMAL_TIME) {
 				update(1);
@@ -110,11 +110,12 @@ public class World {
 			e.action(d);
 
 			if (!e.isFixed()) {
+				applyFriction(e, d);
 				if (!e.isFlying() && e.getVerticalSpeed() < 20)
 					e.setVerticalSpeed(e.getVerticalSpeed() + gravity * d);
-
 				e.moveX(e.getHorizontalSpeed() * d);
 				e.moveY(e.getVerticalSpeed() * d);
+
 				for (int n = 0; n < elements.size(); n++) {
 					GameElement o = elements.get(n);
 					if (!(o == e)) {
@@ -180,18 +181,6 @@ public class World {
 						}
 					}
 				}
-				if (e.getHorizontalSpeed() > friction)
-					e.setHorizontalSpeed(e.getHorizontalSpeed() - friction * d);
-				else if (e.getHorizontalSpeed() < -1 * friction)
-					e.setHorizontalSpeed(e.getHorizontalSpeed() + friction * d);
-				else
-					e.setHorizontalSpeed(0);
-				if (e.getVerticalSpeed() > friction)
-					e.setVerticalSpeed(e.getVerticalSpeed() - friction * d);
-				else if (e.getVerticalSpeed() < -1 * friction)
-					e.setVerticalSpeed(e.getVerticalSpeed() + friction * d);
-				else
-					e.setVerticalSpeed(0);
 			}
 
 			if (!e.isActive()) {
@@ -220,6 +209,21 @@ public class World {
 				addElement(player.getWeapon().getBullet());
 			}
 		}
+	}
+
+	public void applyFriction(GameElement e, double d) {
+		if (e.getHorizontalSpeed() > friction)
+			e.setHorizontalSpeed(e.getHorizontalSpeed() - friction * d);
+		else if (e.getHorizontalSpeed() < -1 * friction)
+			e.setHorizontalSpeed(e.getHorizontalSpeed() + friction * d);
+		else
+			e.setHorizontalSpeed(0);
+		if (e.getVerticalSpeed() > friction)
+			e.setVerticalSpeed(e.getVerticalSpeed() - friction * d);
+		else if (e.getVerticalSpeed() < -1 * friction)
+			e.setVerticalSpeed(e.getVerticalSpeed() + friction * d);
+		else
+			e.setVerticalSpeed(0);
 	}
 
 	public void right(boolean b) {

@@ -4,9 +4,7 @@ import java.awt.Point;
 
 public class Obstacle extends StaticElement {
 	public Obstacle(int x, int y, int w, int h) {
-		super();
-		this.x = x;
-		this.y = y;
+		super(x, y);
 		width = w;
 		height = h;
 	}

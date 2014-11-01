@@ -4,9 +4,11 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import com.dungeonescape.element.Door;
 import com.dungeonescape.element.MoveableObject;
 import com.dungeonescape.element.Obstacle;
 import com.dungeonescape.element.Player;
+import com.dungeonescape.element.Trigger;
 import com.dungeonescape.world.World;
 
 /**
@@ -31,6 +33,13 @@ public class MyGame {
 		w.getPlayer().takeRope();
 		w.addElement(new MoveableObject(210, 100));
 		w.addElement(new MoveableObject(310, 100));
+		Door d = new Door(300, 300);
+		w.addElement(d);
+		Trigger t = new Trigger(240, 450);
+		t.setTriggerDuration(40);
+		t.setWidth(100);
+		t.setTriggerable(d);
+		w.addElement(t);
 		w.start();
 		f.add(wp);
 		f.pack();

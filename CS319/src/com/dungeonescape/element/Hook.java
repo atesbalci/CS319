@@ -42,7 +42,6 @@ public class Hook extends GameElement {
 	}
 
 	public void contact(String direction, GameElement e) {
-		System.out.println(e.getClass());
 	}
 
 	public void moveX(double xChange) {

@@ -7,9 +7,8 @@ import java.awt.geom.Rectangle2D;
 public abstract class GameElement {
 
 	protected int width, height;
-	protected double health, maxHealth, verticalacc, horizontalacc,
-			x, y, verticalSpeed, horizontalSpeed, jumpHeight, weight,
-			elasticity;
+	protected double health, maxHealth, verticalacc, horizontalacc, x, y,
+			verticalSpeed, horizontalSpeed, jumpHeight, weight, elasticity;
 	protected boolean ground, flying, smooth, active, jumping, fricted, left,
 			right, jump, fixed;
 
@@ -21,6 +20,7 @@ public abstract class GameElement {
 		smooth = true;
 		fricted = true;
 		verticalSpeed = 0;
+		horizontalSpeed = 0;
 		jumpHeight = 0;
 		jumping = false;
 		active = true;
@@ -42,9 +42,11 @@ public abstract class GameElement {
 	}
 
 	public boolean intersects(GameElement e) {
-		if(!e.isSmooth())
-			return false;
 		if (getRectangle().intersects(e.getRectangle())) {
+			if(!e.isSmooth()) {
+				e.contact("", this);
+				return false;
+			}
 			return true;
 		}
 		return false;
@@ -141,7 +143,8 @@ public abstract class GameElement {
 		}
 	}
 
-	abstract public void draw(Graphics g, Point camera);
+	public void draw(Graphics g, Point camera) {
+	}
 
 	public double getVerticalSpeed() {
 		return verticalSpeed;
