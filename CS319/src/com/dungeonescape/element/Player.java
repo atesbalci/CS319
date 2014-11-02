@@ -46,8 +46,9 @@ public class Player extends GameElement {
 		elasticity = 0.1;
 	}
 
-	public void action(double d) {
-		super.action(d);
+	@Override
+	public void timestep(double d) {
+		super.timestep(d);
 
 		if ((left || right) && !(left && right)) {
 			animate();

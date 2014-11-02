@@ -16,7 +16,8 @@ public class Trigger extends StaticElement {
 	}
 
 	@Override
-	public void action(double d) {
+	public void timestep(double d) {
+		super.timestep(d);
 		if (triggerActive > 0 && triggerable != null) {
 			triggerable.trigger(true);
 		} else {

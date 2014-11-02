@@ -19,7 +19,8 @@ public class Door extends StaticElement implements Triggerable {
 	}
 
 	@Override
-	public void action(double d) {
+	public void timestep(double d) {
+		super.timestep(d);
 		if (closed) {
 			if (doorOpening < maxHeight)
 				doorOpening += speed * d;

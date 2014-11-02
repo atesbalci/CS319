@@ -107,7 +107,7 @@ public class World {
 
 		for (int i = 0; i < elements.size(); i++) {
 			GameElement e = elements.get(i);
-			e.action(d);
+			e.timestep(d);
 
 			if (!e.isFixed()) {
 				applyFriction(e, d);

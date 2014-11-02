@@ -59,7 +59,7 @@ public abstract class GameElement {
 		}
 	}
 
-	public void action(double d) {
+	public void timestep(double d) {
 		if (right) {
 			if (horizontalSpeed < horizontalacc * 10)
 				horizontalSpeed += horizontalacc * d;
