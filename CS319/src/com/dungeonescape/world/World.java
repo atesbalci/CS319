@@ -12,7 +12,6 @@ import com.dungeonescape.element.Player;
 import com.dungeonescape.ui.WorldPanel;
 
 public class World {
-	public final int HEIGHT = 600;
 	private static final int DELAY = 16;
 
 	private WorldPanel panel;
@@ -25,7 +24,6 @@ public class World {
 	public World(WorldPanel panel) {
 		this.panel = panel;
 		elements = new ArrayList<GameElement>();
-		addElement(new Obstacle(-5000, HEIGHT, 10000, 1));
 		gravity = 2;
 		friction = 0.5;
 		running = true;

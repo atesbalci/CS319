@@ -8,8 +8,10 @@ public class Trigger extends StaticElement {
 	private double triggerActive;
 	private int triggerDuration;
 
-	public Trigger(double x, double y) {
+	public Trigger(double x, double y, int width, int height) {
 		super(x, y);
+		this.width = width;
+		this.height = height;
 		smooth = false;
 		triggerActive = 0;
 		triggerDuration = 1;
