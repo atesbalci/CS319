@@ -2,6 +2,7 @@ package com.dungeonescape.element;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.List;
 
 public class Door extends StaticElement implements Triggerable {
 	private double doorOpening;
@@ -19,8 +20,8 @@ public class Door extends StaticElement implements Triggerable {
 	}
 
 	@Override
-	public void timestep(double d) {
-		super.timestep(d);
+	public void timestep(double d, List<GameElement> elementsInWorld) {
+		super.timestep(d, elementsInWorld);
 		if (closed) {
 			if (doorOpening < maxHeight)
 				doorOpening += speed * d;

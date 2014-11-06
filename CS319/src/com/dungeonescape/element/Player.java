@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -47,8 +48,8 @@ public class Player extends GameElement {
 	}
 
 	@Override
-	public void timestep(double d) {
-		super.timestep(d);
+	public void timestep(double d, List<GameElement> elementsInWorld) {
+		super.timestep(d, elementsInWorld);
 
 		if ((left || right) && !(left && right)) {
 			animate();

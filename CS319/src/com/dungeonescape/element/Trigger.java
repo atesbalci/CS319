@@ -2,6 +2,7 @@ package com.dungeonescape.element;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.List;
 
 public class Trigger extends StaticElement {
 	private Triggerable triggerable;
@@ -18,8 +19,8 @@ public class Trigger extends StaticElement {
 	}
 
 	@Override
-	public void timestep(double d) {
-		super.timestep(d);
+	public void timestep(double d, List<GameElement> elementsInWorld) {
+		super.timestep(d, elementsInWorld);
 		if (triggerActive > 0 && triggerable != null) {
 			triggerable.trigger(true);
 		} else {
@@ -31,7 +32,9 @@ public class Trigger extends StaticElement {
 
 	@Override
 	public void contact(String direction, GameElement e) {
-		triggerActive = triggerDuration;
+		if (!(e == triggerable)) {
+			triggerActive = triggerDuration;
+		}
 	}
 
 	@Override

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import com.dungeonescape.element.GameElement;
 import com.dungeonescape.element.Hook;
-import com.dungeonescape.element.Obstacle;
 import com.dungeonescape.element.Player;
 import com.dungeonescape.ui.WorldPanel;
 
@@ -105,7 +104,6 @@ public class World {
 
 		for (int i = 0; i < elements.size(); i++) {
 			GameElement e = elements.get(i);
-			e.timestep(d);
 
 			if (!e.isFixed()) {
 				applyFriction(e, d);
@@ -185,6 +183,7 @@ public class World {
 				elements.remove(e);
 				i--;
 			}
+			e.timestep(d, elements);
 		}
 
 		if (player.firing()) {

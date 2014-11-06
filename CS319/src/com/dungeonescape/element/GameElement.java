@@ -3,6 +3,7 @@ package com.dungeonescape.element;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 public abstract class GameElement {
 
@@ -43,7 +44,7 @@ public abstract class GameElement {
 
 	public boolean intersects(GameElement e) {
 		if (getRectangle().intersects(e.getRectangle())) {
-			if(!e.isSmooth()) {
+			if (!e.isSmooth()) {
 				e.contact("", this);
 				return false;
 			}
@@ -59,7 +60,7 @@ public abstract class GameElement {
 		}
 	}
 
-	public void timestep(double d) {
+	public void timestep(double d, List<GameElement> elementsInWorld) {
 		if (right) {
 			if (horizontalSpeed < horizontalacc * 10)
 				horizontalSpeed += horizontalacc * d;
