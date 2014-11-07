@@ -25,7 +25,7 @@ public abstract class GameElement {
 		jumpHeight = 0;
 		jumping = false;
 		active = true;
-		setMaxHealth(100);
+		maxHealth = 100;
 		left = false;
 		right = false;
 		jump = false;

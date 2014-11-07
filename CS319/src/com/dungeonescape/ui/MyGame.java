@@ -31,7 +31,7 @@ public class MyGame {
 		t.setTriggerDuration(40);
 		t.setTriggerable(d);
 		w.addElement(t);
-		Platform p = new Platform(500, 600, 100, 10, -100, true);
+		Platform p = new Platform(500, 600, 100, 10, 100, false);
 		w.addElement(p);
 		Trigger t2 = new Trigger(500, 550, 100, 50);
 		t2.setTriggerDuration(40);

@@ -62,6 +62,7 @@ public class Platform extends StaticElement implements Triggerable {
 		} else {
 			moveX(diff);
 		}
+		moveY(-1);
 		for (GameElement e : elementsInWorld) {
 			if (this.intersects(e) && !e.isFixed() && e.isSmooth()) {
 				if (verticalTravel)
@@ -70,6 +71,7 @@ public class Platform extends StaticElement implements Triggerable {
 					e.moveX(diff);
 			}
 		}
+		moveY(1);
 	}
 
 	@Override
