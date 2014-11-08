@@ -2,17 +2,13 @@ package com.dungeonescape.world;
 
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import com.dungeonescape.element.GameElement;
-import com.dungeonescape.element.Hook;
 import com.dungeonescape.element.Player;
 import com.dungeonescape.ui.WorldPanel;
 
 public class World {
-	private static final int DELAY = 16;
-
 	private WorldPanel panel;
 	private ArrayList<GameElement> elements;
 	private Player player;
@@ -26,6 +22,8 @@ public class World {
 		gravity = 2;
 		friction = 0.5;
 		running = true;
+		player = new Player(300, 300);
+		addElement(player);
 	}
 
 	public void start() {
@@ -50,6 +48,7 @@ public class World {
 		for (GameElement e : elements) {
 			e.draw(g, camera);
 		}
+		player.draw(g, camera);
 	}
 
 	public void setPlayer(Player p) {
@@ -106,7 +105,8 @@ public class World {
 			GameElement e = elements.get(i);
 
 			if (!e.isFixed()) {
-				applyFriction(e, d);
+				if (e.isSmooth())
+					applyFriction(e, d);
 				if (!e.isFlying() && e.getVerticalSpeed() < 20)
 					e.setVerticalSpeed(e.getVerticalSpeed() + gravity * d);
 				e.moveX(e.getHorizontalSpeed() * d);
@@ -186,26 +186,26 @@ public class World {
 			e.timestep(d, elements);
 		}
 
-		if (player.firing()) {
-			if (player.getWeapon().isMelee()) {
-				Rectangle2D.Double impact = (Rectangle2D.Double) player
-						.getWeapon().getImpact();
-				for (int k = 0; k < elements.size(); k++) {
-					if (elements
-							.get(k)
-							.getRectangle()
-							.intersects(impact.x, impact.y, impact.width,
-									impact.height)
-							&& elements.get(k) != player)
-						elements.get(k).damage(
-								player.getWeapon().getDamage()
-										* ((double) DELAY) / ((double) 1000));
-				}
-			}
-			if (!player.getWeapon().isMelee()) {
-				addElement(player.getWeapon().getBullet());
-			}
-		}
+		// if (player.firing()) {
+		// if (player.getWeapon().isMelee()) {
+		// Rectangle2D.Double impact = (Rectangle2D.Double) player
+		// .getWeapon().getImpact();
+		// for (int k = 0; k < elements.size(); k++) {
+		// if (elements
+		// .get(k)
+		// .getRectangle()
+		// .intersects(impact.x, impact.y, impact.width,
+		// impact.height)
+		// && elements.get(k) != player)
+		// elements.get(k).damage(
+		// player.getWeapon().getDamage()
+		// * ((double) DELAY) / ((double) 1000));
+		// }
+		// }
+		// if (!player.getWeapon().isMelee()) {
+		// addElement(player.getWeapon().getBullet());
+		// }
+		// }
 	}
 
 	public void applyFriction(GameElement e, double d) {
@@ -235,14 +235,10 @@ public class World {
 		player.jump(b);
 	}
 
-	public void fire() {
-		player.fire();
-	}
-
-	public void hook(int x, int y) {
-		Hook h = player.throwHook(x, y);
-		if (h != null)
-			elements.add(h);
+	public void useTool(int x, int y) {
+		GameElement e = player.use(x, y);
+		if (e != null)
+			elements.add(e);
 	}
 
 	public Player getPlayer() {

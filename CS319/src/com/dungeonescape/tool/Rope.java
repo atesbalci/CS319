@@ -3,27 +3,24 @@ package com.dungeonescape.tool;
 import com.dungeonescape.element.GameElement;
 import com.dungeonescape.element.Hook;
 
-public class Rope {
-	private GameElement source;
-	private double x, y, reach;
+public class Rope extends Tool {
+	private double reach;
 	private double speed, pullSpeed;
 	private Hook hook;
 
-	public Rope(int x, int y, GameElement source) {
-		this.source = source;
-		this.x = x;
-		this.y = y;
+	public Rope() {
 		speed = 20;
 		reach = 300;
 		hook = new Hook();
 		pullSpeed = 20;
 	}
 
-	public Hook fire(int xdest, int ydest) {
+	@Override
+	public GameElement use(int xDest, int yDest) {
 		if (!hook.isActive()) {
-			double angle = Math.atan((double) (y - ydest)
-					/ (double) (x - xdest));
-			if (x - xdest < 0)
+			double angle = Math.atan((double) (y - yDest)
+					/ (double) (x - xDest));
+			if (x - xDest < 0)
 				hook = new Hook(x, y, angle, speed, this);
 			else {
 				angle = Math.PI + angle;
@@ -37,28 +34,16 @@ public class Rope {
 		return null;
 	}
 
-	public GameElement getSource() {
-		return source;
-	}
-
-	public void setSource(GameElement source) {
-		this.source = source;
-	}
-
-	public double getX() {
-		return x;
-	}
-
-	public void setX(double x) {
-		this.x = x;
-	}
-
-	public double getY() {
-		return y;
-	}
-
-	public void setY(double y) {
-		this.y = y;
+	@Override
+	public void timestep(double d) {
+		if (hook.isActive() && hook.isGrappled()) {
+			double angle = Math.atan((double) (hook.getY() - getY())
+					/ (double) (hook.getX() - getX()));
+			if (hook.getX() - getX() <= 0)
+				angle = Math.PI + angle;
+			owner.setHorizontalSpeed(Math.cos(angle) * getPullSpeed());
+			owner.setVerticalSpeed(Math.sin(angle) * getPullSpeed());
+		}
 	}
 
 	public double getReach() {

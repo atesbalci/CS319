@@ -2,6 +2,7 @@ package com.dungeonescape.element;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
@@ -42,15 +43,30 @@ public abstract class GameElement {
 		return new Rectangle2D.Double(x, y, width, height);
 	}
 
+	public Line2D getLine() {
+		return null;
+	}
+
 	public boolean intersects(GameElement e) {
-		if (getRectangle().intersects(e.getRectangle())) {
-			if (!e.isSmooth()) {
-				e.contact("", this);
-				return false;
+		if (e.getLine() == null) {
+			if (getRectangle().intersects(e.getRectangle())) {
+				if (!e.isSmooth()) {
+					e.contact("", this);
+					return false;
+				}
+				return true;
 			}
-			return true;
+			return false;
+		} else {
+			if (getRectangle().intersectsLine(e.getLine())) {
+				if (!e.isSmooth()) {
+					e.contact("", this);
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
-		return false;
 	}
 
 	public void contact(String direction, GameElement e) {

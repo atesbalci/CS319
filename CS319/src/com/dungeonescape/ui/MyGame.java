@@ -8,8 +8,8 @@ import com.dungeonescape.element.Door;
 import com.dungeonescape.element.MoveableObject;
 import com.dungeonescape.element.Obstacle;
 import com.dungeonescape.element.Platform;
-import com.dungeonescape.element.Player;
 import com.dungeonescape.element.Trigger;
+import com.dungeonescape.tool.BoomerangTool;
 import com.dungeonescape.world.World;
 
 public class MyGame {
@@ -19,8 +19,7 @@ public class MyGame {
 		WorldPanel wp = new WorldPanel();
 		World w = new World(wp);
 		wp.setWorld(w);
-		w.setPlayer(new Player(300, 300));
-		w.getPlayer().takeRope();
+		w.getPlayer().setTool(new BoomerangTool());
 		w.addElement(new Obstacle(-5000, 600, 5500, 10));
 		w.addElement(new Obstacle(355, 540, 100, 10));
 		w.addElement(new MoveableObject(100, 100));
@@ -37,6 +36,9 @@ public class MyGame {
 		t2.setTriggerDuration(40);
 		t2.setTriggerable(p);
 		w.addElement(t2);
+		// Laser l = new Laser(200, 600, 300, 500);
+		// l.setTriggerable(p);
+		// w.addElement(l);
 		w.start();
 		f.add(wp);
 		f.pack();

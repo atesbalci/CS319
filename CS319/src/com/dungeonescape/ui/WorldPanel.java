@@ -82,9 +82,6 @@ public class WorldPanel extends JPanel {
 			if (e.getKeyCode() == KeyEvent.VK_W) {
 				world.jump(true);
 			}
-			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-				world.fire();
-			}
 		}
 
 		public void keyReleased(KeyEvent e) {
@@ -104,7 +101,7 @@ public class WorldPanel extends JPanel {
 
 	public class WorldMouse extends MouseAdapter {
 		public void mousePressed(MouseEvent e) {
-			world.hook(e.getX() + cameraPosition.x, e.getY() + cameraPosition.y);
+			world.useTool(e.getX() + cameraPosition.x, e.getY() + cameraPosition.y);
 		}
 
 		public void mouseMoved(MouseEvent e) {

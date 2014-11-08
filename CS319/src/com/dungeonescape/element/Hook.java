@@ -9,8 +9,8 @@ import java.awt.Stroke;
 import com.dungeonescape.tool.Rope;
 
 public class Hook extends GameElement {
-	boolean grappled;
-	Rope source;
+	private boolean grappled;
+	private Rope source;
 
 	public Hook(double x, double y, double angle, double speed, Rope s) {
 		super(x, y);
@@ -30,6 +30,7 @@ public class Hook extends GameElement {
 		setActive(false);
 	}
 
+	@Override
 	public boolean intersects(GameElement e) {
 		if (e instanceof StaticElement) {
 			if (super.intersects(e)) {
@@ -85,5 +86,21 @@ public class Hook extends GameElement {
 		}
 
 		g.fillRect((int) x - camera.x, (int) y - camera.y, width, height);
+	}
+
+	public boolean isGrappled() {
+		return grappled;
+	}
+
+	public void setGrappled(boolean grappled) {
+		this.grappled = grappled;
+	}
+
+	public Rope getSource() {
+		return source;
+	}
+
+	public void setSource(Rope source) {
+		this.source = source;
 	}
 }
