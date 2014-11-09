@@ -71,8 +71,7 @@ public abstract class GameElement {
 
 	public void contact(String direction, GameElement e) {
 		if (direction.equals("bottom")) {
-			if (horizontalSpeed < 0.1 && horizontalSpeed > -0.1)
-				ground = true;
+			ground = true;
 		}
 	}
 

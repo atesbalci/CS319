@@ -9,20 +9,34 @@ public class BoomerangTool extends Tool {
 
 	public BoomerangTool() {
 		boomerang = new Boomerang();
-		speed = 10;
+		speed = 20;
 	}
 
 	@Override
 	public void timestep(double d) {
-		if (boomerang.isActive() && boomerang.isReturning()) {
-			double angle = Math.atan((double) (y - boomerang.getY())
-					/ (double) (x - boomerang.getX()));
-			if (x - boomerang.getX() < 0)
-				angle = Math.PI + angle;
-			boomerang.setVerticalSpeed(Math.sin(angle) * speed);
-			boomerang.setHorizontalSpeed(Math.cos(angle) * speed);
+		if (boomerang.isActive()) {
+			double speedRatio = Math.abs(1
+					- Math.hypot(x - boomerang.getX(), y - boomerang.getY())
+					/ boomerang.getRange());
+			if (speedRatio < 0.3)
+				speedRatio = 0.3;
+			if (boomerang.isReturning()) {
+				double angle = Math.atan((double) (y - boomerang.getY())
+						/ (double) (x - boomerang.getX()));
+				if (x - boomerang.getX() < 0)
+					angle = Math.PI + angle;
+				boomerang
+						.setVerticalSpeed(Math.sin(angle) * speed * speedRatio);
+				boomerang.setHorizontalSpeed(Math.cos(angle) * speed
+						* speedRatio);
+			} else {
+				boomerang.setVerticalSpeed(Math.sin(boomerang.getAngle())
+						* speed * speedRatio);
+				boomerang.setHorizontalSpeed(Math.cos(boomerang.getAngle())
+						* speed * speedRatio);
+			}
 		}
-		
+
 	}
 
 	@Override
@@ -38,8 +52,6 @@ public class BoomerangTool extends Tool {
 			}
 			System.out.println(angle);
 			return boomerang;
-		} else {
-			boomerang.setActive(false);
 		}
 		return null;
 	}

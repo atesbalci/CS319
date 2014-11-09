@@ -105,7 +105,7 @@ public class World {
 			GameElement e = elements.get(i);
 
 			if (!e.isFixed()) {
-				if (e.isSmooth())
+				if (e.isFricted())
 					applyFriction(e, d);
 				if (!e.isFlying() && e.getVerticalSpeed() < 20)
 					e.setVerticalSpeed(e.getVerticalSpeed() + gravity * d);

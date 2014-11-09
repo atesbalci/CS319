@@ -2,7 +2,12 @@ package com.dungeonescape.element;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import com.dungeonescape.tool.BoomerangTool;
 
@@ -11,20 +16,27 @@ public class Boomerang extends GameElement {
 	private double speed;
 	private boolean returning;
 	private int range;
+	private double angle;
+	private BufferedImage image;
 
 	public Boomerang(double x, double y, double angle, double speed,
 			BoomerangTool s) {
 		super(x, y);
 		setFlying(true);
-		setSmooth(false);
 		setFricted(false);
 		verticalSpeed = Math.sin(angle) * speed;
 		horizontalSpeed = Math.cos(angle) * speed;
-		width = 5;
-		height = 5;
+		width = 15;
+		height = 15;
 		returning = false;
 		thrower = s;
 		range = 200;
+		this.angle = angle;
+		try {
+			image = ImageIO.read(new File("img/boomerang.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Boomerang() {
@@ -33,31 +45,34 @@ public class Boomerang extends GameElement {
 	}
 
 	@Override
+	public void contact(String direction, GameElement e) {
+		super.contact(direction, e);
+		if (e != thrower.getOwner())
+			returning = true;
+	}
+
+	@Override
 	public void timestep(double d, List<GameElement> elementsInWorld) {
 		double distance = Math.hypot(getCenter().x - thrower.getX(),
 				getCenter().y - thrower.getY());
 		if (distance >= range) {
 			returning = true;
-		} else if (distance < 5 && returning) {
+		} else if (distance < width && returning) {
 			setActive(false);
 		}
 	}
 
 	@Override
 	public boolean intersects(GameElement e) {
-		if (e instanceof StaticElement) {
-			if (super.intersects(e)) {
-				horizontalSpeed = 0;
-				verticalSpeed = 0;
-				returning = true;
-			}
-		}
-		return false;
+		if (returning)
+			return false;
+		boolean intersects = super.intersects(e);
+		return intersects;
 	}
 
 	@Override
 	public void draw(Graphics g, Point camera) {
-		g.drawRect((int) x - camera.x, (int) y - camera.y, width, height);
+		g.drawImage(image, (int) x - camera.x, (int) y - camera.y, null);
 	}
 
 	public double getSpeed() {
@@ -94,5 +109,13 @@ public class Boomerang extends GameElement {
 
 	public Point getCenter() {
 		return new Point((int) x + width / 2, (int) y + height / 2);
+	}
+
+	public double getAngle() {
+		return angle;
+	}
+
+	public void setAngle(double angle) {
+		this.angle = angle;
 	}
 }

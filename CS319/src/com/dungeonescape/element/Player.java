@@ -28,7 +28,7 @@ public class Player extends GameElement {
 		for (int i = 0; i < images.length; i++) {
 			try {
 				images[i] = ImageIO
-						.read(new File("player/" + (i + 1) + ".png"));
+						.read(new File("img/player/" + (i + 1) + ".png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
