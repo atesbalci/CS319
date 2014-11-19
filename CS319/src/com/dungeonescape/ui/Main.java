@@ -9,33 +9,33 @@ import com.dungeonescape.element.MoveableObject;
 import com.dungeonescape.element.Obstacle;
 import com.dungeonescape.element.Platform;
 import com.dungeonescape.element.Trigger;
+import com.dungeonescape.game.Game;
 import com.dungeonescape.tool.BoomerangTool;
-import com.dungeonescape.world.World;
 
-public class MyGame {
+public class Main {
 
 	public static void main(String[] args) {
-		JFrame f = new JFrame("My Game");
-		WorldPanel wp = new WorldPanel();
-		World w = new World(wp);
+		JFrame f = new JFrame("Game");
+		GamePanel wp = new GamePanel();
+		Game w = new Game(wp);
 		wp.setWorld(w);
 		w.getPlayer().setTool(new BoomerangTool());
-		w.addElement(new Obstacle(-5000, 600, 5500, 10));
-		w.addElement(new Obstacle(355, 540, 100, 10));
-		w.addElement(new MoveableObject(100, 100));
-		w.addElement(new MoveableObject(200, 100));
+		w.getMap().addElement(new Obstacle(-5000, 600, 5500, 10));
+		w.getMap().addElement(new Obstacle(355, 540, 100, 10));
+		w.getMap().addElement(new MoveableObject(100, 100));
+		w.getMap().addElement(new MoveableObject(200, 100));
 		Door d = new Door(400, 550);
-		w.addElement(d);
+		w.getMap().addElement(d);
 		Trigger t = new Trigger(355, 550, 100, 50);
 		t.setTriggerDuration(40);
 		t.setTriggerable(d);
-		w.addElement(t);
+		w.getMap().addElement(t);
 		Platform p = new Platform(500, 600, 100, 10, 100, false);
-		w.addElement(p);
+		w.getMap().addElement(p);
 		Trigger t2 = new Trigger(500, 550, 100, 50);
 		t2.setTriggerDuration(40);
 		t2.setTriggerable(p);
-		w.addElement(t2);
+		w.getMap().addElement(t2);
 		// Laser l = new Laser(200, 600, 300, 500);
 		// l.setTriggerable(p);
 		// w.addElement(l);

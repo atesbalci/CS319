@@ -9,99 +9,83 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
-import com.dungeonescape.world.World;
+import com.dungeonescape.game.Game;
 
-public class WorldPanel extends JPanel {
+public class GamePanel extends JPanel {
 	private static final long serialVersionUID = -7233967302635631295L;
 
-	private World world;
+	private Game game;
 	private Point mousePosition;
 	private Point cameraPosition;
 
-	// variables for fps calculation: deprecated
-	// private long prevTime;
-	// private long accumulator;
-	// private int fps;
-	// private int currentFps;
-
-	public WorldPanel() {
-		WorldMouse mouse = new WorldMouse();
+	public GamePanel() {
+		GameMouse mouse = new GameMouse();
 		setLayout(null);
 		setFocusable(true);
-		addKeyListener(new WorldKey());
+		addKeyListener(new GameKey());
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);
 		mousePosition = new Point(this.getSize().width / 2,
 				this.getSize().height / 2);
 		cameraPosition = new Point(0, 0);
-		// prevTime = System.currentTimeMillis();
-		// accumulator = 0;
-		// fps = 0;
-		// currentFps = 0;
 	}
 
-	public void setWorld(World w) {
-		world = w;
+	public void setWorld(Game w) {
+		game = w;
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		refreshCameraPosition();
-		world.paint(g, cameraPosition);
-		// long now = System.currentTimeMillis();
-		// accumulator += (now - prevTime);
-		// prevTime = now;
-		// if (accumulator >= 1000) {
-		// accumulator -= 1000;
-		// currentFps = fps;
-		// fps = 0;
-		// }
-		// fps++;
-		// g.drawString("FPS: " + currentFps, 50, 70);
+		game.paint(g, cameraPosition);
 	}
 
 	public void refreshCameraPosition() {
 		int width = getSize().width;
 		int height = getSize().height;
-		cameraPosition.x = ((mousePosition.x + cameraPosition.x + 2 * (world
+		cameraPosition.x = ((mousePosition.x + cameraPosition.x + 2 * (game
 				.getPlayerPosition().x)) / 3) - (width / 2);
-		cameraPosition.y = ((mousePosition.y + cameraPosition.y + 2 * (world
+		cameraPosition.y = ((mousePosition.y + cameraPosition.y + 2 * (game
 				.getPlayerPosition().y)) / 3) - (height / 2);
 	}
 
-	public class WorldKey extends KeyAdapter {
+	public class GameKey extends KeyAdapter {
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_D) {
-				world.right(true);
+				game.right(true);
 			}
 			if (e.getKeyCode() == KeyEvent.VK_A) {
-				world.left(true);
+				game.left(true);
 			}
-
 			if (e.getKeyCode() == KeyEvent.VK_W) {
-				world.jump(true);
+				game.jump(true);
+			}
+			if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				if(game.isStopped())
+					game.start();
+				else
+					game.stop();
 			}
 		}
 
 		public void keyReleased(KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_D) {
-				world.right(false);
+				game.right(false);
 			}
-
 			if (e.getKeyCode() == KeyEvent.VK_A) {
-				world.left(false);
+				game.left(false);
 			}
-
 			if (e.getKeyCode() == KeyEvent.VK_W) {
-				world.jump(false);
+				game.jump(false);
 			}
 		}
 	}
 
-	public class WorldMouse extends MouseAdapter {
+	public class GameMouse extends MouseAdapter {
 		public void mousePressed(MouseEvent e) {
-			world.useTool(e.getX() + cameraPosition.x, e.getY() + cameraPosition.y);
+			game.useTool(e.getX() + cameraPosition.x, e.getY()
+					+ cameraPosition.y);
 		}
 
 		public void mouseMoved(MouseEvent e) {
