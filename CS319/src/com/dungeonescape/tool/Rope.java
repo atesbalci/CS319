@@ -26,7 +26,6 @@ public class Rope extends Tool {
 				angle = Math.PI + angle;
 				hook = new Hook(x, y, angle, speed, this);
 			}
-			System.out.println(angle);
 			return hook;
 		} else {
 			hook.setActive(false);

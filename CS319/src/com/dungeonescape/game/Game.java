@@ -123,7 +123,7 @@ public class Game {
 	}
 
 	public void useTool(int x, int y) {
-		GameElement e = player.use(x, y);
+		GameElement e = player.useTool(x, y);
 		if (e != null)
 			map.addElement(e);
 	}

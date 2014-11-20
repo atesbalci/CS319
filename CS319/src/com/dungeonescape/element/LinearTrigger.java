@@ -4,10 +4,10 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Line2D;
 
-public class Laser extends Trigger {
+public class LinearTrigger extends Trigger {
 	private int xEnd, yEnd;
 
-	public Laser(double x, double y, int xEnd, int yEnd) {
+	public LinearTrigger(double x, double y, int xEnd, int yEnd) {
 		super(x, y, 0, 0);
 		this.xEnd = xEnd;
 		this.yEnd = yEnd;

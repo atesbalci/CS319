@@ -50,7 +50,6 @@ public class BoomerangTool extends Tool {
 				angle = Math.PI + angle;
 				boomerang = new Boomerang(x, y, angle, speed, this);
 			}
-			System.out.println(angle);
 			return boomerang;
 		}
 		return null;

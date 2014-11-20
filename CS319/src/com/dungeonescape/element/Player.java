@@ -19,6 +19,8 @@ public class Player extends GameElement {
 	private Tool tool;
 	private BufferedImage[] images, imagesInverted;
 	private int stage;
+	private boolean ground, jumping, left, right, jump;
+	private double verticalacc, horizontalacc, jumpHeight;
 
 	public Player(double x, double y) {
 		super(x, y);
@@ -27,8 +29,8 @@ public class Player extends GameElement {
 		images = new BufferedImage[6];
 		for (int i = 0; i < images.length; i++) {
 			try {
-				images[i] = ImageIO
-						.read(new File("img/player/" + (i + 1) + ".png"));
+				images[i] = ImageIO.read(new File("img/player/" + (i + 1)
+						+ ".png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -40,14 +42,48 @@ public class Player extends GameElement {
 		stage = 0;
 		verticalacc = 4;
 		horizontalacc = 2;
-		elasticity = 0.1;
+		elasticity = 0;
+		ground = false;
+		jumping = false;
+		jump = false;
+		left = false;
+		right = false;
+	}
+
+	@Override
+	public void contact(String direction, GameElement e) {
+		if (direction.equals("bottom")) {
+			ground = true;
+		}
 	}
 
 	@Override
 	public void timestep(double d, List<GameElement> elementsInWorld) {
-		super.timestep(d, elementsInWorld);
-		
-		if(tool != null)
+		if (right) {
+			if (horizontalSpeed < horizontalacc * 10)
+				horizontalSpeed += horizontalacc * d;
+		}
+		if (left) {
+			if (horizontalSpeed > horizontalacc * -10)
+				horizontalSpeed -= horizontalacc * d;
+		}
+		if (jump) {
+			if (ground) {
+				ground = false;
+				jumping = true;
+			}
+
+			if (jumping) {
+				if (verticalSpeed > -jumpHeight)
+					verticalSpeed -= verticalacc * d;
+				else {
+					jumping = false;
+				}
+			}
+		}
+		ground = false;
+
+		if (tool != null)
 			tool.timestep(d);
 
 		if ((left || right) && !(left && right)) {
@@ -56,18 +92,27 @@ public class Player extends GameElement {
 	}
 
 	public void left(boolean b) {
-		super.left(b);
+		left = b;
 		if (b)
 			setDirection(false);
 	}
 
 	public void right(boolean b) {
-		super.right(b);
+		right = b;
 		if (b)
 			setDirection(true);
 	}
 
-	public GameElement use(int x, int y) {
+	public void jump(boolean b) {
+		if (b)
+			jump = true;
+		else {
+			jump = false;
+			jumping = false;
+		}
+	}
+
+	public GameElement useTool(int x, int y) {
 		if (tool != null)
 			return tool.use(x, y);
 		return null;
@@ -92,7 +137,6 @@ public class Player extends GameElement {
 	}
 
 	public void draw(Graphics g, Point camera) {
-		drawHealth(g, (int) x + width / 2, (int) y);
 		if (direction) {
 			if (!ground)
 				g.drawImage(images[5], (int) x - 10 - camera.x, (int) y
@@ -135,5 +179,45 @@ public class Player extends GameElement {
 		tool.setOwner(this);
 		tool.setX(x + width / 2);
 		tool.setY(y + height / 2);
+	}
+
+	public boolean isGround() {
+		return ground;
+	}
+
+	public void setGround(boolean ground) {
+		this.ground = ground;
+	}
+
+	public boolean isJumping() {
+		return jumping;
+	}
+
+	public void setJumping(boolean jumping) {
+		this.jumping = jumping;
+	}
+	
+	public double getVerticalacc() {
+		return verticalacc;
+	}
+
+	public void setVerticalacc(double verticalacc) {
+		this.verticalacc = verticalacc;
+	}
+
+	public double getHorizontalacc() {
+		return horizontalacc;
+	}
+
+	public void setHorizontalacc(double horizontalacc) {
+		this.horizontalacc = horizontalacc;
+	}
+	
+	public double getJumpHeight() {
+		return jumpHeight;
+	}
+
+	public void setJumpHeight(int jumpHeight) {
+		this.jumpHeight = jumpHeight;
 	}
 }
