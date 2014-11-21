@@ -9,7 +9,7 @@ import com.dungeonescape.ui.GamePanel;
 
 public class Game {
 	private GamePanel panel;
-	private Map map;
+	private Level map;
 	private PhysicsEngine physicsEngine;
 	private Player player;
 	private double gravity, friction;
@@ -20,7 +20,7 @@ public class Game {
 	public Game(GamePanel panel) {
 		this.panel = panel;
 		physicsEngine = new PhysicsEngine();
-		map = new Map();
+		map = new Level();
 		gravity = 2;
 		friction = 0.5;
 		stopped = true;
@@ -140,11 +140,11 @@ public class Game {
 		this.physicsEngine = engine;
 	}
 
-	public Map getMap() {
+	public Level getMap() {
 		return map;
 	}
 
-	public void setMap(Map map) {
+	public void setMap(Level map) {
 		this.map = map;
 	}
 }

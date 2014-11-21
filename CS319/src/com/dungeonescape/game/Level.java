@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.dungeonescape.element.GameElement;
 
-public class Map {
+public class Level {
 	private List<GameElement> elements;
 	
-	public Map() {
+	public Level() {
 		elements = new ArrayList<GameElement>();
 	}
 
