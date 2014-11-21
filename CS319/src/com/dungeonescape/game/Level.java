@@ -7,7 +7,7 @@ import com.dungeonescape.element.GameElement;
 
 public class Level {
 	private List<GameElement> elements;
-	
+
 	public Level() {
 		elements = new ArrayList<GameElement>();
 	}
@@ -19,11 +19,11 @@ public class Level {
 	public void setElements(List<GameElement> elements) {
 		this.elements = elements;
 	}
-	
+
 	public void addElement(GameElement e) {
 		elements.add(e);
 	}
-	
+
 	public void removeElement(GameElement e) {
 		elements.remove(e);
 	}

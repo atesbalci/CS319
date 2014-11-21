@@ -9,7 +9,7 @@ import com.dungeonescape.ui.GamePanel;
 
 public class Game {
 	private GamePanel panel;
-	private Level map;
+	private Level level;
 	private PhysicsEngine physicsEngine;
 	private Player player;
 	private double gravity, friction;
@@ -20,12 +20,12 @@ public class Game {
 	public Game(GamePanel panel) {
 		this.panel = panel;
 		physicsEngine = new PhysicsEngine();
-		map = new Level();
+		level = new Level();
 		gravity = 2;
 		friction = 0.5;
 		stopped = true;
 		player = new Player(300, 300);
-		map.addElement(player);
+		level.addElement(player);
 	}
 
 	public void start() {
@@ -53,15 +53,15 @@ public class Game {
 
 	public void paint(Graphics g, Point camera) {
 		g.drawString("FPS: " + fps, 50, 50);
-		for (GameElement e : map.getElements()) {
+		for (GameElement e : level.getElements()) {
 			e.draw(g, camera);
 		}
 		player.draw(g, camera);
 	}
 
 	public void setPlayer(Player p) {
-		map.removeElement(player);
-		map.addElement(p);
+		level.removeElement(player);
+		level.addElement(p);
 		player = p;
 	}
 
@@ -86,7 +86,7 @@ public class Game {
 			accumulator += (double) elapsed;
 
 			if (accumulator >= OPTIMAL_TIME) {
-				physicsEngine.timestep(1, map.getElements(), gravity, friction);
+				physicsEngine.timestep(1, level.getElements(), gravity, friction);
 				accumulator -= OPTIMAL_TIME;
 				panel.updateUI();
 				fps++;
@@ -125,7 +125,7 @@ public class Game {
 	public void useTool(int x, int y) {
 		GameElement e = player.useTool(x, y);
 		if (e != null)
-			map.addElement(e);
+			level.addElement(e);
 	}
 
 	public Player getPlayer() {
@@ -141,10 +141,10 @@ public class Game {
 	}
 
 	public Level getMap() {
-		return map;
+		return level;
 	}
 
 	public void setMap(Level map) {
-		this.map = map;
+		this.level = map;
 	}
 }
