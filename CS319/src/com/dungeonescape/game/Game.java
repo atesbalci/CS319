@@ -140,11 +140,11 @@ public class Game {
 		this.physicsEngine = engine;
 	}
 
-	public Level getMap() {
+	public Level getLevel() {
 		return level;
 	}
 
-	public void setMap(Level map) {
-		this.level = map;
+	public void setLevel(Level level) {
+		this.level = level;
 	}
 }
