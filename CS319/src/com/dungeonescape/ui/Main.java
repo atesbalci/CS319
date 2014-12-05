@@ -35,6 +35,7 @@ public class Main {
 		Trigger t2 = new Trigger(500, 550, 100, 50);
 		t2.setTriggerDuration(40);
 		t2.setTriggerable(p);
+		t2.setDelay(40);
 		w.getLevel().addElement(t2);
 		// Laser l = new Laser(200, 600, 300, 500);
 		// l.setTriggerable(p);
