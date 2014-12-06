@@ -1,10 +1,8 @@
 package com.dungeonescape.element;
 
-import java.awt.Graphics;
-import java.awt.Point;
 import java.util.List;
 
-public class Trigger extends StaticElement {
+public abstract class Trigger extends StaticElement implements Triggerable {
 	private Triggerable triggerable;
 	private double triggerActive;
 	private int triggerDuration;
@@ -25,29 +23,28 @@ public class Trigger extends StaticElement {
 	@Override
 	public void timestep(double d, List<GameElement> elementsInWorld) {
 		super.timestep(d, elementsInWorld);
-		if (triggerActive > 0 && triggerable != null) {
-			if (remainingDelay <= 0) {
-				triggerable.trigger(true);
-				triggerActive -= d;
+		if (triggerable != null) {
+			if (triggerActive > 0) {
+				if (remainingDelay <= 0) {
+					triggerable.trigger(true);
+					triggerActive -= d;
+				} else {
+					remainingDelay -= d;
+				}
 			} else {
-				remainingDelay -= d;
+				triggerable.trigger(false);
+				remainingDelay = delay;
 			}
-		} else {
-			triggerable.trigger(false);
-			remainingDelay = delay;
 		}
 	}
 
-	@Override
-	public void contact(String direction, GameElement e) {
-		if (!(e == triggerable)) {
-			triggerActive = triggerDuration;
-		}
+	public void activate() {
+		triggerActive = triggerDuration;
 	}
 
-	@Override
-	public void draw(Graphics g, Point camera) {
-		g.drawRect((int) x - camera.x, (int) y - camera.y, width, height);
+	public void trigger(boolean b) {
+		if (b)
+			activate();
 	}
 
 	public Triggerable getTriggerable() {
@@ -75,4 +72,7 @@ public class Trigger extends StaticElement {
 		remainingDelay = delay;
 	}
 
+	public boolean hasTriggerable() {
+		return triggerable != null;
+	}
 }

@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Line2D;
 
-public class LinearTrigger extends Trigger {
+public class LinearTrigger extends ContactTrigger {
 	private int xEnd, yEnd;
 
 	public LinearTrigger(double x, double y, int xEnd, int yEnd) {

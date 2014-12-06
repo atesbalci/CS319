@@ -1,4 +1,4 @@
-package com.dungeonescape.ui;
+package com.dungeonescape.gameio;
 
 import java.awt.Graphics;
 import java.awt.Point;
@@ -60,6 +60,9 @@ public class GamePanel extends JPanel {
 			}
 			if (e.getKeyCode() == KeyEvent.VK_W) {
 				game.jump(true);
+			}
+			if(e.getKeyCode() == KeyEvent.VK_E) {
+				game.use();
 			}
 			if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				if(game.isStopped())

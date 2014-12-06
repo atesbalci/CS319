@@ -63,6 +63,9 @@ public abstract class GameElement {
 
 	public void timestep(double d, List<GameElement> elementsInWorld) {
 	}
+	
+	public void useAction() {
+	}
 
 	public double getX() {
 		return (int) x;

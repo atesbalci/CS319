@@ -5,7 +5,7 @@ import java.awt.Point;
 
 import com.dungeonescape.element.GameElement;
 import com.dungeonescape.element.Player;
-import com.dungeonescape.ui.GamePanel;
+import com.dungeonescape.gameio.GamePanel;
 
 public class Game {
 	private GamePanel panel;
@@ -120,6 +120,10 @@ public class Game {
 
 	public void jump(boolean b) {
 		player.jump(b);
+	}
+	
+	public void use() {
+		player.use();
 	}
 
 	public void useTool(int x, int y) {

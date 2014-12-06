@@ -13,13 +13,13 @@ import com.dungeonescape.common.ImageMethods;
 import com.dungeonescape.tool.Tool;
 
 public class Player extends GameElement {
-	final int ANIMATION = 4;
+	private final int ANIMATION = 4;
 
 	private boolean direction;
 	private Tool tool;
 	private BufferedImage[] images, imagesInverted;
 	private int stage;
-	private boolean ground, jumping, left, right, jump;
+	private boolean ground, jumping, left, right, jump, using;
 	private double verticalacc, horizontalacc, jumpHeight;
 
 	public Player(double x, double y) {
@@ -48,6 +48,7 @@ public class Player extends GameElement {
 		jump = false;
 		left = false;
 		right = false;
+		using = false;
 	}
 
 	@Override
@@ -59,6 +60,16 @@ public class Player extends GameElement {
 
 	@Override
 	public void timestep(double d, List<GameElement> elementsInWorld) {
+		if (using) {
+			for(GameElement e : elementsInWorld) {
+				if(!e.isSmooth()) {
+					if(e.getRectangle().intersects(getRectangle())) {
+						e.useAction();
+						using = false;
+					}
+				}
+			}
+		}
 		if (right) {
 			if (horizontalSpeed < horizontalacc * 10)
 				horizontalSpeed += horizontalacc * d;
@@ -196,7 +207,7 @@ public class Player extends GameElement {
 	public void setJumping(boolean jumping) {
 		this.jumping = jumping;
 	}
-	
+
 	public double getVerticalacc() {
 		return verticalacc;
 	}
@@ -212,12 +223,20 @@ public class Player extends GameElement {
 	public void setHorizontalacc(double horizontalacc) {
 		this.horizontalacc = horizontalacc;
 	}
-	
+
 	public double getJumpHeight() {
 		return jumpHeight;
 	}
 
 	public void setJumpHeight(int jumpHeight) {
 		this.jumpHeight = jumpHeight;
+	}
+
+	public boolean isUsing() {
+		return using;
+	}
+
+	public void use() {
+		this.using = true;
 	}
 }

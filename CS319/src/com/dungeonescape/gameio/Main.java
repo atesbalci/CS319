@@ -1,9 +1,11 @@
-package com.dungeonescape.ui;
+package com.dungeonescape.gameio;
 
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import com.dungeonescape.element.Button;
+import com.dungeonescape.element.ContactTrigger;
 import com.dungeonescape.element.Door;
 import com.dungeonescape.element.MoveableObject;
 import com.dungeonescape.element.Obstacle;
@@ -26,13 +28,16 @@ public class Main {
 		w.getLevel().addElement(new MoveableObject(200, 100));
 		Door d = new Door(400, 550);
 		w.getLevel().addElement(d);
-		Trigger t = new Trigger(355, 550, 100, 50);
+		Trigger t = new Button(355, 570);
 		t.setTriggerDuration(40);
 		t.setTriggerable(d);
 		w.getLevel().addElement(t);
+		Trigger t1 = new Button(440, 570);
+		t1.setTriggerable(t);
+		w.getLevel().addElement(t1);
 		Platform p = new Platform(500, 600, 100, 10, 100, false);
 		w.getLevel().addElement(p);
-		Trigger t2 = new Trigger(500, 550, 100, 50);
+		Trigger t2 = new ContactTrigger(500, 550, 100, 50);
 		t2.setTriggerDuration(40);
 		t2.setTriggerable(p);
 		t2.setDelay(40);
