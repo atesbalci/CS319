@@ -55,15 +55,17 @@ public class Player extends GameElement {
 	public void contact(String direction, GameElement e) {
 		if (direction.equals("bottom")) {
 			ground = true;
+		} else if (direction.equals("top")) {
+			jumping = false;
 		}
 	}
 
 	@Override
 	public void timestep(double d, List<GameElement> elementsInWorld) {
 		if (using) {
-			for(GameElement e : elementsInWorld) {
-				if(!e.isSmooth()) {
-					if(e.getRectangle().intersects(getRectangle())) {
+			for (GameElement e : elementsInWorld) {
+				if (!e.isSmooth()) {
+					if (e.getRectangle().intersects(getRectangle())) {
 						e.useAction();
 						using = false;
 					}
