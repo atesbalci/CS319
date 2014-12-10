@@ -6,7 +6,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import com.dungeonescape.game.Game;
@@ -17,6 +21,7 @@ public class GamePanel extends JPanel {
 	private Game game;
 	private Point mousePosition;
 	private Point cameraPosition;
+	private BufferedImage cursorImage;
 
 	public GamePanel() {
 		GameMouse mouse = new GameMouse();
@@ -28,6 +33,14 @@ public class GamePanel extends JPanel {
 		mousePosition = new Point(this.getSize().width / 2,
 				this.getSize().height / 2);
 		cameraPosition = new Point(0, 0);
+		try {
+			setCursorImage(ImageIO.read(new File("img/cursor.png")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		setCursor(getToolkit().createCustomCursor(
+				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB),
+				new Point(0, 0), "null"));
 	}
 
 	public void setWorld(Game w) {
@@ -39,6 +52,7 @@ public class GamePanel extends JPanel {
 		super.paintComponent(g);
 		refreshCameraPosition();
 		game.paint(g, cameraPosition);
+		g.drawImage(cursorImage, mousePosition.x, mousePosition.y, null);
 	}
 
 	public void refreshCameraPosition() {
@@ -48,6 +62,14 @@ public class GamePanel extends JPanel {
 				.getPlayerPosition().x)) / 3) - (width / 2);
 		cameraPosition.y = ((mousePosition.y + cameraPosition.y + 2 * (game
 				.getPlayerPosition().y)) / 3) - (height / 2);
+	}
+
+	public BufferedImage getCursorImage() {
+		return cursorImage;
+	}
+
+	public void setCursorImage(BufferedImage cursorImage) {
+		this.cursorImage = cursorImage;
 	}
 
 	public class GameKey extends KeyAdapter {
@@ -61,11 +83,11 @@ public class GamePanel extends JPanel {
 			if (e.getKeyCode() == KeyEvent.VK_W) {
 				game.jump(true);
 			}
-			if(e.getKeyCode() == KeyEvent.VK_E) {
+			if (e.getKeyCode() == KeyEvent.VK_E) {
 				game.use();
 			}
-			if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-				if(game.isStopped())
+			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				if (game.isStopped())
 					game.start();
 				else
 					game.stop();
@@ -94,6 +116,8 @@ public class GamePanel extends JPanel {
 		public void mouseMoved(MouseEvent e) {
 			mousePosition.x = (e.getX());
 			mousePosition.y = (e.getY());
+			game.getPlayer().setDirection(mousePosition.x > getWidth() / 2);
+
 		}
 	}
 }

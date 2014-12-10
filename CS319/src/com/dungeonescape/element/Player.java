@@ -106,14 +106,10 @@ public class Player extends GameElement {
 
 	public void left(boolean b) {
 		left = b;
-		if (b)
-			setDirection(false);
 	}
 
 	public void right(boolean b) {
 		right = b;
-		if (b)
-			setDirection(true);
 	}
 
 	public void jump(boolean b) {
@@ -145,8 +141,8 @@ public class Player extends GameElement {
 		}
 	}
 
-	public void setDirection(boolean dir) {
-		direction = dir;
+	public void setDirection(boolean b) {
+		direction = b;
 	}
 
 	public void draw(Graphics g, Point camera) {
@@ -154,7 +150,7 @@ public class Player extends GameElement {
 			if (!ground)
 				g.drawImage(images[5], (int) x - 10 - camera.x, (int) y
 						- camera.y, null);
-			else if (horizontalSpeed >= 1)
+			else if (Math.abs(horizontalSpeed) >= 1)
 				g.drawImage(images[stage / ANIMATION], (int) x - 10 - camera.x,
 						(int) y - camera.y, null);
 			else
@@ -164,7 +160,7 @@ public class Player extends GameElement {
 			if (!ground)
 				g.drawImage(imagesInverted[5], (int) x - 10 - camera.x, (int) y
 						- camera.y, null);
-			else if (horizontalSpeed <= -1)
+			else if (Math.abs(horizontalSpeed) >= 1)
 				g.drawImage(imagesInverted[stage / ANIMATION], (int) x - 10
 						- camera.x, (int) y - camera.y, null);
 			else
