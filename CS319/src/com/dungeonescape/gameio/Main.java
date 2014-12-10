@@ -1,9 +1,5 @@
 package com.dungeonescape.gameio;
 
-import java.awt.Dimension;
-
-import javax.swing.JFrame;
-
 import com.dungeonescape.element.Button;
 import com.dungeonescape.element.ContactTrigger;
 import com.dungeonescape.element.Door;
@@ -17,7 +13,7 @@ import com.dungeonescape.tool.BoomerangTool;
 public class Main {
 
 	public static void main(String[] args) {
-		JFrame f = new JFrame("Game");
+		ToggleFullscreen f = new ToggleFullscreen();
 		GamePanel wp = new GamePanel();
 		Game w = new Game(wp);
 		wp.setWorld(w);
@@ -47,9 +43,6 @@ public class Main {
 		// w.addElement(l);
 		w.start();
 		f.add(wp);
-		f.pack();
 		f.setVisible(true);
-		f.setSize(new Dimension(800, 650));
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
