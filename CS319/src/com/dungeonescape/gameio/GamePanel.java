@@ -119,5 +119,9 @@ public class GamePanel extends JPanel {
 			game.getPlayer().setDirection(mousePosition.x > getWidth() / 2);
 
 		}
+		
+		public void mouseDragged(MouseEvent e) {
+			mouseMoved(e);
+		}
 	}
 }
