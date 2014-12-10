@@ -19,8 +19,8 @@ public class BoomerangTool extends Tool {
 			double speedRatio = Math.abs(1
 					- Math.hypot(x - boomerang.getX(), y - boomerang.getY())
 					/ boomerang.getRange());
-			if (speedRatio < 0.2)
-				speedRatio = 0.2;
+			if (speedRatio < 0.3)
+				speedRatio = 0.3;
 			if (boomerang.isReturning()) {
 				double angle = Math.atan((double) (y - boomerang.getY())
 						/ (double) (x - boomerang.getX()));
