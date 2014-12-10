@@ -9,7 +9,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import com.dungeonescape.common.ImageMethods;
+import com.dungeonescape.common.CommonMethods;
 import com.dungeonescape.tool.Tool;
 
 public class Player extends GameElement {
@@ -37,7 +37,7 @@ public class Player extends GameElement {
 		}
 		imagesInverted = new BufferedImage[images.length];
 		for (int i = 0; i < imagesInverted.length; i++) {
-			imagesInverted[i] = ImageMethods.horizontalflip(images[i]);
+			imagesInverted[i] = CommonMethods.horizontalflip(images[i]);
 		}
 		stage = 0;
 		verticalacc = 4;

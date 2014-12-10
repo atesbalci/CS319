@@ -1,5 +1,6 @@
 package com.dungeonescape.tool;
 
+import com.dungeonescape.common.CommonMethods;
 import com.dungeonescape.element.Boomerang;
 import com.dungeonescape.element.GameElement;
 
@@ -9,7 +10,7 @@ public class BoomerangTool extends Tool {
 
 	public BoomerangTool() {
 		boomerang = new Boomerang();
-		speed = 20;
+		speed = 35;
 	}
 
 	@Override
@@ -18,8 +19,8 @@ public class BoomerangTool extends Tool {
 			double speedRatio = Math.abs(1
 					- Math.hypot(x - boomerang.getX(), y - boomerang.getY())
 					/ boomerang.getRange());
-			if (speedRatio < 0.3)
-				speedRatio = 0.3;
+			if (speedRatio < 0.2)
+				speedRatio = 0.2;
 			if (boomerang.isReturning()) {
 				double angle = Math.atan((double) (y - boomerang.getY())
 						/ (double) (x - boomerang.getX()));
@@ -42,6 +43,7 @@ public class BoomerangTool extends Tool {
 	@Override
 	public GameElement use(int xDest, int yDest) {
 		if (!boomerang.isActive()) {
+			CommonMethods.playSound("sound/boomerang.wav");
 			double angle = Math.atan((double) (y - yDest)
 					/ (double) (x - xDest));
 			if (x - xDest < 0)
