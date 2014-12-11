@@ -34,11 +34,6 @@ public class Platform extends StaticElement implements Triggerable {
 	}
 
 	@Override
-	public void contact(String direction, GameElement e) {
-		super.contact(direction, e);
-	}
-
-	@Override
 	public void timestep(double d, List<GameElement> elementsInWorld) {
 		super.timestep(d, elementsInWorld);
 		double diff = 0;

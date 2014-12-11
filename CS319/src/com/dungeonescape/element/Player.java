@@ -10,6 +10,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import com.dungeonescape.common.CommonMethods;
+import com.dungeonescape.common.ContactConstants;
 import com.dungeonescape.tool.Tool;
 
 public class Player extends GameElement {
@@ -52,10 +53,10 @@ public class Player extends GameElement {
 	}
 
 	@Override
-	public void contact(String direction, GameElement e) {
-		if (direction.equals("bottom")) {
+	public void contact(int direction, GameElement e) {
+		if (direction == ContactConstants.BOTTOM) {
 			ground = true;
-		} else if (direction.equals("top")) {
+		} else if (direction == ContactConstants.TOP) {
 			jumping = false;
 		}
 	}

@@ -45,8 +45,7 @@ public class Boomerang extends GameElement {
 	}
 
 	@Override
-	public void contact(String direction, GameElement e) {
-		super.contact(direction, e);
+	public void contact(int direction, GameElement e) {
 		if (e != thrower.getOwner())
 			returning = true;
 	}

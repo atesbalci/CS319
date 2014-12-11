@@ -14,11 +14,6 @@ public class LinearTrigger extends ContactTrigger {
 	}
 	
 	@Override
-	public void contact(String direction, GameElement e) {
-		super.contact(direction, e);
-	}
-
-	@Override
 	public Line2D getLine() {
 		return new Line2D.Double(x, y, xEnd, yEnd);
 	}

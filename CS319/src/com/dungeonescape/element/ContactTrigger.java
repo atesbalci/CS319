@@ -9,7 +9,7 @@ public class ContactTrigger extends Trigger {
 	}
 
 	@Override
-	public void contact(String direction, GameElement e) {
+	public void contact(int direction, GameElement e) {
 		if (getTriggerable() != e) {
 			activate();
 		}

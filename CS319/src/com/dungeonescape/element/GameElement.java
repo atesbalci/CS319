@@ -6,6 +6,8 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
+import com.dungeonescape.common.ContactConstants;
+
 public abstract class GameElement {
 
 	protected int width, height;
@@ -40,7 +42,7 @@ public abstract class GameElement {
 		if (e.getLine() == null) {
 			if (getRectangle().intersects(e.getRectangle())) {
 				if (!e.isSmooth()) {
-					e.contact("", this);
+					e.contact(ContactConstants.IN, this);
 					return false;
 				}
 				return true;
@@ -49,7 +51,7 @@ public abstract class GameElement {
 		} else {
 			if (getRectangle().intersectsLine(e.getLine())) {
 				if (!e.isSmooth()) {
-					e.contact("", this);
+					e.contact(ContactConstants.IN, this);
 					return false;
 				}
 				return true;
@@ -58,7 +60,7 @@ public abstract class GameElement {
 		}
 	}
 
-	public void contact(String direction, GameElement e) {
+	public void contact(int direction, GameElement e) {
 	}
 
 	public void timestep(double d, List<GameElement> elementsInWorld) {

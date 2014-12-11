@@ -2,6 +2,7 @@ package com.dungeonescape.game;
 
 import java.util.List;
 
+import com.dungeonescape.common.ContactConstants;
 import com.dungeonescape.element.GameElement;
 
 public class PhysicsEngine {
@@ -14,7 +15,7 @@ public class PhysicsEngine {
 			GameElement e1 = elements.get(i);
 			// object specific actions to be taken
 			e1.timestep(d, elements);
-			
+
 			if (!e1.isFixed()) {
 				// apply friction and gravity depending on object type
 				if (e1.isFricted())
@@ -50,11 +51,11 @@ public class PhysicsEngine {
 			e1.moveY(-e1.getVerticalSpeed() * d);
 			if (!e1.intersects(e2)) {
 				if (e1.getVerticalSpeed() > 0) {
-					e1.contact("bottom", e2);
-					e2.contact("top", e1);
+					e1.contact(ContactConstants.BOTTOM, e2);
+					e2.contact(ContactConstants.TOP, e1);
 				} else {
-					e1.contact("top", e2);
-					e2.contact("bottom", e1);
+					e1.contact(ContactConstants.TOP, e2);
+					e2.contact(ContactConstants.BOTTOM, e1);
 				}
 				applyMomentum(e1, e2, true);
 			} else {
@@ -65,16 +66,20 @@ public class PhysicsEngine {
 			e1.moveX(-e1.getHorizontalSpeed() * d);
 			if (!e1.intersects(e2)) {
 				if (e1.getHorizontalSpeed() > 0) {
-					e1.contact("right", e2);
-					e2.contact("left", e1);
+					e1.contact(ContactConstants.RIGHT, e2);
+					e2.contact(ContactConstants.LEFT, e1);
 				} else {
-					e1.contact("left", e2);
-					e2.contact("right", e1);
+					e1.contact(ContactConstants.LEFT, e2);
+					e2.contact(ContactConstants.RIGHT, e1);
 				}
 				applyMomentum(e1, e2, false);
 			} else {
 				e1.moveX(e1.getHorizontalSpeed() * d);
 			}
+		}
+		if (e1.intersects(e2)) {
+			e1.contact(ContactConstants.IN, e2);
+			e2.contact(ContactConstants.IN, e1);
 		}
 	}
 
