@@ -43,6 +43,6 @@ public class Main {
 		// w.addElement(l);
 		w.start();
 		f.add(wp);
-		f.setVisible(true);
+		wp.requestFocus();
 	}
 }

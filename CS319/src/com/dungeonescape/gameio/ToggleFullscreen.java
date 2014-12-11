@@ -35,6 +35,7 @@ public class ToggleFullscreen extends JFrame {
 				toggle();
 			}
 		});
+		setVisible(true);
 	}
 
 	public void toggle() {
