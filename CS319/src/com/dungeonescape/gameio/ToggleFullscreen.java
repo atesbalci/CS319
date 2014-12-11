@@ -57,8 +57,4 @@ public class ToggleFullscreen extends JFrame {
 	public boolean isFullscreen() {
 		return fullscreen;
 	}
-
-	public void setFullscreen(boolean fullscreen) {
-		this.fullscreen = fullscreen;
-	}
 }
