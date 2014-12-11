@@ -1,9 +1,9 @@
 package com.dungeonescape.gameio;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
@@ -17,6 +17,7 @@ public class ToggleFullscreen extends JFrame {
 
 	private boolean fullscreen;
 	private Point prevLocation;
+	private Dimension prevSize;
 
 	public ToggleFullscreen() {
 		super();
@@ -26,7 +27,7 @@ public class ToggleFullscreen extends JFrame {
 		prevLocation = getLocation();
 		JRootPane rootPane = getRootPane();
 		rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
-				KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK), "goFullscreen");
+				KeyStroke.getKeyStroke(KeyEvent.VK_F11, 0), "goFullscreen");
 		rootPane.getActionMap().put("goFullscreen", new AbstractAction() {
 			private static final long serialVersionUID = 9145906117511743707L;
 
@@ -40,13 +41,14 @@ public class ToggleFullscreen extends JFrame {
 		dispose();
 		if (!fullscreen) {
 			prevLocation = getLocation();
+			prevSize = getSize();
 			setLocation(0, 0);
 			setUndecorated(true);
 			setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		} else {
 			setLocation(prevLocation);
 			setUndecorated(false);
-			setSize(800, 600);
+			setSize(prevSize);
 		}
 		setVisible(true);
 		fullscreen = !fullscreen;
