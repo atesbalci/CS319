@@ -71,8 +71,8 @@ public class Game {
 
 	private void gameLoop() {
 		final double TARGET_FPS = 60.0;
-		final double OPTIMAL_TIME = 1000.0 / TARGET_FPS;
-		long previous = System.currentTimeMillis();
+		final double OPTIMAL_TIME = 1000000000.0 / TARGET_FPS;
+		long previous = System.nanoTime();
 		long now;
 		long elapsed;
 		double accumulator = 0.0;
@@ -80,7 +80,7 @@ public class Game {
 		int fps = (int) TARGET_FPS;
 
 		while (!stopped) {
-			now = System.currentTimeMillis();
+			now = System.nanoTime();
 			elapsed = (now - previous);
 			previous = now;
 			accumulator += (double) elapsed;
