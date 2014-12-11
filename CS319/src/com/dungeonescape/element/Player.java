@@ -76,10 +76,14 @@ public class Player extends GameElement {
 		if (right) {
 			if (horizontalSpeed < horizontalacc * 10)
 				horizontalSpeed += horizontalacc * d;
+		} else if (horizontalSpeed > 0) {
+			horizontalSpeed -= horizontalacc * d;
 		}
 		if (left) {
 			if (horizontalSpeed > horizontalacc * -10)
 				horizontalSpeed -= horizontalacc * d;
+		} else if (horizontalSpeed < 0) {
+			horizontalSpeed += horizontalacc * d;
 		}
 		if (jump) {
 			if (ground) {
@@ -94,6 +98,9 @@ public class Player extends GameElement {
 					jumping = false;
 				}
 			}
+		}
+		if(ground) {
+			verticalSpeed = 0;
 		}
 		ground = false;
 
@@ -151,7 +158,7 @@ public class Player extends GameElement {
 			if (!ground)
 				g.drawImage(images[5], (int) x - 10 - camera.x, (int) y
 						- camera.y, null);
-			else if (Math.abs(horizontalSpeed) >= 1)
+			else if (Math.abs(horizontalSpeed) >= 0.1)
 				g.drawImage(images[stage / ANIMATION], (int) x - 10 - camera.x,
 						(int) y - camera.y, null);
 			else
@@ -161,7 +168,7 @@ public class Player extends GameElement {
 			if (!ground)
 				g.drawImage(imagesInverted[5], (int) x - 10 - camera.x, (int) y
 						- camera.y, null);
-			else if (Math.abs(horizontalSpeed) >= 1)
+			else if (Math.abs(horizontalSpeed) >= 0.1)
 				g.drawImage(imagesInverted[stage / ANIMATION], (int) x - 10
 						- camera.x, (int) y - camera.y, null);
 			else
