@@ -98,7 +98,7 @@ public class Game {
 				}
 			}
 
-			if (now - lastFpsTime >= 1000) {
+			if (now - lastFpsTime >= 1000000000) {
 				this.fps = fps;
 				lastFpsTime = now;
 				fps = 0;
