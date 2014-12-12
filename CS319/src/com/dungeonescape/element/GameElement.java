@@ -60,12 +60,16 @@ public abstract class GameElement {
 		}
 	}
 
+	public Point getCenter() {
+		return new Point((int) x + width / 2, (int) y + height / 2);
+	}
+
 	public void contact(int direction, GameElement e) {
 	}
 
 	public void timestep(double d, List<GameElement> elementsInWorld) {
 	}
-	
+
 	public void useAction() {
 	}
 

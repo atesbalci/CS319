@@ -5,6 +5,7 @@ import java.awt.Point;
 
 import com.dungeonescape.element.GameElement;
 import com.dungeonescape.element.Player;
+import com.dungeonescape.element.Triggerable;
 import com.dungeonescape.gameio.GamePanel;
 
 public class Game {
@@ -16,6 +17,8 @@ public class Game {
 	private boolean stopped;
 	private int fps;
 	private Thread gameThread;
+	private GameEnder gameEnder;
+	private Point spawnPoint;
 
 	public Game(GamePanel panel) {
 		this.panel = panel;
@@ -24,7 +27,9 @@ public class Game {
 		gravity = 2;
 		friction = 0.5;
 		stopped = true;
-		player = new Player(300, 300);
+		setGameEnder(new GameEnder());
+		spawnPoint = new Point(300, 300);
+		player = new Player(spawnPoint.x, spawnPoint.y);
 		level.addElement(player);
 	}
 
@@ -86,7 +91,8 @@ public class Game {
 			accumulator += (double) elapsed;
 
 			if (accumulator >= OPTIMAL_TIME) {
-				physicsEngine.timestep(1, level.getElements(), gravity, friction);
+				physicsEngine.timestep(1, level.getElements(), gravity,
+						friction);
 				accumulator -= OPTIMAL_TIME;
 				panel.updateUI();
 				fps++;
@@ -121,7 +127,7 @@ public class Game {
 	public void jump(boolean b) {
 		player.jump(b);
 	}
-	
+
 	public void use() {
 		player.use();
 	}
@@ -150,5 +156,31 @@ public class Game {
 
 	public void setLevel(Level level) {
 		this.level = level;
+	}
+
+	public GameEnder getGameEnder() {
+		return gameEnder;
+	}
+
+	public void setGameEnder(GameEnder gameEnder) {
+		this.gameEnder = gameEnder;
+	}
+
+	public Point getSpawnPoint() {
+		return spawnPoint;
+	}
+
+	public void setSpawnPoint(Point spawnPoint) {
+		this.spawnPoint = spawnPoint;
+	}
+
+	private class GameEnder implements Triggerable {
+		@Override
+		public void trigger(boolean b) {
+			if (b) {
+				stop();
+				panel.end(true);
+			}
+		}
 	}
 }

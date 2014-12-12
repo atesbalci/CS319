@@ -45,6 +45,10 @@ public class GamePanel extends JPanel {
 		setBackground(Color.white);
 	}
 
+	public void end(boolean success) {
+		
+	}
+
 	public void setWorld(Game w) {
 		game = w;
 	}
@@ -121,7 +125,7 @@ public class GamePanel extends JPanel {
 			game.getPlayer().setDirection(mousePosition.x > getWidth() / 2);
 
 		}
-		
+
 		public void mouseDragged(MouseEvent e) {
 			mouseMoved(e);
 		}

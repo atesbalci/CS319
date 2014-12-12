@@ -1,5 +1,13 @@
 package com.dungeonescape.element;
 
+import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Stroke;
+import java.awt.geom.Line2D;
 import java.util.List;
 
 public abstract class Trigger extends StaticElement implements Triggerable {
@@ -74,5 +82,44 @@ public abstract class Trigger extends StaticElement implements Triggerable {
 
 	public boolean hasTriggerable() {
 		return triggerable != null;
+	}
+
+	@Override
+	public void draw(Graphics g, Point camera) {
+		if (getTriggerable() instanceof GameElement) {
+			Graphics2D g2 = ((Graphics2D) g);
+			Color prevColor = g2.getColor();
+			Stroke prevStroke = g2.getStroke();
+			Point c = getCenter();
+			c.x -= camera.x;
+			c.y -= camera.y;
+			GameElement triggerable = ((GameElement) getTriggerable());
+			while (triggerable instanceof Trigger) {
+				if (((Trigger) triggerable).getTriggerable() instanceof GameElement)
+					triggerable = (GameElement) ((Trigger) triggerable)
+							.getTriggerable();
+				else
+					break;
+			}
+			Point t = triggerable.getCenter();
+			t.x -= camera.x;
+			t.y -= camera.y;
+			Line2D connection = new Line2D.Double(c, t);
+			g2.setColor(Color.green);
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+					0.2f));
+			g2.setStroke(new BasicStroke(5, BasicStroke.CAP_BUTT,
+					BasicStroke.JOIN_BEVEL));
+			g2.draw(connection);
+			g2.setColor(Color.yellow);
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+					1));
+			float dash1[] = {10.0f, 5.0f, 3.0f};
+			g2.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_BUTT,
+					BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f));
+			g2.draw(connection);
+			g2.setColor(prevColor);
+			g2.setStroke(prevStroke);
+		}
 	}
 }

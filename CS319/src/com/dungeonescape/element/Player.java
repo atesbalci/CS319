@@ -177,10 +177,6 @@ public class Player extends GameElement {
 		}
 	}
 
-	public Point getCenter() {
-		return new Point((int) x + width / 2, (int) y + height / 2);
-	}
-
 	public void animate() {
 		stage++;
 		if (stage / ANIMATION >= 5)

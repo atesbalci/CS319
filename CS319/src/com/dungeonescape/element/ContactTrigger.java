@@ -17,6 +17,7 @@ public class ContactTrigger extends Trigger {
 	
 	@Override
 	public void draw(Graphics g, Point camera) {
+		super.draw(g, camera);
 		g.drawRect((int) x - camera.x, (int) y - camera.y, width, height);
 	}
 }

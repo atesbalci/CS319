@@ -20,6 +20,7 @@ public class LinearTrigger extends ContactTrigger {
 	
 	@Override
 	public void draw(Graphics g, Point camera) {
+		super.draw(g, camera);
 		g.drawLine((int)x - camera.x, (int)y - camera.y, xEnd - camera.x, yEnd - camera.y);
 	}
 
