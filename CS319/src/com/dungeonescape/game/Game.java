@@ -213,7 +213,7 @@ public class Game {
 		this.checkPoint = checkPoint;
 	}
 
-	private class GameEnder implements Triggerable {
+	public class GameEnder implements Triggerable {
 		@Override
 		public void trigger(boolean b, Trigger t) {
 			if (b) {
@@ -226,7 +226,7 @@ public class Game {
 		}
 	}
 
-	private class CheckPoint implements Triggerable {
+	public class CheckPoint implements Triggerable {
 		@Override
 		public void trigger(boolean b, Trigger t) {
 			if (b)

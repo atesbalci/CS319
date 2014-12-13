@@ -2,9 +2,12 @@ package com.dungeonescape.game;
 
 import java.awt.Point;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +25,9 @@ import com.dungeonescape.element.Platform;
 import com.dungeonescape.element.PlayerTrigger;
 import com.dungeonescape.element.SavedTriggerable;
 import com.dungeonescape.element.Trigger;
+import com.dungeonescape.element.Triggerable;
+import com.dungeonescape.game.Game.CheckPoint;
+import com.dungeonescape.game.Game.GameEnder;
 
 public class Level {
 	private List<GameElement> elements;
@@ -74,6 +80,96 @@ public class Level {
 
 	public void setTool(int tool) {
 		this.tool = tool;
+	}
+
+	public void saveLevel(File file) {
+		try {
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(file)));
+			String toolString = "none";
+			if (tool == ToolConstants.BOOMERANG)
+				toolString = "boomerang";
+			else if (tool == ToolConstants.ROPE)
+				toolString = "rope";
+			bw.write(fallHeight + "");
+			bw.newLine();
+			bw.write(spawnPoint.x + " " + spawnPoint.y);
+			bw.newLine();
+			bw.write(toolString);
+			bw.newLine();
+			bw.newLine();
+			for (GameElement e : elements) {
+				if (e instanceof Obstacle) {
+					bw.write("Obstacle " + (int) e.getX() + " "
+							+ (int) e.getY() + " " + e.getWidth() + " "
+							+ e.getHeight());
+					bw.newLine();
+				} else if (e instanceof MoveableObject) {
+					bw.write("MoveableObject " + (int) e.getX() + " "
+							+ (int) e.getY());
+					bw.newLine();
+				} else if (e instanceof Door) {
+					bw.write("Door " + (int) e.getX() + " " + (int) e.getY());
+					bw.newLine();
+				} else if (e instanceof Platform) {
+					int vertical = ((Platform) e).isVerticalTravel() ? 1 : 0;
+					bw.write("Platform " + (int) e.getX() + " "
+							+ (int) e.getY() + " " + e.getWidth() + " "
+							+ e.getHeight() + " "
+							+ ((Platform) e).getMaxTravel() + " " + vertical);
+					bw.newLine();
+				} else if (e instanceof Trigger) {
+					Trigger t = (Trigger) e;
+					if (t instanceof ContactTrigger) {
+						bw.write("ContactTrigger " + (int) e.getX() + " "
+								+ (int) e.getY() + " " + e.getWidth() + " "
+								+ e.getHeight());
+					} else if (t instanceof Button) {
+						bw.write("Button " + (int) e.getX() + " "
+								+ (int) e.getY());
+					} else if (t instanceof Lever) {
+						bw.write("Lever " + (int) e.getX() + " "
+								+ (int) e.getY());
+					} else if (t instanceof LinearTrigger) {
+						LinearTrigger lt = (LinearTrigger) t;
+						bw.write("LinearTrigger " + (int) lt.getX() + " "
+								+ (int) lt.getY() + " " + lt.getxEnd() + " "
+								+ lt.getyEnd());
+					} else if (t instanceof PlayerTrigger) {
+						bw.write("PlayerTrigger " + (int) e.getX() + " "
+								+ (int) e.getY() + " " + e.getWidth() + " "
+								+ e.getHeight());
+					} else {
+						bw.write("Trigger " + (int) e.getX() + " "
+								+ (int) e.getY());
+					}
+					bw.write(" " + t.getTriggerDuration() + " " + t.getDelay()
+							+ " ");
+					Triggerable tbl = t.getTriggerable();
+					if (tbl instanceof SavedTriggerable) {
+						int tid = ((SavedTriggerable) tbl).getGameElementNo();
+						if (tid >= 0)
+							bw.write(tid);
+						else if (tid == TriggerConstants.CHECKPOINT)
+							bw.write("checkpoint");
+						else if (tid == TriggerConstants.ENDER)
+							bw.write("ender");
+					} else {
+						int index = elements.indexOf(tbl);
+						if (index >= 0)
+							bw.write(index + "");
+						else if (tbl instanceof GameEnder)
+							bw.write("ender");
+						else if (tbl instanceof CheckPoint)
+							bw.write("checkpoint");
+					}
+					bw.newLine();
+				}
+			}
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void loadLevel(File file) {
