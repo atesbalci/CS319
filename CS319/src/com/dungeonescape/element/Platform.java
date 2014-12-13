@@ -70,7 +70,7 @@ public class Platform extends StaticElement implements Triggerable {
 	}
 
 	@Override
-	public void trigger(boolean b) {
+	public void trigger(boolean b, Trigger t) {
 		if (b) {
 			activated = true;
 		} else {

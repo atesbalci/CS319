@@ -5,7 +5,9 @@ import java.awt.Point;
 
 public class Button extends Trigger {
 	public Button(double x, double y) {
-		super(x, y, 10, 10);
+		super(x, y);
+		setWidth(10);
+		setHeight(10);
 	}
 
 	@Override

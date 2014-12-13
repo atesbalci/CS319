@@ -9,7 +9,6 @@ import java.util.List;
 import com.dungeonescape.common.ContactConstants;
 
 public abstract class GameElement {
-
 	protected int width, height;
 	protected double x, y, verticalSpeed, horizontalSpeed, weight, elasticity;
 	protected boolean flying, smooth, active, fricted, fixed;

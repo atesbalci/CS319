@@ -10,17 +10,15 @@ import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.util.List;
 
-public abstract class Trigger extends StaticElement implements Triggerable {
+public class Trigger extends StaticElement implements Triggerable {
 	private Triggerable triggerable;
 	private double triggerActive;
 	private int triggerDuration;
 	private int delay;
 	private double remainingDelay;
 
-	public Trigger(double x, double y, int width, int height) {
+	public Trigger(double x, double y) {
 		super(x, y);
-		this.width = width;
-		this.height = height;
 		smooth = false;
 		triggerActive = 0;
 		triggerDuration = 1;
@@ -34,13 +32,13 @@ public abstract class Trigger extends StaticElement implements Triggerable {
 		if (triggerable != null) {
 			if (triggerActive > 0) {
 				if (remainingDelay <= 0) {
-					triggerable.trigger(true);
+					triggerable.trigger(true, this);
 					triggerActive -= d;
 				} else {
 					remainingDelay -= d;
 				}
 			} else {
-				triggerable.trigger(false);
+				triggerable.trigger(false, this);
 				remainingDelay = delay;
 			}
 		}
@@ -50,7 +48,7 @@ public abstract class Trigger extends StaticElement implements Triggerable {
 		triggerActive = triggerDuration;
 	}
 
-	public void trigger(boolean b) {
+	public void trigger(boolean b, Trigger t) {
 		if (b)
 			activate();
 	}

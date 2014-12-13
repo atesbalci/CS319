@@ -5,12 +5,14 @@ import java.awt.Point;
 
 public class ContactTrigger extends Trigger {
 	public ContactTrigger(double x, double y, int width, int height) {
-		super(x, y, width, height);
+		super(x, y);
+		setWidth(width);
+		setHeight(height);
 	}
 
 	@Override
 	public void contact(int direction, GameElement e) {
-		if (getTriggerable() != e) {
+		if (getTriggerable() != e && !(e instanceof StaticElement)) {
 			activate();
 		}
 	}

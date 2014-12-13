@@ -2,11 +2,19 @@ package com.dungeonescape.game;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.io.File;
+import java.util.List;
 
+import com.dungeonescape.common.ToolConstants;
+import com.dungeonescape.common.TriggerConstants;
 import com.dungeonescape.element.GameElement;
 import com.dungeonescape.element.Player;
+import com.dungeonescape.element.SavedTriggerable;
+import com.dungeonescape.element.Trigger;
 import com.dungeonescape.element.Triggerable;
 import com.dungeonescape.gameio.GamePanel;
+import com.dungeonescape.tool.BoomerangTool;
+import com.dungeonescape.tool.Rope;
 
 public class Game {
 	private GamePanel panel;
@@ -18,19 +26,18 @@ public class Game {
 	private int fps;
 	private Thread gameThread;
 	private GameEnder gameEnder;
-	private Point spawnPoint;
+	private CheckPoint checkPoint;
 
 	public Game(GamePanel panel) {
 		this.panel = panel;
 		physicsEngine = new PhysicsEngine();
-		level = new Level();
+		setLevel(new Level());
+		loadLevel(null);
 		gravity = 2;
 		friction = 0.5;
 		stopped = true;
 		setGameEnder(new GameEnder());
-		spawnPoint = new Point(300, 300);
-		player = new Player(spawnPoint.x, spawnPoint.y);
-		level.addElement(player);
+		setCheckPoint(new CheckPoint());
 	}
 
 	public void start() {
@@ -58,6 +65,9 @@ public class Game {
 
 	public void paint(Graphics g, Point camera) {
 		g.drawString("FPS: " + fps, 50, 50);
+		g.drawString(player.getX() + ", " + player.getY(), 50, 75);
+		g.drawString(level.getSpawnPoint().x + ", " + level.getSpawnPoint().y,
+				50, 100);
 		for (GameElement e : level.getElements()) {
 			e.draw(g, camera);
 		}
@@ -93,6 +103,8 @@ public class Game {
 			if (accumulator >= OPTIMAL_TIME) {
 				physicsEngine.timestep(1, level.getElements(), gravity,
 						friction);
+				if (player.getY() > level.getFallHeight())
+					gameEnder.trigger(true, null);
 				accumulator -= OPTIMAL_TIME;
 				panel.updateUI();
 				fps++;
@@ -158,6 +170,33 @@ public class Game {
 		this.level = level;
 	}
 
+	public void loadLevel(File file) {
+		if (file != null)
+			level.loadLevel(file);
+		List<GameElement> elements = level.getElements();
+		for (GameElement e : elements) {
+			if (e instanceof Trigger) {
+				Trigger t = (Trigger) e;
+				if (t.getTriggerable() instanceof SavedTriggerable) {
+					SavedTriggerable st = (SavedTriggerable) t.getTriggerable();
+					if (st.getGameElementNo() >= 0)
+						t.setTriggerable((Triggerable) elements.get(st
+								.getGameElementNo()));
+					else if (st.getGameElementNo() == TriggerConstants.CHECKPOINT)
+						t.setTriggerable(checkPoint);
+					else if (st.getGameElementNo() == TriggerConstants.ENDER)
+						t.setTriggerable(gameEnder);
+				}
+			}
+		}
+		player = new Player(level.getSpawnPoint().x, level.getSpawnPoint().y);
+		if (level.getTool() == ToolConstants.BOOMERANG)
+			player.setTool(new BoomerangTool());
+		else if (level.getTool() == ToolConstants.ROPE)
+			player.setTool(new Rope());
+		level.addElement(player);
+	}
+
 	public GameEnder getGameEnder() {
 		return gameEnder;
 	}
@@ -166,21 +205,32 @@ public class Game {
 		this.gameEnder = gameEnder;
 	}
 
-	public Point getSpawnPoint() {
-		return spawnPoint;
+	public CheckPoint getCheckPoint() {
+		return checkPoint;
 	}
 
-	public void setSpawnPoint(Point spawnPoint) {
-		this.spawnPoint = spawnPoint;
+	public void setCheckPoint(CheckPoint checkPoint) {
+		this.checkPoint = checkPoint;
 	}
 
 	private class GameEnder implements Triggerable {
 		@Override
-		public void trigger(boolean b) {
+		public void trigger(boolean b, Trigger t) {
 			if (b) {
 				stop();
-				panel.end(true);
+				if (t != null)
+					panel.end(true);
+				else
+					panel.end(false);
 			}
+		}
+	}
+
+	private class CheckPoint implements Triggerable {
+		@Override
+		public void trigger(boolean b, Trigger t) {
+			if (b)
+				level.setSpawnPoint(new Point((int) t.getX(), (int) t.getY()));
 		}
 	}
 }

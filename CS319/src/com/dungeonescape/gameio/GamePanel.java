@@ -49,7 +49,7 @@ public class GamePanel extends JPanel {
 		
 	}
 
-	public void setWorld(Game w) {
+	public void setGame(Game w) {
 		game = w;
 	}
 

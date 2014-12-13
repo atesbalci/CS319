@@ -17,6 +17,7 @@ public class Door extends StaticElement implements Triggerable {
 		doorOpening = height;
 		maxHeight = height;
 		speed = 8;
+		closed = true;
 	}
 
 	@Override
@@ -68,8 +69,8 @@ public class Door extends StaticElement implements Triggerable {
 	}
 
 	@Override
-	public void trigger(boolean b) {
-		if(b) {
+	public void trigger(boolean b, Trigger t) {
+		if (b) {
 			closed = false;
 		} else {
 			closed = true;

@@ -8,7 +8,9 @@ public class Lever extends Trigger {
 	private boolean leverActive;
 
 	public Lever(double x, double y) {
-		super(x, y, 10, 10);
+		super(x, y);
+		setWidth(10);
+		setHeight(10);
 		leverActive = false;
 	}
 
