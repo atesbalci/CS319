@@ -204,7 +204,8 @@ public class Level {
 							|| type.equalsIgnoreCase("ContactTrigger")
 							|| type.equalsIgnoreCase("Button")
 							|| type.equalsIgnoreCase("Lever")
-							|| type.equalsIgnoreCase("PlayerTrigger")) {
+							|| type.equalsIgnoreCase("PlayerTrigger")
+							|| type.equalsIgnoreCase("LinearTrigger")) {
 						Trigger t = null;
 						int curArg = 0;
 						if (type.equalsIgnoreCase("Trigger")) {
