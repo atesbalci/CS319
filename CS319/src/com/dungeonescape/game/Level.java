@@ -172,6 +172,20 @@ public class Level {
 		}
 	}
 
+	public void connectSavedTriggers() {
+		for (GameElement e : elements) {
+			if (e instanceof Trigger) {
+				Trigger t = (Trigger) e;
+				if (t.getTriggerable() instanceof SavedTriggerable) {
+					SavedTriggerable st = (SavedTriggerable) t.getTriggerable();
+					if (st.getGameElementNo() >= 0)
+						t.setTriggerable((Triggerable) elements.get(st
+								.getGameElementNo()));
+				}
+			}
+		}
+	}
+
 	public void loadLevel(File file) {
 		try {
 			elements.clear();
@@ -245,6 +259,7 @@ public class Level {
 				}
 			}
 			br.close();
+			connectSavedTriggers();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

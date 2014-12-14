@@ -218,6 +218,7 @@ public class ElementPropertiesPanel extends JPanel {
 								((Trigger) element).setTriggerable(new SavedTriggerable(
 										Integer.parseInt(((JTextField) (e
 												.getSource())).getText())));
+								ep.getLevel().connectSavedTriggers();
 								ep.refresh();
 							}
 						}));
