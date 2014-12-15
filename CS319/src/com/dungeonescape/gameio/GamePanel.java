@@ -1,12 +1,21 @@
 package com.dungeonescape.gameio;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Composite;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.font.FontRenderContext;
+import java.awt.font.GlyphVector;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +32,7 @@ public class GamePanel extends JPanel {
 	private Point mousePosition;
 	private Point cameraPosition;
 	private BufferedImage cursorImage;
+	private String tip;
 
 	public GamePanel() {
 		GameMouse mouse = new GameMouse();
@@ -46,7 +56,7 @@ public class GamePanel extends JPanel {
 	}
 
 	public void end(boolean success) {
-		
+
 	}
 
 	public void setGame(Game w) {
@@ -59,6 +69,32 @@ public class GamePanel extends JPanel {
 		refreshCameraPosition();
 		game.paint(g, cameraPosition);
 		g.drawImage(cursorImage, mousePosition.x, mousePosition.y, null);
+		if (tip != null) {
+			Dimension size = getSize();
+			Graphics2D g2d = ((Graphics2D) g);
+			Composite prev = g2d.getComposite();
+			g2d.setComposite(AlphaComposite.getInstance(
+					AlphaComposite.SRC_OVER, 0.9f));
+			g.fillRect(0, 0, size.width, size.height);
+			g2d.setComposite(prev);
+			g.setColor(Color.white);
+			g.setFont(new Font("Helvetica", Font.BOLD, 32));
+			int centerX = getWidth() / 2;
+			int centerY = getHeight() / 2;
+			FontMetrics fontMetrics = g.getFontMetrics();
+			Rectangle stringBounds = fontMetrics.getStringBounds(tip, g)
+					.getBounds();
+			Font font = g.getFont();
+			FontRenderContext renderContext = ((Graphics2D) g)
+					.getFontRenderContext();
+			GlyphVector glyphVector = font
+					.createGlyphVector(renderContext, tip);
+			Rectangle visualBounds = glyphVector.getVisualBounds().getBounds();
+			int textX = centerX - stringBounds.width / 2;
+			int textY = centerY - visualBounds.height / 2 - visualBounds.y;
+
+			g.drawString(tip, textX, textY);
+		}
 	}
 
 	public void refreshCameraPosition() {
@@ -78,8 +114,19 @@ public class GamePanel extends JPanel {
 		this.cursorImage = cursorImage;
 	}
 
+	public void showTip(String tip) {
+		if (!tip.isEmpty()) {
+			this.tip = tip;
+		}
+	}
+
+	public void dismissTip() {
+		tip = null;
+	}
+
 	public class GameKey extends KeyAdapter {
 		public void keyPressed(KeyEvent e) {
+			dismissTip();
 			if (e.getKeyCode() == KeyEvent.VK_D) {
 				game.right(true);
 			}
@@ -101,6 +148,7 @@ public class GamePanel extends JPanel {
 		}
 
 		public void keyReleased(KeyEvent e) {
+			dismissTip();
 			if (e.getKeyCode() == KeyEvent.VK_D) {
 				game.right(false);
 			}
@@ -117,6 +165,7 @@ public class GamePanel extends JPanel {
 		public void mousePressed(MouseEvent e) {
 			game.useTool(e.getX() + cameraPosition.x, e.getY()
 					+ cameraPosition.y);
+			dismissTip();
 		}
 
 		public void mouseMoved(MouseEvent e) {

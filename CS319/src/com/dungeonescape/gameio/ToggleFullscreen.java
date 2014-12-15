@@ -23,6 +23,9 @@ public class ToggleFullscreen extends JFrame {
 		super();
 		setSize(800, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		setLocation(new Point(screen.width / 2 - getWidth() / 2, screen.height
+				/ 2 - getHeight() / 2));
 		fullscreen = false;
 		prevLocation = getLocation();
 		JRootPane rootPane = getRootPane();

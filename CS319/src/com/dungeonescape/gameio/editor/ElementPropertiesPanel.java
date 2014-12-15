@@ -7,10 +7,12 @@ import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.dungeonescape.common.ToolConstants;
 import com.dungeonescape.element.Button;
 import com.dungeonescape.element.ContactTrigger;
 import com.dungeonescape.element.Door;
@@ -71,6 +73,27 @@ public class ElementPropertiesPanel extends JPanel {
 		List<JPanel> result = new LinkedList<JPanel>();
 
 		if (element != null) {
+			JButton removeButton = new JButton("Remove Element");
+			removeButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent event) {
+					ep.getLevel().removeElement(element);
+					if (element instanceof Triggerable) {
+						for (GameElement e : ep.getLevel().getElements()) {
+							if (e instanceof Trigger) {
+								Trigger t = (Trigger) e;
+								if(t.getTriggerable() == element) {
+									t.setTriggerable(null);
+								}
+							}
+						}
+					}
+					element = null;
+					ep.refresh();
+				}
+			});
+			JPanel removePanel = new JPanel();
+			removePanel.add(removeButton);
+			result.add(removePanel);
 			result.add(generateField("x", "" + (int) element.getX(),
 					new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
@@ -223,7 +246,7 @@ public class ElementPropertiesPanel extends JPanel {
 							}
 						}));
 			}
-			if(element instanceof Triggerable) {
+			if (element instanceof Triggerable) {
 				JPanel panel = new JPanel();
 				panel.add(new JLabel("Triggerable No: " + elementId));
 				result.add(panel);
@@ -237,6 +260,29 @@ public class ElementPropertiesPanel extends JPanel {
 									.getText()));
 				}
 			}));
+			int currentTool = ep.getLevel().getTool();
+			String currentToolString;
+			if (currentTool == ToolConstants.BOOMERANG)
+				currentToolString = "boomerang";
+			else if (currentTool == ToolConstants.ROPE)
+				currentToolString = "rope";
+			else
+				currentToolString = "none";
+			result.add(generateField("tool", currentToolString,
+					new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							String tool = ((JTextField) (e.getSource()))
+									.getText();
+							int toolInt;
+							if (tool.equalsIgnoreCase("boomerang"))
+								toolInt = ToolConstants.BOOMERANG;
+							else if (tool.equalsIgnoreCase("rope"))
+								toolInt = ToolConstants.ROPE;
+							else
+								toolInt = ToolConstants.NONE;
+							ep.getLevel().setTool(toolInt);
+						}
+					}));
 			result.add(generateField("Spawn X", ""
 					+ ep.getLevel().getSpawnPoint().x, new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -251,6 +297,13 @@ public class ElementPropertiesPanel extends JPanel {
 							.parseInt(((JTextField) (e.getSource())).getText()));
 				}
 			}));
+			result.add(generateField("tip", ep.getLevel().getTip(),
+					new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							ep.getLevel().setTip(
+									((JTextField) (e.getSource())).getText());
+						}
+					}));
 		}
 		return result;
 	}

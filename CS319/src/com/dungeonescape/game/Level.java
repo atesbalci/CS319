@@ -34,12 +34,14 @@ public class Level {
 	private Point spawnPoint;
 	private int fallHeight;
 	private int tool;
+	private String tip;
 
 	public Level() {
 		elements = new ArrayList<GameElement>();
 		spawnPoint = new Point(300, 300);
 		fallHeight = 1000;
 		tool = ToolConstants.NONE;
+		tip = "";
 	}
 
 	public List<GameElement> getElements() {
@@ -82,6 +84,14 @@ public class Level {
 		this.tool = tool;
 	}
 
+	public String getTip() {
+		return tip;
+	}
+
+	public void setTip(String tip) {
+		this.tip = tip;
+	}
+
 	public void saveLevel(File file) {
 		try {
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
@@ -96,6 +106,8 @@ public class Level {
 			bw.write(spawnPoint.x + " " + spawnPoint.y);
 			bw.newLine();
 			bw.write(toolString);
+			bw.newLine();
+			bw.write(tip);
 			bw.newLine();
 			bw.newLine();
 			for (GameElement e : elements) {
@@ -194,6 +206,7 @@ public class Level {
 			fallHeight = readFallHeight(br.readLine());
 			spawnPoint = readSpawnPoint(br.readLine());
 			tool = readTool(br.readLine());
+			tip = br.readLine();
 			while ((line = br.readLine()) != null) {
 				if (line.length() > 6) {
 					int splitter = line.indexOf(' ');

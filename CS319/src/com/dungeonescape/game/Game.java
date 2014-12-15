@@ -195,6 +195,7 @@ public class Game {
 		else if (level.getTool() == ToolConstants.ROPE)
 			player.setTool(new Rope());
 		level.addElement(player);
+		panel.showTip(level.getTip());
 	}
 
 	public GameEnder getGameEnder() {
