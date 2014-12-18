@@ -36,6 +36,7 @@ public class EditorMainPanel extends JPanel {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		// ep.getLevel().paintBackground((Graphics2D)g, camera);
 		for (int i = 0; i < elements.size(); i++) {
 			GameElement e = elements.get(i);
 			e.draw(g, camera);
@@ -117,7 +118,8 @@ public class EditorMainPanel extends JPanel {
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			clicked = false;
-			ep.setSelectedElement(ep.getSelectedElement(), ep.getSelectedElementId());
+			ep.setSelectedElement(ep.getSelectedElement(),
+					ep.getSelectedElementId());
 		}
 	}
 }

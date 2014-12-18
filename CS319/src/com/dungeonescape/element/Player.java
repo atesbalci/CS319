@@ -241,4 +241,16 @@ public class Player extends GameElement {
 	public void use() {
 		this.using = true;
 	}
+
+	public void setX(double x) {
+		super.setX(x);
+		if(tool != null)
+			tool.setX(getCenter().x);
+	}
+
+	public void setY(double y) {
+		super.setY(y);
+		if(tool != null)
+			tool.setY(getCenter().y);
+	}
 }

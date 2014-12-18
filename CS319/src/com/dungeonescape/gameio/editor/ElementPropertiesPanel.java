@@ -81,7 +81,7 @@ public class ElementPropertiesPanel extends JPanel {
 						for (GameElement e : ep.getLevel().getElements()) {
 							if (e instanceof Trigger) {
 								Trigger t = (Trigger) e;
-								if(t.getTriggerable() == element) {
+								if (t.getTriggerable() == element) {
 									t.setTriggerable(null);
 								}
 							}
@@ -304,6 +304,13 @@ public class ElementPropertiesPanel extends JPanel {
 									((JTextField) (e.getSource())).getText());
 						}
 					}));
+			result.add(generateField("backgroundUrl", ep.getLevel()
+					.getBackgroundUrl(), new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					ep.getLevel().setBackgroundUrl(
+							((JTextField) (e.getSource())).getText());
+				}
+			}));
 		}
 		return result;
 	}

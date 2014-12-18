@@ -56,17 +56,36 @@ public class GamePanel extends JPanel {
 	}
 
 	public void end(boolean success) {
-
+		(new EnderThread(success)).start();
 	}
 
-	public void setGame(Game w) {
-		game = w;
+	private class EnderThread extends Thread {
+		private boolean success;
+
+		public EnderThread(boolean success) {
+			this.success = success;
+		}
+
+		public void run() {
+			game.stop();
+			if (!success) {
+				game.reload();
+				dismissTip();
+				game.start();
+			}
+		}
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		refreshCameraPosition();
+		game.getLevel().paintBackground((Graphics2D) g, cameraPosition,
+				getSize());
 		game.paint(g, cameraPosition);
 		g.drawImage(cursorImage, mousePosition.x, mousePosition.y, null);
 		if (tip != null) {
@@ -144,6 +163,9 @@ public class GamePanel extends JPanel {
 					game.start();
 				else
 					game.stop();
+			}
+			if(e.getKeyCode() == KeyEvent.VK_R) {
+				end(false);
 			}
 		}
 

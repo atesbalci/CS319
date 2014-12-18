@@ -1,6 +1,12 @@
 package com.dungeonescape.game;
 
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Point;
+import java.awt.TexturePaint;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,6 +16,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import com.dungeonescape.common.ToolConstants;
 import com.dungeonescape.common.TriggerConstants;
@@ -32,16 +40,18 @@ import com.dungeonescape.game.Game.GameEnder;
 public class Level {
 	private List<GameElement> elements;
 	private Point spawnPoint;
-	private int fallHeight;
-	private int tool;
-	private String tip;
+	private int fallHeight, tool;
+	private BufferedImage background;
+	private String backgroundUrl, tip;
+	private File file;
 
 	public Level() {
 		elements = new ArrayList<GameElement>();
-		spawnPoint = new Point(300, 300);
+		spawnPoint = new Point(0, 0);
 		fallHeight = 1000;
 		tool = ToolConstants.NONE;
 		tip = "";
+		setBackgroundUrl("back.png");
 	}
 
 	public List<GameElement> getElements() {
@@ -92,6 +102,31 @@ public class Level {
 		this.tip = tip;
 	}
 
+	public String getBackgroundUrl() {
+		return backgroundUrl;
+	}
+
+	public void setBackgroundUrl(String backgroundUrl) {
+		if (!backgroundUrl.isEmpty()) {
+			this.backgroundUrl = backgroundUrl;
+			try {
+				background = ImageIO.read(new File("img/" + backgroundUrl));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void paintBackground(Graphics2D g, Point camera, Dimension size) {
+		TexturePaint tp = new TexturePaint(background, new Rectangle2D.Double(
+				-camera.x / 3, -camera.y / 3, background.getWidth(),
+				background.getHeight()));
+		Paint prev = g.getPaint();
+		g.setPaint(tp);
+		g.fillRect(0, 0, (int) size.getWidth(), (int) size.getHeight());
+		g.setPaint(prev);
+	}
+
 	public void saveLevel(File file) {
 		try {
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
@@ -108,6 +143,8 @@ public class Level {
 			bw.write(toolString);
 			bw.newLine();
 			bw.write(tip);
+			bw.newLine();
+			bw.write(backgroundUrl);
 			bw.newLine();
 			bw.newLine();
 			for (GameElement e : elements) {
@@ -198,15 +235,27 @@ public class Level {
 		}
 	}
 
+	public void reload(boolean preserveCheckpoint) {
+		Point tmp = spawnPoint;
+		loadLevel(file);
+		if (preserveCheckpoint) {
+			spawnPoint = tmp;
+		}
+	}
+
 	public void loadLevel(File file) {
+		this.file = file;
 		try {
 			elements.clear();
-			BufferedReader br = new BufferedReader(new FileReader(file));
+			FileReader fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
 			String line;
 			fallHeight = readFallHeight(br.readLine());
 			spawnPoint = readSpawnPoint(br.readLine());
 			tool = readTool(br.readLine());
 			tip = br.readLine();
+			setBackgroundUrl(br.readLine());
+
 			while ((line = br.readLine()) != null) {
 				if (line.length() > 6) {
 					int splitter = line.indexOf(' ');
@@ -272,6 +321,7 @@ public class Level {
 				}
 			}
 			br.close();
+			fr.close();
 			connectSavedTriggers();
 		} catch (IOException e) {
 			e.printStackTrace();

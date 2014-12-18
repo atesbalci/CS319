@@ -52,10 +52,12 @@ public class Game {
 
 	public void stop() {
 		stopped = true;
-		try {
-			gameThread.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		if (gameThread != null) {
+			try {
+				gameThread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -214,15 +216,20 @@ public class Game {
 		this.checkPoint = checkPoint;
 	}
 
+	public void reload() {
+		level.reload(true);
+		loadLevel(null);
+	}
+
 	public class GameEnder implements Triggerable {
 		@Override
 		public void trigger(boolean b, Trigger t) {
 			if (b) {
-				stop();
-				if (t != null)
+				if (t != null) {
 					panel.end(true);
-				else
+				} else {
 					panel.end(false);
+				}
 			}
 		}
 	}
