@@ -81,6 +81,10 @@ public class Trigger extends StaticElement implements Triggerable {
 	public boolean hasTriggerable() {
 		return triggerable != null;
 	}
+	
+	public boolean isTriggerActive() {
+		return triggerActive > 0;
+	}
 
 	@Override
 	public void draw(Graphics g, Point camera) {

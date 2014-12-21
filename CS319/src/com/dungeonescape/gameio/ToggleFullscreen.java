@@ -16,8 +16,9 @@ public class ToggleFullscreen extends JFrame {
 	private static final long serialVersionUID = 6075801570706118769L;
 
 	private boolean fullscreen;
-	private Point prevLocation;
-	private Dimension prevSize;
+
+	// private Point prevLocation;
+	// private Dimension prevSize;
 
 	public ToggleFullscreen() {
 		super();
@@ -27,7 +28,7 @@ public class ToggleFullscreen extends JFrame {
 		setLocation(new Point(screen.width / 2 - getWidth() / 2, screen.height
 				/ 2 - getHeight() / 2));
 		fullscreen = false;
-		prevLocation = getLocation();
+		// prevLocation = getLocation();
 		JRootPane rootPane = getRootPane();
 		rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
 				KeyStroke.getKeyStroke(KeyEvent.VK_F11, 0), "goFullscreen");
@@ -42,19 +43,23 @@ public class ToggleFullscreen extends JFrame {
 	}
 
 	public void toggle() {
-		dispose();
-		if (!fullscreen) {
-			prevLocation = getLocation();
-			prevSize = getSize();
-			setLocation(0, 0);
-			setUndecorated(true);
-			setSize(Toolkit.getDefaultToolkit().getScreenSize());
-		} else {
-			setLocation(prevLocation);
-			setUndecorated(false);
-			setSize(prevSize);
-		}
-		setVisible(true);
+		// dispose();
+		// if (!fullscreen) {
+		// prevLocation = getLocation();
+		// prevSize = getSize();
+		// setLocation(0, 0);
+		// setUndecorated(true);
+		// setSize(Toolkit.getDefaultToolkit().getScreenSize());
+		// } else {
+		// setLocation(prevLocation);
+		// setUndecorated(false);
+		// setSize(prevSize);
+		// }
+		// setVisible(true);
+		if (!fullscreen)
+			setExtendedState(JFrame.MAXIMIZED_BOTH);
+		else
+			setExtendedState(JFrame.NORMAL);
 		fullscreen = !fullscreen;
 	}
 

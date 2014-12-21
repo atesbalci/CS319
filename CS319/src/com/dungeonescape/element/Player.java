@@ -14,7 +14,7 @@ import com.dungeonescape.common.ContactConstants;
 import com.dungeonescape.tool.Tool;
 
 public class Player extends GameElement {
-	private final int ANIMATION = 4;
+	private final int ANIMATION = 5;
 
 	private boolean direction;
 	private Tool tool;
@@ -27,11 +27,10 @@ public class Player extends GameElement {
 		super(x, y);
 		direction = true;
 		jumpHeight = 10;
-		images = new BufferedImage[6];
+		images = new BufferedImage[9];
 		for (int i = 0; i < images.length; i++) {
 			try {
-				images[i] = ImageIO.read(new File("img/player/" + (i + 1)
-						+ ".png"));
+				images[i] = ImageIO.read(new File("img/player/" + i + ".png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -99,7 +98,7 @@ public class Player extends GameElement {
 				}
 			}
 		}
-		if(ground) {
+		if (ground) {
 			verticalSpeed = 0;
 		}
 		ground = false;
@@ -156,30 +155,30 @@ public class Player extends GameElement {
 	public void draw(Graphics g, Point camera) {
 		if (direction) {
 			if (!ground)
-				g.drawImage(images[5], (int) x - 10 - camera.x, (int) y
+				g.drawImage(images[0], (int) x - 10 - camera.x, (int) y
 						- camera.y, null);
 			else if (Math.abs(horizontalSpeed) >= 0.1)
-				g.drawImage(images[stage / ANIMATION], (int) x - 10 - camera.x,
+				g.drawImage(images[stage / ANIMATION + 1], (int) x - 10 - camera.x,
 						(int) y - camera.y, null);
 			else
-				g.drawImage(images[2], (int) x - 10 - camera.x, (int) y
+				g.drawImage(images[0], (int) x - 10 - camera.x, (int) y
 						- camera.y, null);
 		} else {
 			if (!ground)
-				g.drawImage(imagesInverted[5], (int) x - 10 - camera.x, (int) y
+				g.drawImage(imagesInverted[0], (int) x - 10 - camera.x, (int) y
 						- camera.y, null);
 			else if (Math.abs(horizontalSpeed) >= 0.1)
-				g.drawImage(imagesInverted[stage / ANIMATION], (int) x - 10
+				g.drawImage(imagesInverted[stage / ANIMATION + 1], (int) x - 10
 						- camera.x, (int) y - camera.y, null);
 			else
-				g.drawImage(imagesInverted[2], (int) x - 10 - camera.x, (int) y
+				g.drawImage(imagesInverted[0], (int) x - 10 - camera.x, (int) y
 						- camera.y, null);
 		}
 	}
 
 	public void animate() {
 		stage++;
-		if (stage / ANIMATION >= 5)
+		if (stage / ANIMATION >= 8)
 			stage = 0;
 	}
 
@@ -244,13 +243,13 @@ public class Player extends GameElement {
 
 	public void setX(double x) {
 		super.setX(x);
-		if(tool != null)
+		if (tool != null)
 			tool.setX(getCenter().x);
 	}
 
 	public void setY(double y) {
 		super.setY(y);
-		if(tool != null)
+		if (tool != null)
 			tool.setY(getCenter().y);
 	}
 }

@@ -36,7 +36,6 @@ public class GamePanel extends JPanel {
 
 	public GamePanel() {
 		GameMouse mouse = new GameMouse();
-		setLayout(null);
 		setFocusable(true);
 		addKeyListener(new GameKey());
 		addMouseListener(mouse);
@@ -81,8 +80,9 @@ public class GamePanel extends JPanel {
 	}
 
 	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+	public void paint(Graphics g) {
+		super.paint(g);
+
 		refreshCameraPosition();
 		game.getLevel().paintBackground((Graphics2D) g, cameraPosition,
 				getSize());
@@ -164,7 +164,7 @@ public class GamePanel extends JPanel {
 				else
 					game.stop();
 			}
-			if(e.getKeyCode() == KeyEvent.VK_R) {
+			if (e.getKeyCode() == KeyEvent.VK_R) {
 				end(false);
 			}
 		}
@@ -185,9 +185,10 @@ public class GamePanel extends JPanel {
 
 	public class GameMouse extends MouseAdapter {
 		public void mousePressed(MouseEvent e) {
-			game.useTool(e.getX() + cameraPosition.x, e.getY()
-					+ cameraPosition.y);
 			dismissTip();
+			if (e.getButton() == MouseEvent.BUTTON1)
+				game.useTool(e.getX() + cameraPosition.x, e.getY()
+						+ cameraPosition.y);
 		}
 
 		public void mouseMoved(MouseEvent e) {

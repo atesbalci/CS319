@@ -5,9 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import com.dungeonescape.ui.GameButton;
 
 public class SaveBar extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 7496162042016776991L;
@@ -20,10 +21,10 @@ public class SaveBar extends JPanel implements ActionListener {
 		tf = new JTextField();
 		tf.setPreferredSize(new Dimension(100, 25));
 		add(tf);
-		JButton save = new JButton("Save");
+		GameButton save = new GameButton("Save");
 		save.addActionListener(this);
 		add(save);
-		JButton load = new JButton("Load");
+		GameButton load = new GameButton("Load");
 		load.addActionListener(this);
 		add(load);
 	}

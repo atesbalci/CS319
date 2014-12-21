@@ -1,5 +1,6 @@
 package com.dungeonescape.game;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -19,6 +20,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import com.dungeonescape.common.CommonMethods;
 import com.dungeonescape.common.ToolConstants;
 import com.dungeonescape.common.TriggerConstants;
 import com.dungeonescape.element.Button;
@@ -110,7 +112,8 @@ public class Level {
 		if (!backgroundUrl.isEmpty()) {
 			this.backgroundUrl = backgroundUrl;
 			try {
-				background = ImageIO.read(new File("img/" + backgroundUrl));
+				background = CommonMethods.convert(ImageIO.read(new File("img/"
+						+ backgroundUrl)));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -121,10 +124,15 @@ public class Level {
 		TexturePaint tp = new TexturePaint(background, new Rectangle2D.Double(
 				-camera.x / 3, -camera.y / 3, background.getWidth(),
 				background.getHeight()));
-		Paint prev = g.getPaint();
+		Paint prevPaint = g.getPaint();
 		g.setPaint(tp);
 		g.fillRect(0, 0, (int) size.getWidth(), (int) size.getHeight());
-		g.setPaint(prev);
+		g.setPaint(prevPaint);
+		// CommonMethods.textureDraw(background, g, size, camera);
+		Color prevColor = g.getColor();
+		g.setColor(new Color(0, 0, 0, 125));
+		g.fillRect(0, 0, (int) size.getWidth(), (int) size.getHeight());
+		g.setColor(prevColor);
 	}
 
 	public void saveLevel(File file) {

@@ -1,6 +1,10 @@
 package com.dungeonescape.common;
 
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +27,7 @@ public class CommonMethods {
 		g.dispose();
 		return dimg;
 	}
-	
+
 	private static class SoundThread extends Thread {
 		String file;
 
@@ -65,5 +69,23 @@ public class CommonMethods {
 
 	public static void playSound(String file) {
 		(new SoundThread(file)).start();
+	}
+
+	public static void textureDraw(Image image, Graphics g, Dimension size,
+			Point offset) {
+		for (int x = 0; x < size.getWidth(); x += image.getWidth(null)) {
+			for (int y = 0; y < size.getHeight(); y += image.getHeight(null)) {
+				g.drawImage(image, x, y, null);
+			}
+		}
+	}
+
+	public static BufferedImage convert(BufferedImage image) {
+		BufferedImage newImage = new BufferedImage(image.getWidth(),
+				image.getHeight(), BufferedImage.TYPE_USHORT_555_RGB);
+		Graphics2D g = newImage.createGraphics();
+		g.drawImage(image, 0, 0, null);
+		g.dispose();
+		return newImage;
 	}
 }

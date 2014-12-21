@@ -27,13 +27,13 @@ public class Main {
 		gameButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ToggleFullscreen f = new ToggleFullscreen();
-				GamePanel wp = new GamePanel();
-				Game w = new Game(wp);
-				wp.setGame(w);
-				w.loadLevel(new File("levels/level.level"));
-				f.add(wp);
-				wp.requestFocus();
-				w.start();
+				GamePanel gp = new GamePanel();
+				Game g = new Game(gp);
+				gp.setGame(g);
+				g.loadLevel(new File("levels/level.level"));
+				f.add(gp);
+				gp.requestFocus();
+				g.start();
 				frame.dispose();
 			}
 		});

@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -26,6 +25,7 @@ import com.dungeonescape.element.PlayerTrigger;
 import com.dungeonescape.element.SavedTriggerable;
 import com.dungeonescape.element.Trigger;
 import com.dungeonescape.element.Triggerable;
+import com.dungeonescape.ui.GameButton;
 
 public class ElementPropertiesPanel extends JPanel {
 	private static final long serialVersionUID = -5207694422232205757L;
@@ -73,7 +73,7 @@ public class ElementPropertiesPanel extends JPanel {
 		List<JPanel> result = new LinkedList<JPanel>();
 
 		if (element != null) {
-			JButton removeButton = new JButton("Remove Element");
+			GameButton removeButton = new GameButton("Remove Element");
 			removeButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
 					ep.getLevel().removeElement(element);
