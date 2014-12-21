@@ -24,16 +24,24 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import com.dungeonescape.game.Game;
+import com.dungeonescape.ui.GameMenu;
 
 public class GamePanel extends JPanel {
 	private static final long serialVersionUID = -7233967302635631295L;
-
+	
+	public static int rightButton = KeyEvent.VK_D;
+	public static int leftButton = KeyEvent.VK_A;
+	public static int jumpButton = KeyEvent.VK_W;
+	public static int useButton = KeyEvent.VK_E;
+	public static int restartButton = KeyEvent.VK_R;
+		
 	private Game game;
 	private Point mousePosition;
 	private Point cameraPosition;
 	private BufferedImage cursorImage;
 	private String tip;
-
+	private GameMenu gameMenu;
+	
 	public GamePanel() {
 		GameMouse mouse = new GameMouse();
 		setFocusable(true);
@@ -71,6 +79,8 @@ public class GamePanel extends JPanel {
 				game.reload();
 				dismissTip();
 				game.start();
+			} else if(gameMenu != null) {
+				gameMenu.levelComplete();
 			}
 		}
 	}
@@ -143,19 +153,27 @@ public class GamePanel extends JPanel {
 		tip = null;
 	}
 
+	public GameMenu getGameMenu() {
+		return gameMenu;
+	}
+
+	public void setGameMenu(GameMenu gameMenu) {
+		this.gameMenu = gameMenu;
+	}
+
 	public class GameKey extends KeyAdapter {
 		public void keyPressed(KeyEvent e) {
 			dismissTip();
-			if (e.getKeyCode() == KeyEvent.VK_D) {
+			if (e.getKeyCode() == rightButton) {
 				game.right(true);
 			}
-			if (e.getKeyCode() == KeyEvent.VK_A) {
+			if (e.getKeyCode() == leftButton) {
 				game.left(true);
 			}
-			if (e.getKeyCode() == KeyEvent.VK_W) {
+			if (e.getKeyCode() == jumpButton) {
 				game.jump(true);
 			}
-			if (e.getKeyCode() == KeyEvent.VK_E) {
+			if (e.getKeyCode() == useButton) {
 				game.use();
 			}
 			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -164,20 +182,20 @@ public class GamePanel extends JPanel {
 				else
 					game.stop();
 			}
-			if (e.getKeyCode() == KeyEvent.VK_R) {
+			if (e.getKeyCode() == restartButton) {
 				end(false);
 			}
 		}
 
 		public void keyReleased(KeyEvent e) {
 			dismissTip();
-			if (e.getKeyCode() == KeyEvent.VK_D) {
+			if (e.getKeyCode() == rightButton) {
 				game.right(false);
 			}
-			if (e.getKeyCode() == KeyEvent.VK_A) {
+			if (e.getKeyCode() == leftButton) {
 				game.left(false);
 			}
-			if (e.getKeyCode() == KeyEvent.VK_W) {
+			if (e.getKeyCode() == jumpButton) {
 				game.jump(false);
 			}
 		}

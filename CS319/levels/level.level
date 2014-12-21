@@ -34,3 +34,4 @@ Door 2699 320
 ContactTrigger 2230 364 50 5 5 0 26
 ContactTrigger 2709 369 100 100 1 0 ender
 Button 2413 359 50 0 16
+Obstacle 2220 368 5 10

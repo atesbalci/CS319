@@ -1,0 +1,24 @@
+1000
+-100 0
+boomerang
+
+back.png
+
+Obstacle -187 52 548 10
+Door 151 2
+Door 201 2
+Door 251 2
+Obstacle 151 -8 210 10
+Lever -319 -251 1 0 1
+ContactTrigger 37 13 100 20 1 0 3
+Platform -217 52 30 10 -289 1
+Obstacle -227 -240 10 302
+Obstacle 351 2 10 50
+ContactTrigger -213 -265 20 300 1 0 7
+Obstacle -327 -240 100 10
+ContactTrigger -126 43 20 10 1 0 2
+MoveableObject -238 -528
+Platform -238 -487 21 10 100 1
+Lever 98 41 1 0 14
+Door 301 2
+Lever 301 -18 1 0 16

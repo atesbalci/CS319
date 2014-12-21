@@ -177,7 +177,8 @@ public class Level {
 					bw.newLine();
 				} else if (e instanceof Trigger) {
 					Trigger t = (Trigger) e;
-					if (t instanceof ContactTrigger) {
+					if (t instanceof ContactTrigger
+							&& !(t instanceof PlayerTrigger)) {
 						bw.write("ContactTrigger " + (int) e.getX() + " "
 								+ (int) e.getY() + " " + e.getWidth() + " "
 								+ e.getHeight());
