@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -42,8 +43,6 @@ import com.dungeonescape.gameio.editor.EditorPanel;
 public class GameMenu extends JLayeredPane implements ComponentListener {
 	private static final long serialVersionUID = 4807364471121343782L;
 	
-	private final GameMenu thisMenu = this;
-
 	private GameDialog dialog;
 	private BufferedImage background;
 
@@ -291,7 +290,7 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 		public void actionPerformed(ActionEvent e) {
 			File file = new File("levels/" + filename);
 			GamePanel gp = new GamePanel();
-			gp.setGameMenu(thisMenu);
+			gp.setGameMenu(GameMenu.this);
 			Game g = new Game(gp);
 			gp.setGame(g);
 			g.loadLevel(file);
@@ -397,7 +396,7 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 			setLayout(new GridBagLayout());
 			setSize(size);
 			panel = new JPanel();
-			panel.setBackground(new Color(0, 0, 0, 75));
+			panel.setBackground(new Color(0, 0, 0, 175));
 			panel.setLayout(new GridLayout(0, 1, 10, 10));
 			panel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
 			add(panel);
@@ -412,7 +411,7 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 
 		@Override
 		protected void paintComponent(Graphics g) {
-			g.setColor(new Color(0, 0, 0, 175));
+			g.setColor(new Color(0, 0, 0, 100));
 			g.fillRect(getLocation().x, getLocation().y, getWidth(),
 					getHeight());
 		}
@@ -441,7 +440,10 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 
 		public LevelCompleteMenu(Dimension size) {
 			super(size);
-			panel.add(new JLabel("Level Complete!"));
+			JLabel label = new JLabel("Level Complete!");
+			label.setFont(new Font("Arial", Font.BOLD, 20));
+			label.setForeground(Color.WHITE);
+			panel.add(label);
 			addButton("Exit", new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					navigateTo(new PlayMenu());
