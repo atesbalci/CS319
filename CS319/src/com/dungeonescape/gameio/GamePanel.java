@@ -80,9 +80,13 @@ public class GamePanel extends JPanel {
 				dismissTip();
 				game.start();
 			} else if(gameMenu != null) {
-				gameMenu.levelComplete();
+				gameMenu.levelComplete(GamePanel.this);
 			}
 		}
+	}
+	
+	public Game getGame() {
+		return game;
 	}
 
 	public void setGame(Game game) {

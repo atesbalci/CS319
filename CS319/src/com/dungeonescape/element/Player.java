@@ -27,7 +27,7 @@ public class Player extends GameElement {
 		super(x, y);
 		direction = true;
 		jumpHeight = 10;
-		images = new BufferedImage[9];
+		images = new BufferedImage[10];
 		for (int i = 0; i < images.length; i++) {
 			try {
 				images[i] = ImageIO.read(new File("img/player/" + i + ".png"));
@@ -155,7 +155,7 @@ public class Player extends GameElement {
 	public void draw(Graphics g, Point camera) {
 		if (direction) {
 			if (!ground)
-				g.drawImage(images[0], (int) x - 10 - camera.x, (int) y
+				g.drawImage(images[9], (int) x - 10 - camera.x, (int) y
 						- camera.y, null);
 			else if (Math.abs(horizontalSpeed) >= 0.1)
 				g.drawImage(images[stage / ANIMATION + 1], (int) x - 10 - camera.x,
@@ -165,7 +165,7 @@ public class Player extends GameElement {
 						- camera.y, null);
 		} else {
 			if (!ground)
-				g.drawImage(imagesInverted[0], (int) x - 10 - camera.x, (int) y
+				g.drawImage(imagesInverted[9], (int) x - 10 - camera.x, (int) y
 						- camera.y, null);
 			else if (Math.abs(horizontalSpeed) >= 0.1)
 				g.drawImage(imagesInverted[stage / ANIMATION + 1], (int) x - 10

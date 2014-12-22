@@ -134,6 +134,10 @@ public class Level {
 		g.fillRect(0, 0, (int) size.getWidth(), (int) size.getHeight());
 		g.setColor(prevColor);
 	}
+	
+	public File getFile() {
+		return file;
+	}
 
 	public void saveLevel(File file) {
 		try {

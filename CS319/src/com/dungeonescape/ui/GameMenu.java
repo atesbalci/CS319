@@ -30,9 +30,14 @@ import javax.swing.JLayeredPane;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
+import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.FontUIResource;
 
 import com.dungeonescape.common.Images;
 import com.dungeonescape.game.Game;
@@ -42,7 +47,9 @@ import com.dungeonescape.gameio.editor.EditorPanel;
 
 public class GameMenu extends JLayeredPane implements ComponentListener {
 	private static final long serialVersionUID = 4807364471121343782L;
-	
+
+	private final int AMOUNT_OF_PREMADE_LEVELS = 9;
+
 	private GameDialog dialog;
 	private BufferedImage background;
 
@@ -116,8 +123,13 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 		repaint();
 	}
 
-	public void levelComplete() {
-		showHideGameDialog(new LevelCompleteMenu(getSize()));
+	public void levelComplete(GamePanel src) {
+		LevelCompleteMenu lcm = new LevelCompleteMenu(getSize(), src);
+		if (src.getGame().getLevel().getFile().getAbsolutePath()
+				.contains("/premade/")) {
+			lcm.setNextLevelEnabled(true);
+		}
+		showHideGameDialog(lcm);
 	}
 
 	public void componentResized(ComponentEvent e) {
@@ -167,7 +179,7 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 			GameButton credits = new GameButton("Credits");
 			credits.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
+					navigateTo(new CreditsPanel());
 				}
 			});
 			credits.setPreferredSize(buttonSize);
@@ -304,6 +316,7 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 		private static final long serialVersionUID = -7010447333195916816L;
 		private final Dimension size = new Dimension(600, 500);
 		private JList<String> list;
+		private GameButton playCustom;
 
 		public PlayMenu() {
 			setPreferredSize(size);
@@ -316,20 +329,26 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 			JPanel premade = new JPanel();
 			premade.setOpaque(false);
 			premade.setLayout(new GridLayout(3, 3, 10, 10));
-			premade.setBorder(new EmptyBorder(new Insets(20, 20, 20, 20)));
-			for (int i = 0; i < 9; i++) {
+			premade.setBorder(new TitledBorder(new EmptyBorder(new Insets(40,
+					20, 20, 20)), "Premade Levels",
+					TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.TOP,
+					new Font("Calibri", Font.PLAIN, 16), Color.white));
+			for (int i = 0; i < AMOUNT_OF_PREMADE_LEVELS; i++) {
 				premade.add(new GameButton("" + (i + 1)));
 				((GameButton) premade.getComponent(i))
 						.addActionListener(new PlayOrEditActionListener(
 								"premade/" + (i + 1) + ".level"));
 			}
 			JPanel custom = new JPanel();
-			custom.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
-			custom.setLayout(new BorderLayout());
+			custom.setBorder(new TitledBorder(new EmptyBorder(new Insets(40,
+					20, 20, 20)), "Custom Levels",
+					TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.TOP,
+					new Font("Calibri", Font.PLAIN, 16), Color.white));
+			custom.setLayout(new BorderLayout(0, 10));
 			custom.setOpaque(false);
 			list = listCustoms();
 			custom.add(list, BorderLayout.CENTER);
-			GameButton playCustom = new GameButton("Play");
+			playCustom = new GameButton("Play");
 			playCustom.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (list.getSelectedValue() != null) {
@@ -339,6 +358,12 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 				}
 			});
 			playCustom.setPreferredSize(new Dimension(100, 30));
+			playCustom.setEnabled(false);
+			list.addListSelectionListener(new ListSelectionListener() {
+				public void valueChanged(ListSelectionEvent e) {
+					playCustom.setEnabled(true);
+				}
+			});
 			custom.add(playCustom, "South");
 			panel.add(premade);
 			panel.add(custom);
@@ -402,11 +427,12 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 			add(panel);
 		}
 
-		public void addButton(String text, ActionListener al) {
+		public GameButton addButton(String text, ActionListener al) {
 			GameButton gb = new GameButton(text);
 			gb.addActionListener(al);
 			gb.setPreferredSize(BUTTON_SIZE);
 			panel.add(gb);
+			return gb;
 		}
 
 		@Override
@@ -429,7 +455,7 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 			});
 			addButton("Exit", new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					navigateTo(new PlayMenu());
+					navigateTo(new MainMenu());
 				}
 			});
 		}
@@ -438,17 +464,37 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 	private class LevelCompleteMenu extends GameDialog {
 		private static final long serialVersionUID = -7873635041415097811L;
 
-		public LevelCompleteMenu(Dimension size) {
+		private GamePanel gamePanel;
+		private GameButton nextLevel;
+
+		public LevelCompleteMenu(Dimension size, GamePanel gp) {
 			super(size);
+			gamePanel = gp;
 			JLabel label = new JLabel("Level Complete!");
 			label.setFont(new Font("Arial", Font.BOLD, 20));
 			label.setForeground(Color.WHITE);
 			panel.add(label);
+			nextLevel = addButton("Next Level", new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String filePath = gamePanel.getGame().getLevel().getFile()
+							.getAbsolutePath();
+					int nextLevelNo = Integer.parseInt(""
+							+ filePath.charAt(filePath.lastIndexOf('/') + 1)) + 1;
+					(new PlayOrEditActionListener("premade/" + nextLevelNo
+							+ ".level")).actionPerformed(e);
+
+				}
+			});
+			nextLevel.setVisible(false);
 			addButton("Exit", new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					navigateTo(new PlayMenu());
 				}
 			});
+		}
+
+		public void setNextLevelEnabled(boolean b) {
+			nextLevel.setVisible(b);
 		}
 	}
 
@@ -476,6 +522,36 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 					navigateTo(new PlayMenu());
 				}
 			});
+		}
+	}
+
+	private class CreditsPanel extends JPanel {
+		private static final long serialVersionUID = 2449727556367804166L;
+
+		public CreditsPanel() {
+			setBackground(new Color(0, 0, 0, 125));
+			setLayout(new BorderLayout(0, 20));
+			setBorder(new EmptyBorder(new Insets(40, 40, 40, 40)));
+			JTextArea credits = new JTextArea();
+			credits.setText("Created by:\n" + "Ateş Balcı\n"
+					+ "Batuhan Berk Yaşar\n" + "Ahmet Emre Danışman\n"
+					+ "Buket Depren\n" + "Ayşe İrem Yaşar");
+			credits.setOpaque(false);
+			credits.setFont(new FontUIResource("Calibri", Font.ITALIC, 20));
+			credits.setForeground(Color.white);
+			credits.setEnabled(false);
+			add(credits, "Center");
+			GameButton backButton = new GameButton("Back");
+			backButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					navigateTo(new MainMenu());
+				}
+			});
+			backButton.setPreferredSize(new Dimension(100, 30));
+			JPanel backPanel = new JPanel();
+			backPanel.setOpaque(false);
+			backPanel.add(backButton);
+			add(backPanel, "South");
 		}
 	}
 
