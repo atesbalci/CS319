@@ -1,0 +1,23 @@
+1000
+0 100
+rope
+
+back.png
+
+Obstacle -46 144 150 10
+Obstacle 364 144 200 10
+Obstacle 553 -156 10 100
+Obstacle -46 -256 100 10
+Obstacle 444 -256 10 100
+Obstacle 553 -356 10 100
+Obstacle -46 -356 500 10
+Obstacle -46 -346 450 10
+Obstacle -46 -336 400 10
+Obstacle -46 -326 350 10
+Obstacle -46 -316 300 10
+Obstacle -46 -306 10 50
+Obstacle 244 -256 200 10
+PlayerTrigger -16 -282 3 3 1 0 ender
+PlayerTrigger 420 104 3 3 1 0 checkpoint
+Obstacle 444 -56 10 100
+Obstacle 554 44 10 100
