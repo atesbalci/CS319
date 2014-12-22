@@ -153,6 +153,24 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 			setLayout(new GridLayout(0, 1, 10, 10));
 			setBorder(new EmptyBorder(new Insets(40, 40, 40, 40)));
 			Dimension buttonSize = new Dimension(200, 50);
+			JPanel logoPanel = new JPanel() {
+				private static final long serialVersionUID = -6129536456272200719L;
+				
+				private BufferedImage image;
+
+				@Override
+				protected void paintComponent(Graphics g) {
+					if (image == null)
+						try {
+							image = ImageIO.read(new File("img/logo.png"));
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					g.drawImage(image, 0, 0, null);
+				}
+			};
+			logoPanel.setPreferredSize(new Dimension(200, 87));
+			add(logoPanel);
 			GameButton play = new GameButton("Play");
 			play.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -535,7 +553,7 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 			JTextArea credits = new JTextArea();
 			credits.setText("Created by:\n" + "Ateş Balcı\n"
 					+ "Batuhan Berk Yaşar\n" + "Ahmet Emre Danışman\n"
-					+ "Buket Depren\n" + "Ayşe İrem Yaşar");
+					+ "Buket Depren\n" + "Ayşe İrem Güner");
 			credits.setOpaque(false);
 			credits.setFont(new FontUIResource("Calibri", Font.ITALIC, 20));
 			credits.setForeground(Color.white);

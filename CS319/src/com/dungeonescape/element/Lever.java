@@ -4,13 +4,15 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.List;
 
+import com.dungeonescape.common.Images;
+
 public class Lever extends Trigger {
 	private boolean leverActive;
 
 	public Lever(double x, double y) {
 		super(x, y);
 		setWidth(10);
-		setHeight(10);
+		setHeight(20);
 		leverActive = false;
 	}
 
@@ -29,7 +31,12 @@ public class Lever extends Trigger {
 	@Override
 	public void draw(Graphics g, Point camera) {
 		super.draw(g, camera);
-		g.drawRect((int) x - camera.x, (int) y - camera.y, width, height);
+		if (isTriggerActive())
+			g.drawImage(Images.LEVER_ON, (int) x - camera.x,
+					(int) y - camera.y, null);
+		else
+			g.drawImage(Images.LEVER_OFF, (int) x - camera.x, (int) y
+					- camera.y, null);
 	}
 
 	public boolean isLeverActive() {

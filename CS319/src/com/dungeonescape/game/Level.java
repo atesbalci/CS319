@@ -128,7 +128,6 @@ public class Level {
 		g.setPaint(tp);
 		g.fillRect(0, 0, (int) size.getWidth(), (int) size.getHeight());
 		g.setPaint(prevPaint);
-		// CommonMethods.textureDraw(background, g, size, camera);
 		Color prevColor = g.getColor();
 		g.setColor(new Color(0, 0, 0, 125));
 		g.fillRect(0, 0, (int) size.getWidth(), (int) size.getHeight());

@@ -1,8 +1,14 @@
 package com.dungeonescape.element;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Point;
+import java.awt.TexturePaint;
+import java.awt.geom.Rectangle2D;
 import java.util.List;
+
+import com.dungeonescape.common.Images;
 
 public class Door extends StaticElement implements Triggerable {
 	private double doorOpening;
@@ -45,7 +51,15 @@ public class Door extends StaticElement implements Triggerable {
 
 	@Override
 	public void draw(Graphics g, Point camera) {
+		Graphics2D g2 = (Graphics2D) g;
+		TexturePaint tp = new TexturePaint(Images.DOOR, new Rectangle2D.Double(
+				getX() - camera.x, getY() - camera.y
+						- (maxHeight - (int) doorOpening),
+				Images.DOOR.getWidth(), Images.DOOR.getHeight()));
+		Paint prevPaint = g2.getPaint();
+		g2.setPaint(tp);
 		g.fillRect((int) x - camera.x, (int) y - camera.y, width, height);
+		g2.setPaint(prevPaint);
 	}
 
 	public boolean isClosed() {
