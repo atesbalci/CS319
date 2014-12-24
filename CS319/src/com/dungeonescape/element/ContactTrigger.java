@@ -2,6 +2,9 @@ package com.dungeonescape.element;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
+
+import com.dungeonescape.common.Images;
 
 public class ContactTrigger extends Trigger {
 	public ContactTrigger(double x, double y, int width, int height) {
@@ -16,10 +19,15 @@ public class ContactTrigger extends Trigger {
 			activate();
 		}
 	}
-	
+
 	@Override
 	public void draw(Graphics g, Point camera) {
 		super.draw(g, camera);
-		g.drawRect((int) x - camera.x, (int) y - camera.y, width, height);
+		BufferedImage img;
+		if (isTriggerActive())
+			img = Images.CONTACT_ON;
+		else
+			img = Images.CONTACT_OFF;
+		g.drawImage(img, (int) x - camera.x, (int) y - camera.y, width, height, null);
 	}
 }

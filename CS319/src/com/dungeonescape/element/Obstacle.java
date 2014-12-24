@@ -24,7 +24,7 @@ public class Obstacle extends StaticElement {
 						Images.OBSTACLE.getWidth(), Images.OBSTACLE.getHeight()));
 		Paint prevPaint = g2.getPaint();
 		g2.setPaint(tp);
-		g2.fillRect((int) x - camera.x, (int) y - camera.y, width, height);
+		g2.fillRoundRect((int) x - camera.x, (int) y - camera.y, width, height, 5, 5);
 		g2.setPaint(prevPaint);
 	}
 }

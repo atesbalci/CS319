@@ -3,6 +3,7 @@ package com.dungeonescape.gameio.editor;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -36,14 +37,28 @@ public class EditorMainPanel extends JPanel {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		// ep.getLevel().paintBackground((Graphics2D)g, camera);
+		ep.getLevel().paintBackground((Graphics2D) g, camera, getSize());
+		Point spawn = ep.getLevel().getSpawnPoint();
 		for (int i = 0; i < elements.size(); i++) {
 			GameElement e = elements.get(i);
 			e.draw(g, camera);
 		}
 		g.drawString(mouse.x + ", " + mouse.y, 50, 50);
+		Color prevColor = g.getColor();
+		g.setColor(Color.yellow);
 		g.drawLine(-10 - camera.x, 0 - camera.y, 10 - camera.x, 0 - camera.y);
 		g.drawLine(0 - camera.x, 10 - camera.y, 0 - camera.x, -10 - camera.y);
+		g.setColor(Color.orange);
+		g.drawLine(-10 - camera.x + spawn.x, 0 - camera.y + spawn.y, 10
+				- camera.x + spawn.x, 0 - camera.y + spawn.y);
+		g.drawLine(0 - camera.x + spawn.x, 10 - camera.y + spawn.y, 0
+				- camera.x + spawn.x, -10 - camera.y + spawn.y);
+		g.drawString("Spawn Point", spawn.x - camera.x, spawn.y - camera.y);
+		g.setColor(Color.cyan);
+		g.drawLine(0, ep.getLevel().getFallHeight() - camera.y, getWidth(), ep.getLevel()
+				.getFallHeight() - camera.y);
+		g.drawString("Fall Height", 0, ep.getLevel().getFallHeight() - camera.y);
+		g.setColor(prevColor);
 	}
 
 	public Point getMouse() {

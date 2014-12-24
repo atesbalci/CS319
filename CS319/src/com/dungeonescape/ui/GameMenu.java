@@ -23,6 +23,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -60,7 +61,7 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GameMenu gm = new GameMenu(f.getRootPane());
 		f.add(gm, BorderLayout.CENTER);
-		f.setSize(1000, 800);
+		f.setSize(1400, 1000);
 	}
 
 	public GameMenu(JRootPane rootPane) {
@@ -125,9 +126,10 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 
 	public void levelComplete(GamePanel src) {
 		LevelCompleteMenu lcm = new LevelCompleteMenu(getSize(), src);
-		if (src.getGame().getLevel().getFile().getAbsolutePath()
-				.contains("/premade/")) {
-			lcm.setNextLevelEnabled(true);
+		String level = src.getGame().getLevel().getFile().getAbsolutePath();
+		if (level.contains("/premade/")) {
+			if (Integer.parseInt(level.charAt(level.lastIndexOf('.') - 1) + "") < AMOUNT_OF_PREMADE_LEVELS)
+				lcm.setNextLevelEnabled(true);
 		}
 		showHideGameDialog(lcm);
 	}
@@ -150,27 +152,14 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 
 		public MainMenu() {
 			setBackground(new Color(0, 0, 0, 125));
-			setLayout(new GridLayout(0, 1, 10, 10));
-			setBorder(new EmptyBorder(new Insets(40, 40, 40, 40)));
+			setLayout(new BorderLayout(10, 15));
+			setBorder(new EmptyBorder(new Insets(25, 40, 40, 40)));
 			Dimension buttonSize = new Dimension(200, 50);
-			JPanel logoPanel = new JPanel() {
-				private static final long serialVersionUID = -6129536456272200719L;
-				
-				private BufferedImage image;
-
-				@Override
-				protected void paintComponent(Graphics g) {
-					if (image == null)
-						try {
-							image = ImageIO.read(new File("img/logo.png"));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					g.drawImage(image, 0, 0, null);
-				}
-			};
-			logoPanel.setPreferredSize(new Dimension(200, 87));
-			add(logoPanel);
+			JLabel logo = new JLabel(new ImageIcon("img/logo.png"));
+			add(logo, "North");
+			JPanel center = new JPanel();
+			center.setLayout(new GridLayout(0, 1, 10, 10));
+			center.setOpaque(false);
 			GameButton play = new GameButton("Play");
 			play.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -193,6 +182,13 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 					om.requestFocus();
 				}
 			});
+			GameButton help = new GameButton("Help");
+			help.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					navigateTo(new HelpPanel());
+				}
+			});
+			help.setPreferredSize(buttonSize);
 			options.setPreferredSize(buttonSize);
 			GameButton credits = new GameButton("Credits");
 			credits.addActionListener(new ActionListener() {
@@ -208,11 +204,13 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 				}
 			});
 			exit.setPreferredSize(buttonSize);
-			add(play);
-			add(editor);
-			add(options);
-			add(credits);
-			add(exit);
+			add(center);
+			center.add(play);
+			center.add(editor);
+			center.add(options);
+			center.add(help);
+			center.add(credits);
+			center.add(exit);
 		}
 	}
 
@@ -551,9 +549,9 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 			setLayout(new BorderLayout(0, 20));
 			setBorder(new EmptyBorder(new Insets(40, 40, 40, 40)));
 			JTextArea credits = new JTextArea();
-			credits.setText("Created by:\n" + "AteÅŸ BalcÄ±\n"
-					+ "Batuhan Berk YaÅŸar\n" + "Ahmet Emre DanÄ±ÅŸman\n"
-					+ "Buket Depren\n" + "AyÅŸe Ä°rem GÃ¼ner");
+			credits.setText("Created by:\n" + "Ateþ Balcý\n"
+					+ "Batuhan Berk Yaþar\n" + "Ahmet Emre Danýþman\n"
+					+ "Buket Depren\n" + "Ayþe Ýrem Güner");
 			credits.setOpaque(false);
 			credits.setFont(new FontUIResource("Calibri", Font.ITALIC, 20));
 			credits.setForeground(Color.white);
@@ -570,6 +568,32 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 			backPanel.setOpaque(false);
 			backPanel.add(backButton);
 			add(backPanel, "South");
+		}
+	}
+
+	private class HelpPanel extends JPanel {
+		private static final long serialVersionUID = -5876124166860168922L;
+
+		private JLabel help;
+
+		public HelpPanel() {
+			super();
+			setLayout(new BorderLayout());
+			help = new JLabel(new ImageIcon("img/help.png"));
+			setBackground(new Color(0, 0, 0, 125));
+			add(help, "Center");
+			GameButton backButton = new GameButton("Back");
+			backButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					navigateTo(new MainMenu());
+				}
+			});
+			JPanel backPanel = new JPanel();
+			backPanel.setOpaque(false);
+			backPanel.add(backButton);
+			add(backPanel, "South");
+			backButton.setPreferredSize(new Dimension(100, 30));
+			backPanel.add(backButton);
 		}
 	}
 

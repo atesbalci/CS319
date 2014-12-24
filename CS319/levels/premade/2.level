@@ -17,7 +17,7 @@ Obstacle -46 -326 350 10
 Obstacle -46 -316 300 10
 Obstacle -46 -306 10 50
 Obstacle 244 -256 200 10
-PlayerTrigger -16 -282 3 3 1 0 ender
 PlayerTrigger 420 104 3 3 1 0 checkpoint
 Obstacle 444 -56 10 100
 Obstacle 554 44 10 100
+PlayerTrigger -37 -307 50 50 1 0 ender

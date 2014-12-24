@@ -1,8 +1,14 @@
 package com.dungeonescape.element;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Point;
+import java.awt.TexturePaint;
+import java.awt.geom.Rectangle2D;
 import java.util.List;
+
+import com.dungeonescape.common.Images;
 
 public class Platform extends StaticElement implements Triggerable {
 	private double travel;
@@ -30,7 +36,16 @@ public class Platform extends StaticElement implements Triggerable {
 
 	@Override
 	public void draw(Graphics g, Point camera) {
-		g.fillRect((int) x - camera.x, (int) y - camera.y, width, height);
+		Graphics2D g2 = (Graphics2D) g;
+		TexturePaint tp = new TexturePaint(
+				Images.PLATFORM,
+				new Rectangle2D.Double(getX() - camera.x, getY() - camera.y,
+						Images.PLATFORM.getWidth(), Images.PLATFORM.getHeight()));
+		Paint prevPaint = g2.getPaint();
+		g2.setPaint(tp);
+		g2.fillRoundRect((int) x - camera.x, (int) y - camera.y, width, height,
+				5, 5);
+		g2.setPaint(prevPaint);
 	}
 
 	@Override

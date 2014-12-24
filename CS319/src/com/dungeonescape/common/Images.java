@@ -14,6 +14,9 @@ public class Images {
 	public static BufferedImage OBSTACLE;
 	public static BufferedImage DOOR;
 	public static BufferedImage MOVEABLE_OBJECT;
+	public static BufferedImage PLATFORM;
+	public static BufferedImage CONTACT_OFF;
+	public static BufferedImage CONTACT_ON;
 
 	public static void loadImages() {
 		try {
@@ -24,6 +27,9 @@ public class Images {
 			OBSTACLE = ImageIO.read(new File("img/obstacle.png"));
 			DOOR = ImageIO.read(new File("img/door.png"));
 			MOVEABLE_OBJECT = ImageIO.read(new File("img/moveableobject.png"));
+			PLATFORM = ImageIO.read(new File("img/platform.png"));
+			CONTACT_OFF = ImageIO.read(new File("img/contactoff.png"));
+			CONTACT_ON = ImageIO.read(new File("img/contacton.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
