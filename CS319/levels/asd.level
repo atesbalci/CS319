@@ -13,4 +13,4 @@ Button 355 570 40 0 4
 Button 440 570 40 0 5
 Platform 500 600 100 10 100 0
 ContactTrigger 500 550 100 50 40 40 7
-PlayerTrigger 362 517 100 100 1 0 ender
+PlayerTrigger 362 517 100 100 1 0 checkpoint
