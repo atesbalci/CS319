@@ -23,7 +23,6 @@ public class Game {
 	private Player player;
 	private double gravity, friction;
 	private boolean stopped;
-	private int fps;
 	private Thread gameThread;
 	private GameEnder gameEnder;
 	private CheckPoint checkPoint;
@@ -66,10 +65,6 @@ public class Game {
 	}
 
 	public void paint(Graphics g, Point camera) {
-		g.drawString("FPS: " + fps, 50, 50);
-		g.drawString(player.getX() + ", " + player.getY(), 50, 75);
-		g.drawString(level.getSpawnPoint().x + ", " + level.getSpawnPoint().y,
-				50, 100);
 		for (GameElement e : level.getElements()) {
 			e.draw(g, camera);
 		}
@@ -93,8 +88,6 @@ public class Game {
 		long now;
 		long elapsed;
 		double accumulator = 0.0;
-		long lastFpsTime = 0;
-		int fps = (int) TARGET_FPS;
 
 		while (!stopped) {
 			now = System.nanoTime();
@@ -109,19 +102,12 @@ public class Game {
 					gameEnder.trigger(true, null);
 				accumulator -= OPTIMAL_TIME;
 				panel.updateUI();
-				fps++;
 			} else if (accumulator < OPTIMAL_TIME * 0.5) {
 				try {
 					Thread.sleep(1);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-			}
-
-			if (now - lastFpsTime >= 1000000000) {
-				this.fps = fps;
-				lastFpsTime = now;
-				fps = 0;
 			}
 		}
 	}

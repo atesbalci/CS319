@@ -56,6 +56,7 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 
 	public static void main(String[] args) {
 		Images.loadImages();
+		GamePanel.loadKeyBindings();
 		System.setProperty("sun.java2d.opengl", "True");
 		ToggleFullscreen f = new ToggleFullscreen();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -296,6 +297,7 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 					GamePanel.useButton = e.getKeyCode();
 				else if (selected == restart)
 					GamePanel.restartButton = e.getKeyCode();
+				GamePanel.saveKeyBindings();
 				selected = null;
 				resetButtons();
 			}

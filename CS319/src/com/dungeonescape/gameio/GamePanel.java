@@ -18,7 +18,13 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Properties;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -28,20 +34,71 @@ import com.dungeonescape.ui.GameMenu;
 
 public class GamePanel extends JPanel {
 	private static final long serialVersionUID = -7233967302635631295L;
-	
+
 	public static int rightButton = KeyEvent.VK_D;
 	public static int leftButton = KeyEvent.VK_A;
 	public static int jumpButton = KeyEvent.VK_W;
 	public static int useButton = KeyEvent.VK_E;
 	public static int restartButton = KeyEvent.VK_R;
-		
+
+	public static void loadKeyBindings() {
+		Properties props = new Properties();
+		InputStream is = null;
+
+		File f = new File("keys.properties");
+		if (f.exists()) {
+			try {
+				is = new FileInputStream(f);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			try {
+				props.load(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			rightButton = Integer.parseInt(props.getProperty("rightButton")
+					.toString());
+			leftButton = Integer.parseInt(props.getProperty("leftButton")
+					.toString());
+			jumpButton = Integer.parseInt(props.getProperty("jumpButton")
+					.toString());
+			useButton = Integer.parseInt(props.getProperty("useButton")
+					.toString());
+			restartButton = Integer.parseInt(props.getProperty("restartButton")
+					.toString());
+		} else
+			saveKeyBindings();
+	}
+
+	public static void saveKeyBindings() {
+		Properties props = new Properties();
+		props.setProperty("rightButton", "" + rightButton);
+		props.setProperty("leftButton", "" + leftButton);
+		props.setProperty("jumpButton", "" + jumpButton);
+		props.setProperty("useButton", "" + useButton);
+		props.setProperty("restartButton", "" + restartButton);
+		File f = new File("keys.properties");
+		OutputStream out = null;
+		try {
+			out = new FileOutputStream(f);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+			props.store(out, "This is an optional header comment string");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private Game game;
 	private Point mousePosition;
 	private Point cameraPosition;
 	private BufferedImage cursorImage;
 	private String tip;
 	private GameMenu gameMenu;
-	
+
 	public GamePanel() {
 		GameMouse mouse = new GameMouse();
 		setFocusable(true);
@@ -79,12 +136,12 @@ public class GamePanel extends JPanel {
 				game.reload();
 				dismissTip();
 				game.start();
-			} else if(gameMenu != null) {
+			} else if (gameMenu != null) {
 				gameMenu.levelComplete(GamePanel.this);
 			}
 		}
 	}
-	
+
 	public Game getGame() {
 		return game;
 	}

@@ -1,6 +1,5 @@
 package com.dungeonescape.tool;
 
-import com.dungeonescape.common.CommonMethods;
 import com.dungeonescape.element.Boomerang;
 import com.dungeonescape.element.GameElement;
 
@@ -43,7 +42,6 @@ public class BoomerangTool extends Tool {
 	@Override
 	public GameElement use(int xDest, int yDest) {
 		if (!boomerang.isActive()) {
-			CommonMethods.playSound("sound/boomerang.wav");
 			double angle = Math.atan((double) (y - yDest)
 					/ (double) (x - xDest));
 			if (x - xDest < 0)
