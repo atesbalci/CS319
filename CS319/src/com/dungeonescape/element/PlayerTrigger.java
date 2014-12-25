@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 
+import com.dungeonescape.common.TriggerConstants;
 import com.dungeonescape.game.Game;
 
 public class PlayerTrigger extends ContactTrigger {
@@ -24,10 +25,18 @@ public class PlayerTrigger extends ContactTrigger {
 		Color c = g.getColor();
 		g.setColor(Color.white);
 		g.setFont(new Font("Calibri", Font.PLAIN, 16));
-		if (getTriggerable() instanceof Game.CheckPoint) {
+		int type = 0;
+		if(getTriggerable() instanceof Game.CheckPoint)
+			type = TriggerConstants.CHECKPOINT;
+		else if (getTriggerable() instanceof Game.GameEnder)
+			type = TriggerConstants.ENDER;
+		else if (getTriggerable() instanceof SavedTriggerable)
+			type = ((SavedTriggerable)getTriggerable()).getGameElementNo();
+		
+		if (type == TriggerConstants.CHECKPOINT) {
 			g.drawString("Checkpoint", (int) x - camera.x, (int) y - camera.y + 15);
 			g.setColor(new Color(255, 255, 0, 50));
-		} else if (getTriggerable() instanceof Game.GameEnder) {
+		} else if (type == TriggerConstants.ENDER) {
 			g.drawString("Goal", (int) x - camera.x, (int) y - camera.y + 15);
 			g.setColor(new Color(0, 255, 0, 50));
 		} else {

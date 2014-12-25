@@ -1,28 +1,25 @@
 1000
-0 0
+0 -300
 rope
+Level 6: The Fall
+back1.png
 
-back.png
-
-Obstacle -16 82 250 10
-Obstacle 224 -667 10 3000
-Obstacle 114 -542 10 550
-Obstacle -175 -667 400 10
-MoveableObject 108 -583
-ContactTrigger 204 72 20 10 1 0 6
-Door -101 -717
-Obstacle -2665 -727 3000 10
-Obstacle 335 -727 10 200
-Obstacle 345 -537 150 10
-Obstacle 495 -537 10 300
-Obstacle 505 -247 150 10
-Obstacle 655 -587 10 350
-Obstacle 765 -678 10 50
-Lever 765 -732 1 0 16
-Obstacle 495 -594 170 10
-Door 495 -587
-Obstacle 765 -742 10 10
-Obstacle -26 2 10 90
-Obstacle -26 -2 140 10
-PlayerTrigger 182 -708 3 3 1 0 checkpoint
-PlayerTrigger 521 -553 3 3 1 0 ender
+Obstacle 65 387 100 10
+Obstacle 155 167 10 220
+Obstacle 164 167 225 10
+Door 289 402
+Obstacle 289 225 100 10
+Obstacle 379 176 10 50
+Obstacle 65 452 100 10
+Obstacle 289 235 10 167
+Obstacle 55 -2603 10 3000
+Obstacle 289 452 100 10
+Obstacle 379 302 10 150
+Button 368 214 60 0 3
+Obstacle 639 302 30 10
+Obstacle 919 302 30 10
+Door 155 117
+Obstacle 65 107 325 10
+Lever 939 283 1 0 14
+PlayerTrigger 379 250 10 50 1 0 checkpoint
+PlayerTrigger 83 314 50 50 1 0 ender

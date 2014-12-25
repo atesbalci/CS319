@@ -1,25 +1,39 @@
 1000
-0 0
+550 -70
 rope
+Level 4: Ups & Downs
+back1.png
 
-back.png
-
-Obstacle 65 387 100 10
-Obstacle 155 167 10 220
-Obstacle 164 167 225 10
-Door 289 402
-Obstacle 289 225 100 10
-Obstacle 379 176 10 50
-Obstacle 65 452 100 10
-Obstacle 289 235 10 167
-Obstacle 55 -2603 10 3000
-Obstacle 289 452 100 10
-Obstacle 379 302 10 150
-Button 368 214 60 0 3
-Obstacle 639 302 30 10
-Obstacle 919 302 30 10
-Door 155 117
-Obstacle 65 107 325 10
-Lever 938 291 1 0 14
-PlayerTrigger 382 260 3 3 1 0 checkpoint
-PlayerTrigger 137 145 3 3 1 0 ender
+Obstacle 465 -22 500 10
+Obstacle 955 -922 10 900
+Obstacle 525 -922 430 10
+Platform 905 -181 50 10 -610 1
+Obstacle 892 -234 10 10
+Lever 945 -58 1 0 3
+MoveableObject 890 -274
+Obstacle 805 -783 10 651
+Lever 805 -913 1 0 9
+Platform 735 -793 80 10 70 0
+Obstacle 805 -793 10 10
+Obstacle 585 -793 150 10
+Platform 525 -793 60 10 60 0
+ContactTrigger 665 -803 20 10 1 0 12
+Obstacle 515 -922 10 800
+Obstacle 525 -243 60 10
+Obstacle 525 -463 60 10
+Obstacle 585 -353 60 10
+Obstacle 585 -573 60 10
+Obstacle 525 -683 60 10
+Obstacle 645 -793 10 560
+Obstacle 525 -132 290 10
+Obstacle 714 -267 30 30
+Obstacle 771 -303 20 20
+Obstacle 673 -350 50 50
+Obstacle 743 -376 20 20
+Obstacle 767 -479 30 30
+Obstacle 699 -442 40 40
+Obstacle 715 -576 50 50
+Obstacle 685 -499 20 20
+Obstacle 759 -651 30 30
+Obstacle 681 -676 40 40
+PlayerTrigger 682 -762 100 40 1 0 ender

@@ -1,8 +1,8 @@
 1000
 0 100
 rope
-
-back.png
+Level 2: Spiderman
+back1.png
 
 Obstacle -46 144 150 10
 Obstacle 364 144 200 10
@@ -17,7 +17,7 @@ Obstacle -46 -326 350 10
 Obstacle -46 -316 300 10
 Obstacle -46 -306 10 50
 Obstacle 244 -256 200 10
-PlayerTrigger 420 104 3 3 1 0 checkpoint
+PlayerTrigger -36 -306 50 50 1 0 ender
+PlayerTrigger 412 93 50 50 1 0 checkpoint
 Obstacle 444 -56 10 100
 Obstacle 554 44 10 100
-PlayerTrigger -37 -307 50 50 1 0 ender

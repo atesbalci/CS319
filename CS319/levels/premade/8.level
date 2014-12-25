@@ -1,14 +1,14 @@
 1000
-0 0
+0 35
 rope
-
-back.png
+Level 8: Mission Impossible
+back1.png
 
 Obstacle -16 82 250 10
 Obstacle 224 -667 10 3000
 Obstacle 114 -542 10 550
 Obstacle -175 -667 400 10
-MoveableObject 108 -583
+MoveableObject 113 -582
 ContactTrigger 204 72 20 10 1 0 6
 Door -101 -717
 Obstacle -2665 -727 3000 10
@@ -24,3 +24,5 @@ Door 495 -587
 Obstacle 765 -742 10 10
 Obstacle -26 2 10 90
 Obstacle -26 -2 140 10
+PlayerTrigger 183 -717 50 49 1 0 checkpoint
+PlayerTrigger 600 -303 50 50 1 0 ender

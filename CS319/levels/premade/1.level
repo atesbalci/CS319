@@ -1,37 +1,38 @@
 1000
-250 250
+250 475
 boomerang
-test level
+Level 1: The Welcoming
 back.png
 
-Obstacle 93 524 1000 20
-Obstacle 1093 524 20 75
-MoveableObject 1092 483
-Obstacle 1093 599 150 20
-Obstacle 1223 500 20 100
-Lever 1113 562 5 0 6
+Obstacle 93 524 1000 10
+Obstacle 1093 524 10 75
+MoveableObject 1079 482
+Obstacle 1093 599 149 10
+Obstacle 1232 500 10 99
+Lever 1103 580 5 0 6
 Door 1233 450
-Obstacle 1223 350 450 100
-Obstacle 1242 500 480 20
-Platform 1723 500 50 20 150 0
-Obstacle 1870 500 100 20
-Obstacle 1970 420 20 100
-Obstacle 1990 420 250 20
-Obstacle 1818 400 45 20
-MoveableObject 1841 359
+Obstacle 1233 400 450 50
+Obstacle 1242 500 480 10
+Platform 1723 500 50 10 150 0
+Obstacle 1870 500 100 10
+Obstacle 1969 421 10 90
+Obstacle 1978 421 252 10
+Obstacle 1817 410 40 10
+MoveableObject 1827 369
 ContactTrigger 1831 420 10 10 50 0 9
 ContactTrigger 2230 364 50 5 5 0 20
-Obstacle 2220 370 20 50
-Obstacle 2240 370 250 20
-Obstacle 2298 220 500 100
+Obstacle 2220 370 10 51
+Obstacle 2230 370 270 10
+Obstacle 2220 310 489 10
 Door 2333 320
 MoveableObject 2370 329
-Obstacle 2490 370 20 100
+Obstacle 2500 370 10 100
 Platform 2510 450 100 20 -80 1
-Obstacle 2609 370 100 100
+Obstacle 2609 370 100 10
 Button 2598 405 75 0 23
 Door 2699 320
 ContactTrigger 2230 364 50 5 5 0 26
-ContactTrigger 2709 369 100 100 1 0 ender
+ContactTrigger 2709 369 100 50 1 0 ender
 Button 2413 359 50 0 16
 Obstacle 2220 368 5 10
+Obstacle 2609 380 10 90

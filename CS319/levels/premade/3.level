@@ -1,39 +1,28 @@
 1000
-0 270
+170 0
 boomerang
-
+Level 3: Elevators
 back.png
 
-Obstacle -62 334 575 10
-MoveableObject 97 294
-Door 272 286
-Obstacle 188 270 200 20
-Obstacle -72 284 10 60
-ContactTrigger 540 325 130 10 1 0 6
-Platform 513 334 60 10 100 0
-Lever 191 324 1 0 2
-Obstacle 378 140 10 130
-Obstacle 378 120 100 20
-Door 478 286
-Obstacle 478 120 10 167
-Lever 388 185 1 0 10
-ContactTrigger 286 157 10 100 1 0 14
-Platform 281 270 20 10 -100 1
-Obstacle 697 242 100 10
-Door 697 192
-Obstacle 478 100 10 20
-Obstacle 697 142 10 51
-Obstacle 673 334 400 10
-Door 787 284
-Obstacle 787 252 10 32
-Obstacle 787 142 10 100
-Obstacle 707 142 80 10
-Lever 738 231 1 0 20
-ContactTrigger 865 324 30 10 1 0 26
-Door 963 284
-Obstacle 963 152 10 132
-Obstacle 797 142 276 10
-Obstacle 1063 152 10 183
-Obstacle -171 284 100 10
-Button 477 89 120 0 16
-PlayerTrigger 989 311 3 3 1 0 ender
+Obstacle -7 43 230 10
+Obstacle 222 -387 10 440
+Platform 192 43 30 10 -110 1
+Button 212 23 30 0 2
+Obstacle 232 -286 200 10
+Obstacle 112 -497 10 540
+Platform 122 -67 30 10 -110 1
+Button 121 -91 30 0 6
+Obstacle 122 -497 310 10
+Platform 192 -177 30 10 -110 1
+Platform 122 -287 30 10 -110 1
+Button 212 -199 30 0 9
+Button 121 -308 30 0 10
+MoveableObject 217 -429
+ContactTrigger 237 -296 30 10 1 0 15
+Platform 433 -286 50 10 -210 1
+Obstacle 483 -595 10 320
+Obstacle 3 -605 490 10
+Obstacle -7 -605 10 650
+Lever 3 -595 1 0 20
+Platform 3 -496 109 10 538 1
+PlayerTrigger 7 19 100 20 1 0 ender
