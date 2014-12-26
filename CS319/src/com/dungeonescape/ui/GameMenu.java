@@ -551,9 +551,9 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 			setLayout(new BorderLayout(0, 20));
 			setBorder(new EmptyBorder(new Insets(40, 40, 40, 40)));
 			JTextArea credits = new JTextArea();
-			credits.setText("Created by:\n" + "Ateş Balcı\n"
-					+ "Batuhan Berk Yaşar\n" + "Ahmet Emre Danışman\n"
-					+ "Buket Depren\n" + "Ayşe İrem Güner");
+			credits.setText("Created by:\n\n" + "AteÅŸ BalcÄ±\n"
+					+ "Batuhan Berk YaÅŸar\n" + "Ahmet Emre DanÄ±ÅŸman\n"
+					+ "Buket Depren\n" + "AyÅŸe Ä°rem GÃ¼ner");
 			credits.setOpaque(false);
 			credits.setFont(new FontUIResource("Calibri", Font.ITALIC, 20));
 			credits.setForeground(Color.white);

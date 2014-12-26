@@ -13,7 +13,7 @@ Lever 1103 580 5 0 6
 Door 1233 450
 Obstacle 1233 400 450 50
 Obstacle 1242 500 480 10
-Platform 1723 500 50 10 150 0
+Platform 1723 500 50 10 100 0
 Obstacle 1870 500 100 10
 Obstacle 1969 421 10 90
 Obstacle 1978 421 252 10
@@ -32,7 +32,7 @@ Obstacle 2609 370 100 10
 Button 2598 405 75 0 23
 Door 2699 320
 ContactTrigger 2230 364 50 5 5 0 26
-ContactTrigger 2709 369 100 50 1 0 ender
 Button 2413 359 50 0 16
 Obstacle 2220 368 5 10
 Obstacle 2609 380 10 90
+PlayerTrigger 2709 319 50 50 1 0 ender
