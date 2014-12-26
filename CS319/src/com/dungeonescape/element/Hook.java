@@ -1,6 +1,7 @@
 package com.dungeonescape.element;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -78,11 +79,14 @@ public class Hook extends GameElement {
 	public void draw(Graphics g, Point camera) {
 		if (source != null) {
 			Graphics2D g2 = (Graphics2D) g;
+			Color prevColor = g2.getColor();
+			g2.setColor(Color.red);
 			Stroke s = g2.getStroke();
 			g2.setStroke(new BasicStroke(3));
 			g2.drawLine((int) x + width / 2  - camera.x, (int) y + height / 2 - camera.y,
 					(int) source.getX() - camera.x, (int) source.getY() - camera.y);
 			g2.setStroke(s);
+			g2.setColor(prevColor);
 		}
 
 		g.fillRect((int) x - camera.x, (int) y - camera.y, width, height);
