@@ -128,7 +128,7 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 	public void levelComplete(GamePanel src) {
 		LevelCompleteMenu lcm = new LevelCompleteMenu(getSize(), src);
 		String level = src.getGame().getLevel().getFile().getAbsolutePath();
-		if (level.contains("/premade/")) {
+		if (level.contains(File.separator + "premade" + File.separator)) {
 			if (Integer.parseInt(level.charAt(level.lastIndexOf('.') - 1) + "") < AMOUNT_OF_PREMADE_LEVELS)
 				lcm.setNextLevelEnabled(true);
 		}
@@ -497,7 +497,8 @@ public class GameMenu extends JLayeredPane implements ComponentListener {
 					String filePath = gamePanel.getGame().getLevel().getFile()
 							.getAbsolutePath();
 					int nextLevelNo = Integer.parseInt(""
-							+ filePath.charAt(filePath.lastIndexOf('/') + 1)) + 1;
+							+ filePath.charAt(filePath
+									.lastIndexOf(File.separator) + 1)) + 1;
 					(new PlayOrEditActionListener("premade/" + nextLevelNo
 							+ ".level")).actionPerformed(e);
 
